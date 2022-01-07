@@ -34,7 +34,7 @@ const aOrderMixin = {
             var that = this;
             if (that.view.route) {
 
-                var order_direction = (!that.orderDirection || that.orderDirection.toLowerCase() == 'desc') ? 'ASC' : 'DESC';
+                let order_direction = (!that.orderDirection || that.orderDirection.toLowerCase() == 'desc') ? 'ASC' : 'DESC';
                 that.view.route.setParam('order_field',that.orderField);
                 that.view.route.setParam('order_direction',order_direction);
                 that.view.reload();
@@ -51,7 +51,7 @@ const aOrderMixin = {
                 //
                 // that.view.reload();
             } else {
-                var order_direction = (!that.orderDirection || that.orderDirection.toLowerCase() == 'desc') ? 'ASC' : 'DESC';
+                let order_direction = (!that.orderDirection || that.orderDirection.toLowerCase() == 'desc') ? 'ASC' : 'DESC';
                 that.view.staticOrder(that.orderField, order_direction);
             }
 

@@ -62,7 +62,6 @@ const dialogsMixin = {
 
         _alert : function (message,alertComp,time) {
             var that = this;
-            var that = this;
             console.log('_alert',message,alertComp,time);
             var d = new that.$options.components[alertComp]({
                 propsData: {

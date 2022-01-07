@@ -52,7 +52,7 @@ export default function Route(conf) {
      * @returns string url con variabili valorizzate
      */
     this.getUrl = function (values) {
-        var that = this;
+        // var that = this;
         var finalUrl = routeConf.url;
         var v = values?values:routeConf.values;
 
@@ -82,7 +82,7 @@ export default function Route(conf) {
      * @returns {*}
      */
     this.getParams = function() {
-        var that = this;
+        // var that = this;
         if (_isFormData()) {
             for (var k in routeConf.commonParams) {
                 routeConf.params.set(k,routeConf.commonParams[k]);

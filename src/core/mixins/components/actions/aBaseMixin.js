@@ -1,5 +1,4 @@
-const jQuery = require("jquery");
-//const crud = require("../../../crud");
+import jQuery from 'jquery';
 import crud from '../../../crud'
 
 crud.conf['a-base'] = {

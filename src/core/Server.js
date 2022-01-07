@@ -2,7 +2,7 @@
  * Created by pier on 20/12/17.
  */
 
-const jQuery = require('jquery');
+import jQuery from 'jquery';
 const Server = {};
 
 
