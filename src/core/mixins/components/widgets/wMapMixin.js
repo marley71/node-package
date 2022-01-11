@@ -1,5 +1,5 @@
 import crud from "../../../crud";
-
+/*eslint no-undef: "off"*/
 crud.conf['w-map'] = {
     map: null,
     marker: null,

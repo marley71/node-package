@@ -1,9 +1,10 @@
 import crud from "../../../crud";
+import moment from 'moment-with-locales-es6'
 
 crud.conf['w-date-select'] = {
-    resources: [
-        'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'
-    ],
+    // resources: [
+    //     'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'
+    // ],
     minYear: null,
     maxYear: null
 }
@@ -83,7 +84,7 @@ const wDateSelectMixin = {
             if (!dds.isValid()) {
                 _cday.setValue(1);
                 sdate = _cyear.getValue() + "-" + _cmonth.getValue().toString().padStart(2, '0') + "-" + _cday.getValue().toString().padStart(2, '0');
-                var dds = moment(sdate);
+                dds = moment(sdate);
                 if (!dds.isValid())
                     return false;
             }

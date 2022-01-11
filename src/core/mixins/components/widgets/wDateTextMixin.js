@@ -1,9 +1,10 @@
 import crud from "../../../crud";
+import moment from "moment-with-locales-es6";
 
 crud.conf['w-date-text'] = {
-    resources: [
-        'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'
-    ],
+    // resources: [
+    //     'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js'
+    // ],
     displayFormat: 'DD/MM/YYYY',
     dateFormat: 'yyyy-mm-dd',
     formattedValue: null,

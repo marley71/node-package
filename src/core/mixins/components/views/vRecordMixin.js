@@ -26,10 +26,10 @@ const vRecordMixin = {
         }
     },
     beforeDestroy() {
-        for (var key in this.widgets) {
+        for (let key in this.widgets) {
             this.getWidget(key) && this.getWidget(key).$destroy();
         }
-        for (var key in this.actionsConf) {
+        for (let key in this.actionsConf) {
             this.getAction(key) && this.getAction(key).$destroy();
         }
     },

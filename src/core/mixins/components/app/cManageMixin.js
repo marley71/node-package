@@ -1,6 +1,4 @@
-
 import crud from "../../../crud";
-import Server from "../../../Server";
 
 crud.conf['c-manage'] = {
     listComponentName: 'v-list',
@@ -86,37 +84,6 @@ const cManageMixin = {
                 opacity: 0
             }, { complete: done })
         },
-        // dynamicData(conf) {
-        //     var thisManage = this;
-        //     //var _conf = this._getConf() || {};
-        //
-        //     if (!conf.modelName)
-        //         conf.modelName = thisManage.cModel ? thisManage.cModel : null;
-        //     if (thisManage.cInlineEdit)
-        //         conf.inlineEdit = thisManage.cInlineEdit;
-        //
-        //     // if (!conf.modelName)
-        //     //     throw 'model Name not found!';
-        //     conf.layoutGradientColor = thisManage.$crud.layoutGradientColor;
-        //
-        //     console.log(conf.modelName , thisManage.cCollapsible);
-        //     var collapsibleElement = (thisManage.cCollapsible !== undefined) ? thisManage.cCollapsible :
-        //         (conf.collapsible !== undefined) ? conf.collapsible :
-        //             true;
-        //     conf.collapsible = (collapsibleElement === true || collapsibleElement === 'collapsed');
-        //     conf.collapsed =  (collapsibleElement === 'collapsed');
-        //     conf.collapseId = conf.collapseId || 'manageCollapse'+conf.modelName;
-        //
-        //     conf = thisManage._getListConfiguration(conf);
-        //     conf = thisManage._getSearchConfiguration(conf);
-        //     conf = thisManage._getListEditConfiguration(conf);
-        //     conf = thisManage._getEditConfiguration(conf);
-        //     conf = thisManage._getInsertConfiguration(conf);
-        //     conf = thisManage._getViewConfiguration(conf);
-        //
-        //     console.log('CONF MANAGE',conf);
-        //     return conf;
-        // },
         createList: function () {
             var that = this;
             console.log('INLINE EDIT',that.inlineEdit);
@@ -129,8 +96,8 @@ const cManageMixin = {
             that.jQe('[c-list-container]').html('<div id="' + id + '"></div>');
             var listC = null;
             if (that.inlineEdit) {
-                var conf = that._getListEditConfiguration();
-                var cDef = that.dynamicComponent(that.listEditComponentName);
+                let conf = that._getListEditConfiguration();
+                let cDef = that.dynamicComponent(that.listEditComponentName);
                 that.listEditComp = new cDef({
                     propsData: {
                         cConf: conf,
@@ -140,8 +107,8 @@ const cManageMixin = {
                 listC = that.listEditComp;
             } else {
 
-                var conf = that._getListConfiguration();
-                var cDef = that.dynamicComponent(that.listComponentName);
+                let conf = that._getListConfiguration();
+                let cDef = that.dynamicComponent(that.listComponentName);
                 that.listComp = new cDef({
                     propsData: {
                         cConf: conf,
