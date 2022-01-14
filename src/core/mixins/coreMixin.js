@@ -2,8 +2,8 @@ import jQuery from 'jquery'
 import Route from '../Routes'
 import Server from '../Server'
 import Vue from 'vue'
-import ProtocolList from "../ProtocolList";
-import ProtocolRecord from "../ProtocolRecord";
+// import ProtocolList from "../ProtocolList";
+// import ProtocolRecord from "../ProtocolRecord";
 
 const coreMixin = {
     methods : {
@@ -42,8 +42,8 @@ const coreMixin = {
         },
 
         createComponent(name,fileName,callback) {
-            var cb = callback?callback:function (){};
-            this._newComponent(name,fileName,callback);
+            var _cb = callback?callback:function (){};
+            this._newComponent(name,fileName,_cb);
         },
         getHashParams () {
             var params = {};
@@ -318,7 +318,6 @@ const coreMixin = {
 
 
         getFormData : function (form) {
-            var that = this;
 
             var _serializeAssoc = function (form) {
                 var ss = form.serializeArray();
@@ -693,7 +692,7 @@ const coreMixin = {
                     throw 'load ' + fileName + ' failed! ' + e;
                 });
             } else {
-                return callback();
+                return _callback();
             }
         },
         _loadScript : function (scriptName, callback) {

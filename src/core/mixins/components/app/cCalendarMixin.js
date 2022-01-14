@@ -1,4 +1,5 @@
 import crud from "../../../crud";
+import moment from 'moment-with-locales-es6';
 
 crud.conf['c-calendar'] = {
     confParent: 'v-list',
@@ -6,7 +7,7 @@ crud.conf['c-calendar'] = {
     dateField: 'data',
     dateEndField: 'data_fine',
     resources: [
-        'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js',
+        //'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css',
         'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/it.min.js'
@@ -77,7 +78,9 @@ const cCalendarMixin = {
             var defaultConf = {};
             try {
                 defaultConf = window['Model'+this.pascalCase(that.modelName)].edit;
-            } catch (e) {};
+            } catch (e) {
+                defaultConf = {};
+            }
             var cConf = {
                 modelName : that.modelName,
                 pk : id,
@@ -187,7 +190,8 @@ const cCalendarMixin = {
                     continue
                 }
                 var ev = {
-                    id: value[that.id] ? model.data[that.id] : value.id,
+                    //id: value[that.id] ? model.data[that.id] : value.id,
+                    id : value.id,
                     title: title,
                     start: value[that.dateField],
                     end: value[that.data_fine] ? value[that.data_fine] : null,

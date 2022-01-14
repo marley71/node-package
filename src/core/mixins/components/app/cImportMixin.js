@@ -170,7 +170,6 @@ const cImportMixin = {
         },
 
         checkJobError : function (json) {
-            var that = this;
             if (json.error) {
                 return  {
                     error : 1,
@@ -197,7 +196,7 @@ const cImportMixin = {
             var that = this;
             var userConf = that.merge({},that.viewSave);
             userConf.modelName = that.providerName;
-            userConf.customActions = that.viewSave.customActions || {};;
+            userConf.customActions = that.viewSave.customActions || {};
             userConf.fieldsConfig = that.viewSave.fieldsConfig || {};
             var aS = userConf.customActions['action-save-import'] || {};
             aS.csvDashboard = that;

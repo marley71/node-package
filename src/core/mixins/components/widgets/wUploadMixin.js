@@ -1,4 +1,5 @@
 import crud from "../../../crud";
+import jQuery from "jquery";
 
 crud.conf['w-upload'] = {
     maxFileSize: '',

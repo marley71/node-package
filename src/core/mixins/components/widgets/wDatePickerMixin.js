@@ -1,8 +1,9 @@
 import crud from "../../../crud";
+import moment from 'moment-with-locales-es6'
 
 crud.conf['w-date-picker'] = {
     resources: [
-        'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js',
+        // 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.css'
     ],
