@@ -1,5 +1,6 @@
 import Server from "../../../Server";
 import crud from "../../../crud";
+import jQuery from "jquery";
 
 crud.conf['w-upload-ajax'] = {
     extensions: [],
@@ -74,7 +75,7 @@ const wUploadAjaxMixin = {
             var fDesc = that._getFileValue();
             if (!fDesc)
                 throw 'descrittore file upload non valido';
-            var fileName = fDesc.filename;
+           // var fileName = fDesc.filename;
             var route = that._getRoute();
             that.setRouteValues(route);
             that.error = false;

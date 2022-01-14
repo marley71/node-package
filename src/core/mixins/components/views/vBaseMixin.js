@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import Server from "../../../Server";
 import crud from "../../../crud";
 
@@ -104,10 +103,9 @@ const vBaseMixin = {
          * crea la configurazione base per ogni singola azione della view, se incontra un'azione
          * custom con una configurazione non definita, la definisce in crud.conf[action-name]
          * @param name
-         * @param type
          * @return {*|{}}
          */
-        getActionConfig: function (name, type) {
+        getActionConfig: function (name) {
 
             var that = this;
 
@@ -179,7 +177,6 @@ const vBaseMixin = {
         _loadRouteConf: function () {
             var that = this;
             var conf = null;
-            var d = {};
             console.log('_load routeConf', that.routeConf, 'cConf', this.cConf);
             if (that.routeConf) {
                 if (typeof that.routeConf === 'string' || that.routeConf instanceof String) {

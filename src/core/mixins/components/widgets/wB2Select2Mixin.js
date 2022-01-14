@@ -62,8 +62,8 @@ const wB2Select2Mixin = {
             route.setValues({foormName: that.foormName, viewType: that.viewType});
             return route;
             // -- standard
-            route.setValues({modelName: this.modelName});
-            return route;
+            // route.setValues({modelName: this.modelName});
+            // return route;
         },
         reset: function () {
             if (this.defaultValue)

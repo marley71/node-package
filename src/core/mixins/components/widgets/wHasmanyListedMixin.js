@@ -141,7 +141,6 @@ const wHasmanyListedMixin = {
 
         deleteItem: function (index) {
             var that = this;
-            var that = this;
             var istanceView = that.getComponent(that.viewRef);
             var values = istanceView.getViewData();
             values.splice(index,1);
