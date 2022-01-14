@@ -71,15 +71,165 @@ crud.conf['c-import'] = {
     },
     viewList: {
         routeName: 'datafile_data',
-        actions: [],
-        methods: {
-            setRouteValues: function (route) {
-                route.setValues({
-                    jobId: this.$parent.jobId,
-                    modelName: this.$parent.providerName
-                })
-                return route
+        errorClass : 'bg-danger-soft .border-top .border-primary .bw--2',
+        actions : ['action-mostra-tutti','action-show-error'],
+        showError : false,
+        canEdit : false,
+        multiSheets : false,
+        // configurazione select
+        selectSheetConf : {
+            cRef : 'sheetSelect',
+            methods : {
+                change() {
+                    var sheetName = this.domainValues[this.getValue()];
+                    this.$parent.setSheet(sheetName);
+                }
             }
+        },
+        editError : {
+            title : 'app.modifica',
+            icon : 'fa fa-edit',
+            execute() {
+                alert('modirica' + this.index + " " + this.key);
+            }
+        },
+        customActions : {
+            'action-show-error' : {
+                text : 'Mostra solo errori',
+                css : 'btn-outline-danger',
+                type : 'collection',
+                controlType:'button',
+                execute() {
+                    this.view.showError = true;
+                    this.view.reload();
+                },
+                visible() {
+                    if (this.view.metadata.has_datafile_errors)
+                        return true
+                    return false;
+                }
+            },
+            'action-mostra-tutti' : {
+                text : 'Mostra tutti',
+                type : 'collection',
+                controlType:'button',
+                execute() {
+                    this.view.showError = false;
+                    this.view.reload();
+                },
+                visible() {
+                    if (this.view.metadata.has_datafile_errors)
+                        return true
+                    return false;
+                }
+
+            }
+        },
+        methods : {
+            tdClass(index,key) {
+                var that = this;
+                if (that.hasError(index,key))
+                    return 'field-' + key + ' ' + that.errorClass;
+                return 'field-' + key;
+            },
+            hasError(index,key) {
+                var that = this;
+                var errors = that.value[index].errors || [];
+                if (errors.length > 0) {
+                    for (var i in errors) {
+                        if (key == errors[i].field_name)
+                            return true
+                    }
+
+                }
+                return false;
+            },
+            setSheet(sheetName) {
+                var that = this;
+                console.log('setSheet',sheetName);
+                var params = that.route.getParams();
+                if (sheetName)
+                    params['s_datafile_sheet'] = sheetName;
+                else
+                    params['s_datafile_sheet'] = '';
+                that.reload();
+
+            },
+            setRouteValues : function (route) {
+                var that = this;
+                route.setValues({
+                    jobId : this.$parent.jobId,
+                    modelName : this.$parent.providerName,
+                });
+                var datafile_only_errors = that.showError?1:0;
+                route.setParam('datafile_only_errors',datafile_only_errors);
+                return route;
+            },
+            editErrorConf(index,key) {
+                var that = this;
+                var conf =  that.merge(that.editError,{
+                    index : index,
+                    key : key,
+                    view : that,
+                })
+                console.log('conf Edit',conf);
+                return conf;
+            },
+            setErrors() {
+                var that = this;
+                console.log('csvdata ',this);
+                for (var i in that.value) {
+                    var rowData = that.value[i];
+                    if (rowData.errors && rowData.errors.length) {
+                        var rowJQ = window.jQuery(that.jQe().find('tbody tr').get(i));
+                        for (var c in rowData.errors) {
+                            var error = rowData.errors[c];
+                            console.log("found error",'.field-'+error.field_name,error.field_name,rowJQ.find('.field-'+error.field_name).length);
+                            var colJQ = rowJQ.find('.field-'+error.field_name);
+                            colJQ.addClass('danger')
+                                .attr('data-toggle',"tooltip")
+                                .attr('data-errors',error)
+                                .attr('title',error.error_name);
+                            //.attr('title','bosadf afdaf ');
+                            window.jQuery(colJQ).tooltip({
+                                container : 'body',
+                                html : true,
+                            });
+                            if (that.hasClassError(error.field_name)) {
+                                colJQ.attr('data-error_index',i+":"+c);
+                                colJQ.click(function () {
+                                    var error_index = window.jQuery(this).attr('data-error_index');
+                                    var idx = error_index.split(':');
+                                    var error = that.value[idx[0]].errors[idx[1]];
+                                    that.app.log.debug('cliccato',error_index,error);
+                                    that.errorClicked(error);
+                                });
+                            }
+                        }
+                        //.addClass('danger');
+                    }
+                }
+            },
+            hasClassError : function (fieldName) {
+                var that = this;
+                console.log('fieldName',fieldName,that.value[fieldName].errors)
+                if (that.value[fieldName].errors)
+                    return true;
+                return false;
+            },
+            // completed() {
+            //     console.log('v-list csv completed',this.metadata);
+            //     this.getComponent('sheetSelect').setDomainValues(this.metadata.sheets,this.metadata.sheets_order);
+            //     var params = this.route.getParams();
+            //     var selectedSheetName = params['s_datafile_sheet'];
+            //     if (selectedSheetName) {
+            //         this.getComponent('sheetSelect').setValue(Object.values(this.metadata.sheets).indexOf(selectedSheetName));
+            //     }
+            //
+            //     // this.selectSheetConf.domainValues = this.metadata.sheets;
+            //     // this.selectSheetConf.domainValuesOrder = this.metadata.sheets_order;
+            //     this.multiSheets = (this.metadata.sheets_order.length > 0)
+            // }
         }
     }
 }
