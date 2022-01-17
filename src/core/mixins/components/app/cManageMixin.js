@@ -22,9 +22,6 @@ crud.conf['c-manage'] = {
     manageHeaderTextClass: 'text-dark',
     updateTitle: '',
     viewTitle: '',
-
-    showEdit: false,
-    showList: true,
     resources: [
         'https://unpkg.com/velocity-animate@2.0.6/velocity.min.js'
     ],
@@ -41,8 +38,10 @@ const cManageMixin = {
     mounted: function () {
         this.insertConf = this._getInsertConfiguration();
         this.editConf = this._getEditConfiguration();
-        this.createList();
-        this.createSearch();
+        this._createList();
+        this._createSearch();
+        this.showList();
+        this.showList();
     },
     beforeDestroy() {
         if (this.listComp) this.listComp.$destroy();
@@ -84,7 +83,7 @@ const cManageMixin = {
                 opacity: 0
             }, { complete: done })
         },
-        createList: function () {
+        _createList: function () {
             var that = this;
             console.log('INLINE EDIT',that.inlineEdit);
             if (that.listComp)
@@ -120,7 +119,10 @@ const cManageMixin = {
 
             listC.$mount('#' + id);
         },
-        createSearch: function () {
+        showList() {
+
+        },
+        _createSearch: function () {
             var that = this;
             if (!that.search || !that.search.fields || that.search.fields.length == 0)
                 return;
@@ -139,6 +141,9 @@ const cManageMixin = {
             });
             //}
             that.searchComp.$mount('#' + id);
+        },
+        showSearch() {
+
         },
         _createEdit: function (action) {
             var thisManage = this;
@@ -167,10 +172,9 @@ const cManageMixin = {
                 }
             });
             thisManage.editComp.$mount('#' + id);
-            thisManage.showEdit = true;
-            thisManage.showList = false;
-            thisManage.jQe('[c-collapse-edit]').collapse('show');
-            thisManage.jQe('[c-collapse-list]').collapse('hide');
+        },
+        showEdit() {
+
         },
         _createView: function (action) {
             var thisManage = this;
@@ -204,6 +208,9 @@ const cManageMixin = {
             dlgView.show();
             //thisManage.jQe('[c-view_dialog]').modal('show');
         },
+        showView() {
+
+        },
         _createInsert: function (action) {
             var thisManage = this;
             thisManage.updateTitle = 'Inserimento ' + thisManage.translate(thisManage.modelName+'.label');
@@ -220,10 +227,11 @@ const cManageMixin = {
             });
 
             thisManage.insertComp.$mount('#' + id);
-            thisManage.showEdit = true;
-            thisManage.showList = false;
-            thisManage.jQe('[c-collapse-edit]').collapse('show');
-            thisManage.jQe('[c-collapse-list]').collapse('hide');
+
+        },
+        showInsert() {
+            this.jQe('[c-collapse-edit]').collapse('show');
+            this.jQe('[c-collapse-list]').collapse('hide');
         },
         _actionSaveBack: function () {
             var thisManage = this;
@@ -231,13 +239,9 @@ const cManageMixin = {
             return thisManage.merge(thisManage.$crud.conf['action-save'], {
                 text: 'Salva e Torna alla lista',
                 afterExecute: function () {
-                    thisManage.showEdit = false;
-                    thisManage.showList = true;
-                    thisManage.jQe('[c-collapse-edit]').collapse('hide');
-                    thisManage.jQe('[c-collapse-list]').collapse('show');
+                    thisManage.showList();
                     this.view.$destroy();
                     thisManage.listComp.reload();
-                    thisManage.jQe('[c-edit-container]').html(' ');
                 }
             });
         },
@@ -245,13 +249,9 @@ const cManageMixin = {
             var thisManage = this;
             return {
                 execute: function () {
-                    thisManage.showEdit = false;
-                    thisManage.showList = true;
-                    thisManage.jQe('[c-collapse-edit]').collapse('hide');
-                    thisManage.jQe('[c-collapse-list]').collapse('show');
+                    thisManage.showList();
                     this.view.$destroy();
                     thisManage.listComp.reload();
-                    thisManage.jQe('[c-edit-container]').html(' ');
                 }
             }
         },
@@ -271,6 +271,7 @@ const cManageMixin = {
                     var aEdit = listConf.customActions['action-edit'] || {};
                     aEdit.execute = function () {
                         thisManage._createEdit(this);
+                        thisManage.showEdit();
                     }
                     listConf.customActions['action-edit'] = aEdit;
                 }
@@ -278,6 +279,7 @@ const cManageMixin = {
                     var aView = listConf.customActions['action-view'] || {};
                     aView.execute = function () {
                         thisManage._createView(this);
+                        thisManage.showView();
                     }
                     listConf.customActions['action-view'] = aView;
                 }
@@ -286,6 +288,7 @@ const cManageMixin = {
                     var aInsert = listConf.customActions['action-insert'] || {};
                     aInsert.execute = function () {
                         thisManage._createInsert(this);
+                        thisManage.showInsert();
                     }
                     listConf.customActions['action-insert'] = aInsert;
                 }
@@ -304,6 +307,7 @@ const cManageMixin = {
                     listEditConf.customActions['action-view'] = {
                         execute: function () {
                             thisManage._createView(this);
+                            thisManage.showView();
                         }
                     }
                 }
@@ -312,6 +316,7 @@ const cManageMixin = {
                     listEditConf.customActions['action-insert'] = {
                         execute: function () {
                             thisManage._createInsert(this);
+                            thisManage.showInsert();
                         }
                     }
                 }
