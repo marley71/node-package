@@ -2,7 +2,8 @@ import crud from "../../../crud";
 
 crud.conf['w-radio'] = {
     domainValues: {},
-    domainValuesOrder: []
+    domainValuesOrder: [],
+    inline: false,
 }
 
 const wRadioMixin = {

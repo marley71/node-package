@@ -1,13 +1,6 @@
 import crud from "../../../crud";
 
 crud.conf['c-manage'] = {
-    // -- selector varie aree della manage
-    listSelector : null,
-    searchSelecor : null,
-    updateAreaSelector : null,
-    updateSelector:null,
-    viewSelector: null,
-
     listComponentName: 'v-list',
     searchComponentName: 'v-search',
     listEditComponentName: 'v-list-edit',
@@ -60,21 +53,71 @@ const cManageMixin = {
     },
 
     methods: {
+        beforeEnter: function (el) {
+            el.style.opacity = 0
+            el.style.transformOrigin = 'left'
+        },
+        enter: function (el, done) {
+            window.jQuery(el).velocity({ opacity: 1}, { duration: 1000 })
+            window.jQuery(el).velocity({ fontSize: '1em' }, { complete: done })
+        },
+        leave: function (el, done) {
+
+            window.jQuery(el).velocity({
+                opacity: 0
+            }, { duration: 1000 })
+        },
+        beforeEnterList: function (el) {
+            el.style.opacity = 1
+        },
+        enterList: function (el, done) {
+            window.jQuery(el).velocity(
+                "slideDown", {duration: 1000});
+            // window.jQuery(el).velocity({ fontSize: '1em' }, { complete: done })
+        },
+        leaveList: function (el, done) {
+            window.jQuery(el).velocity(
+                "slideUp", {duration: 1000});
+
+            window.jQuery(el).velocity({
+                opacity: 0
+            }, { complete: done })
+        },
         _createList: function () {
             var that = this;
+            console.log('INLINE EDIT',that.inlineEdit);
             if (that.listComp)
                 that.listComp.$destroy();
-            var conf = that.inlineEdit?that._getListEditConfiguration():that._getListConfiguration();
-            var cName = that.inlineEdit?that.listEditComponentName:that.listComponentName;
-            var cDef = that.dynamicComponent(cName);
-            that.listComp = new cDef({
-                propsData: {
-                    cConf: conf,
-                    cRef: that._uid + 'list-view'
-                }
-            });
-            var tId = that.createContainer(that.jQe(that.listSelector),true);
-            that.listComp.$mount('#'+tId);
+            if (this.listEditComp)
+                this.listEditComp.$destroy();
+            // monto la lista
+            var id = 'd' + (new Date().getTime());
+            that.jQe('[c-list-container]').html('<div id="' + id + '"></div>');
+            var listC = null;
+            if (that.inlineEdit) {
+                let conf = that._getListEditConfiguration();
+                let cDef = that.dynamicComponent(that.listEditComponentName);
+                that.listEditComp = new cDef({
+                    propsData: {
+                        cConf: conf,
+                        cRef: 'list-view'
+                    }
+                });
+                listC = that.listEditComp;
+            } else {
+
+                let conf = that._getListConfiguration();
+                let cDef = that.dynamicComponent(that.listComponentName);
+                that.listComp = new cDef({
+                    propsData: {
+                        cConf: conf,
+                        cRef: 'list-view'
+                    }
+                });
+                listC = that.listComp;
+            }
+
+            listC.$mount('#' + id);
         },
         showList() {
 
@@ -85,16 +128,19 @@ const cManageMixin = {
                 return;
             if (that.searchComp)
                 that.searchComp.$destroy();
+            // monto la search
+            //that.search.targetRef = 'list-view';
             var conf = that._getSearchConfiguration();
-            var tId = that.createContainer(that.jQe(that.searchSelector),true);
+            var id = 'd' + (new Date().getTime());
+            that.jQe('[c-search-container]').html('<div id="' + id + '"></div>');
             var cDef = that.dynamicComponent(that.searchComponentName);
-
             that.searchComp = new cDef({
                 propsData: {
                     cConf: conf,
                 }
             });
-            that.searchComp.$mount('#' + tId);
+            //}
+            that.searchComp.$mount('#' + id);
         },
         showSearch() {
 
@@ -115,16 +161,17 @@ const cManageMixin = {
 
             var conf = thisManage._getEditConfiguration();
 
-            var tId = thisManage.createContainer(thisManage.jQe(thisManage.updateSelector),true);
-
+            var id = 'd' + (new Date().getTime());
+            thisManage.jQe('[c-edit-container]').html('<div id="' + id + '"></div>');
             conf.pk = action.modelData[thisManage.listComp.primaryKey];
             var cDef = thisManage.dynamicComponent(thisManage.editComponentName);
             thisManage.editComp = new cDef({
                 propsData: {
+                    //cPk: action.modelData[thisManage.listComp.primaryKey],
                     cConf: conf
                 }
             });
-            thisManage.editComp.$mount('#' + tId);
+            thisManage.editComp.$mount('#' + id);
         },
         showEdit() {
 
@@ -132,9 +179,9 @@ const cManageMixin = {
         _createView: function (action) {
             var thisManage = this;
             //var that = this;
-
-            let primaryKey = thisManage.listComp.primaryKey;
-            let modelName = thisManage.listComp.modelName;
+            var id = 'd' + (new Date().getTime());
+            let primaryKey = thisManage.listComp?thisManage.listComp.primaryKey:thisManage.listEditComp.primaryKey;
+            let modelName = thisManage.listComp?thisManage.listComp.modelName:thisManage.listEditComp.modelName;
 
             var pkTranslation = thisManage.translate(modelName + "." + primaryKey + '.label');
             thisManage.viewTitle = thisManage.translate("model." + modelName, 0) + ' (' +
@@ -146,8 +193,6 @@ const cManageMixin = {
                 thisManage.viewComp = null;
             }
             var pk = action.modelData[primaryKey];
-
-            var id = 'd' + (new Date().getTime());
             var dlgView = thisManage.customDialog('<div id="' + id + '"></div>');
             var conf = thisManage._getViewConfiguration();
             conf.pk = action.modelData[primaryKey];
@@ -161,6 +206,7 @@ const cManageMixin = {
             });
             thisManage.viewComp.$mount('#' + id);
             dlgView.show();
+            //thisManage.jQe('[c-view_dialog]').modal('show');
         },
         showView() {
 
@@ -168,10 +214,8 @@ const cManageMixin = {
         _createInsert: function (action) {
             var thisManage = this;
             thisManage.updateTitle = 'Inserimento ' + thisManage.translate(thisManage.modelName+'.label');
-            var tId = thisManage.createContainer(thisManage.jQe(thisManage.updateSelector),true);
-
-            // var id = 'd' + (new Date().getTime());
-            // thisManage.jQe('[c-edit-container]').html('<div id="' + id + '"></div>');
+            var id = 'd' + (new Date().getTime());
+            thisManage.jQe('[c-edit-container]').html('<div id="' + id + '"></div>');
             if (thisManage.insertComp)
                 thisManage.insertComp.$destroy();
             console.log('_createInsert',thisManage.insertConf);
@@ -182,11 +226,12 @@ const cManageMixin = {
                 }
             });
 
-            thisManage.insertComp.$mount('#' + tId);
+            thisManage.insertComp.$mount('#' + id);
 
         },
         showInsert() {
-
+            this.jQe('[c-collapse-edit]').collapse('show');
+            this.jQe('[c-collapse-list]').collapse('hide');
         },
         _actionSaveBack: function () {
             var thisManage = this;
