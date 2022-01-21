@@ -5,10 +5,10 @@ crud.conf['a-order'] = {
     confParent: 'a-base',
     type: 'collection',
     title: 'app.order',
-    css: 'btn btn-default btn-sm mr-1',
-    iconSortAsc: 'fa fa-sort-up',
-    iconSortDesc: 'fa fa-sort-down',
-    iconSort: 'fa fa-sort',
+    css: '',
+    iconSortAsc: '',
+    iconSortDesc: '',
+    iconSort: '',
     icon: null,
     text: ''
 }
@@ -38,18 +38,6 @@ const aOrderMixin = {
                 that.view.route.setParam('order_field',that.orderField);
                 that.view.route.setParam('order_direction',order_direction);
                 that.view.reload();
-
-
-                // var params = that.view.route.getParams();
-                // params.order_field = that.orderField;
-                // params.order_direction = (!that.orderDirection || that.orderDirection.toLowerCase() == 'desc') ? 'ASC' : 'DESC';
-                // that.view.route.setParams(params);
-                //
-                //
-                //
-                //
-                //
-                // that.view.reload();
             } else {
                 let order_direction = (!that.orderDirection || that.orderDirection.toLowerCase() == 'desc') ? 'ASC' : 'DESC';
                 that.view.staticOrder(that.orderField, order_direction);

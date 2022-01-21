@@ -8,7 +8,7 @@ crud.conf['a-base'] = {
     visible: true,
     enabled: true,
     title: '',
-    css: 'btn btn-outline-secondary',
+    css: '',
     icon: '',
     text: '',
     controlType: 'button',
@@ -21,9 +21,6 @@ crud.conf['a-base'] = {
 
 const aBaseMixin = {
     props: {
-        'cKey': {
-            default: null
-        },
         cConfDefaultName: {
             default: 'a-base',
         }

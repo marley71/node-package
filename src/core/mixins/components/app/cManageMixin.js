@@ -105,6 +105,11 @@ const cManageMixin = {
                 thisManage.editComp.$destroy();
                 thisManage.editComp = null;
             }
+            if (thisManage.insertComp) {
+                thisManage.insertComp.$destroy();
+                thisManage.insertComp = null;
+            }
+
             if (!this.edit) {
                 throw new Error({message:'configurazione edit non trovata',code:500});
             }
@@ -174,6 +179,11 @@ const cManageMixin = {
             // thisManage.jQe('[c-edit-container]').html('<div id="' + id + '"></div>');
             if (thisManage.insertComp)
                 thisManage.insertComp.$destroy();
+            if (thisManage.editComp) {
+                thisManage.editComp.$destroy();
+                thisManage.editComp = null;
+            }
+
             console.log('_createInsert',thisManage.insertConf);
             var cDef = thisManage.dynamicComponent(thisManage.insertComponentName);
             thisManage.insertComp = new cDef({

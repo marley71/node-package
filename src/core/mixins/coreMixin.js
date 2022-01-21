@@ -104,7 +104,7 @@ const coreMixin = {
             }
         },
 
-        createFullscreenModal (compName,conf,title,callbacks) {
+        createFullscreenModal (compName,propsData,title,callbacks) {
             var that = this;
             var divId = 'd' + (new Date().getTime());
             var cDef = that.dynamicComponent(compName);
@@ -122,9 +122,7 @@ const coreMixin = {
                     console.log('dialog mounted',thisDialog.jQe().html())
                     thisDialog.jQe('.modal-dialog').addClass('modal-full');
                     var dialogComp = new cDef({
-                        propsData: {
-                            cConf : conf
-                        }
+                        propsData: propsData
                     });
                     dialogComp.$mount(thisDialog.jQe('#'+divId)[0]);
                     thisDialog.component = dialogComp;
@@ -134,7 +132,7 @@ const coreMixin = {
             return d;
         },
 
-        createModalView : function(viewName,conf,title,callbacks) {
+        createModalView : function(viewName,propsData,title,callbacks) {
             var that = this;
             var divId = 'd' + (new Date().getTime());
             var dialogConf = {
@@ -145,9 +143,7 @@ const coreMixin = {
                     var thisDialog = this;
                     console.log('dialog mounted',thisDialog.jQe().html())
                     var dialogComp = new that.$options.components[viewName]({
-                        propsData: {
-                            cConf : conf
-                        }
+                        propsData: propsData
                     });
                     thisDialog.component = dialogComp;
                     dialogComp.$mount(thisDialog.jQe('#'+divId)[0]);
@@ -156,12 +152,12 @@ const coreMixin = {
             var d =  that.customDialog(dialogConf);
             return d;
         },
-        createBigModalView : function(viewName,conf,title,callbacks) {
+        createBigModalView : function(viewName,propsData,title,callbacks) {
             var that = this;
             var divId = 'd' + (new Date().getTime());
             //var dialogComp = new that.$crud.components.views[viewName]({
             var dialogComp = new that.$options.components[viewName]({
-                propsData: conf
+                propsData: propsData
             });
             var _cbs = callbacks?callbacks:{};
             /*
@@ -199,12 +195,10 @@ const coreMixin = {
          * @param compName
          * @param conf
          */
-        showComponent : function(container,compName,conf) {
+        showComponent : function(container,compName,propsData) {
             var cDef = this.dynamicComponent(compName);
             var comp = new cDef({
-                propsData: {
-                    cConf : conf
-                }
+                propsData: propsData
             });
             var idC = this.createContainer(container);
             comp.$mount(window.jQuery('#'+idC)[0]);

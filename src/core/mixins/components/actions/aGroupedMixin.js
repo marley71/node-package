@@ -23,9 +23,6 @@ crud.conf['a-grouped'] = {
 
 const aGroupedMixin = {
     props: {
-        'cKey': {
-            default: null
-        },
         cConfDefaultName: {
             default: 'a-grouped',
         }
