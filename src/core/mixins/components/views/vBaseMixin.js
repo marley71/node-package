@@ -114,8 +114,8 @@ const vBaseMixin = {
                 conf.componentName = 'a-base';
             //var componentName = conf.componentName ? conf.componentName : 'a-base';
             conf = that.merge(that.$crud.conf[conf.componentName], conf);
-            if (that.customActions[name])
-                conf = that.merge(conf, that.customActions[name]);
+            if (that.actionsConfig[name])
+                conf = that.merge(conf, that.actionsConfig[name]);
             else {
                 conf = that.merge(that.$crud.conf[conf.componentName], conf);
             }

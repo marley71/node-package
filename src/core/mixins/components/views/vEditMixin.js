@@ -8,7 +8,7 @@ crud.conf['v-edit'] = {
     routeName: 'edit',
     widgetTemplate: 'tpl-record',
     actions: ['action-save', 'action-back'],
-    customActions: {},
+    actionsConfig: {},
     fieldsConfig: {
         id: 'w-hidden'
     },

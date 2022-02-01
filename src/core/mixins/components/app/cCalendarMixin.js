@@ -56,7 +56,7 @@ const cCalendarMixin = {
             var cConf = {
                 modelName : that.modelName,
                 actions : ['action-save'],
-                customActions : {
+                actionsConfig : {
                     'action-save' : {
                         afterExecute() {
                             that.reload();
@@ -85,7 +85,7 @@ const cCalendarMixin = {
                 modelName : that.modelName,
                 pk : id,
                 actions : ['action-save'],
-                customActions : {
+                actionsConfig : {
                     'action-save' : {
                         afterExecute() {
                             that.reload();

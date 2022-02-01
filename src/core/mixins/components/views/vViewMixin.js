@@ -8,7 +8,7 @@ crud.conf['v-view'] = {
     routeName: 'view',
     fieldsConfig: {},
     actions: [],
-    customActions: {},
+    actionsConfig: {},
     widgetTemplate: 'tpl-record-view'
 }
 

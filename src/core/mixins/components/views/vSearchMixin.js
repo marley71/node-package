@@ -10,7 +10,7 @@ crud.conf['v-search'] = {
     routeName: 'search',
     actions: ['action-search', 'action-reset'],
     fieldsConfig: {},
-    customActions: {},
+    actionsConfig: {},
     widgetTemplate: 'tpl-record',
     buttonsClass: null,
     prefixField: 's_',

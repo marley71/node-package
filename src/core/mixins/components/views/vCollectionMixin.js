@@ -147,7 +147,6 @@ const vCollectionMixin = {
             var that = this;
             var collectionActionsName = [];
             var recordActionsName = [];
-            //console.log('customActions',that.customActions)
             for (var i in that.actions) {
                 var aName = that.actions[i];
                 var aConf = {};
@@ -155,19 +154,8 @@ const vCollectionMixin = {
 
                 if (that.$crud.conf[aName]) {
                     aConf = that.$crud.conf[aName];
-                } else if (that.customActions[aName]) {
-                    aConf = that.mergeConf(that.customActions[aName]);
-
-                    // var confBase = that.customActions[aName].componentName || 'a-base';
-                    // var aConf = that.merge(that.$crud.conf[confBase],that.customActions[aName]);
-                    // aConf = that.mergeConf(aConf);
-                    // console.log('confCustom',aConf);
-                    // //console.log('custom action',aName,JSON.parse(JSON.stringify(that.customActions[aName])))
-                    // var confBase = that.customActions[aName].componentName ? that.customActions[aName].componentName : 'a-base';
-                    // console.log('confBase',confBase,that.$crud.conf[confBase]);
-                    // aConf = that.merge(that.$crud.conf[confBase], that.customActions[aName]);
-                    // aConf = that.mergeConf(aConf);
-                    //aConf.confParent = 'crud.conf.a-base';
+                } else if (that.actionsConfig[aName]) {
+                    aConf = that.mergeConf(that.actionsConfig[aName]);
                 } else {
                     valid = false;
                     console.warn("Impossibile trovare la configurazione di " + aName);

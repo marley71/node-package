@@ -480,14 +480,14 @@ const coreMixin = {
          * @return {*}
          */
         mergeConfView : function(obj1,obj2) {
-            var specialsKey = ['fields','fieldsConfig','customActions','methods'];
+            var specialsKey = ['fields','fieldsConfig','actionsConfig','methods'];
             var c1 = this.cloneObj(obj1);
             var c2 = this.cloneObj(obj2);
             //console.log('c1',c1,'c2',c2);
 
             c1.fields = c1.fields?c1.fields:[];
             c1.fieldsConfig = c1.fieldsConfig?c1.fieldsConfig:{};
-            c1.customActions = c1.customActions?c1.customActions:{};
+            c1.actionsConfig = c1.actionsConfig?c1.actionsConfig:{};
             c1.actions = c1.actions?c1.actions:[];
             c1.methods = c1.methods?c1.methods:{};
 
@@ -499,10 +499,9 @@ const coreMixin = {
                     c1.fieldsConfig[k] = c2.fieldsConfig[k];
                 }
             }
-            if (c2.customActions) {
-                //c1.customActions = c1.customActions || {};
-                for (let k in c2.customActions) {
-                    c1.customActions[k] = c2.customActions[k];
+            if (c2.actionsConfig) {
+                for (let k in c2.actionsConfig) {
+                    c1.actionsConfig[k] = c2.actionsConfig[k];
                 }
             }
             if (c2.methods) {

@@ -108,7 +108,7 @@ const vRecordMixin = {
                 var aName = that.actions[i];
                 if (that.$crud.conf[aName])
                     actions.push(aName);
-                else if (that.customActions[aName])
+                else if (that.actionsConfig[aName])
                     actions.push(aName);
                 else
                     console.warn("Impossibile trovare la definizione di " + aName);

@@ -39,7 +39,7 @@ crud.conf['c-import'] = {
         routeName: 'datafile_insert',
         fields: [],
         actions: ['action-save', 'action-cancel'],
-        customActions: {
+        actionsConfig: {
             'action-save': {
                 text: 'app.importa-csv'
             }
@@ -61,7 +61,7 @@ crud.conf['c-import'] = {
         routeName: 'datafile_import',
         fields: [],
         actions: ['action-save-import'],
-        customActions: {
+        actionsConfig: {
             'action-save-import': {
                 text: 'Salva File Caricato',
                 css: 'btn bnt-outline-secondary btn-info',
@@ -91,38 +91,6 @@ crud.conf['c-import'] = {
             icon : 'fa fa-edit',
             execute() {
                 alert('modirica' + this.index + " " + this.key);
-            }
-        },
-        customActions : {
-            'action-show-error' : {
-                text : 'Mostra solo errori',
-                css : 'btn-outline-danger',
-                type : 'collection',
-                controlType:'button',
-                execute() {
-                    this.view.showError = true;
-                    this.view.reload();
-                },
-                visible() {
-                    if (this.view.metadata.has_datafile_errors)
-                        return true
-                    return false;
-                }
-            },
-            'action-mostra-tutti' : {
-                text : 'Mostra tutti',
-                type : 'collection',
-                controlType:'button',
-                execute() {
-                    this.view.showError = false;
-                    this.view.reload();
-                },
-                visible() {
-                    if (this.view.metadata.has_datafile_errors)
-                        return true
-                    return false;
-                }
-
             }
         },
         methods : {
@@ -346,9 +314,9 @@ const cImportMixin = {
             var that = this;
             var userConf = that.merge({},that.viewSave);
             userConf.modelName = that.providerName;
-            userConf.customActions = that.viewSave.customActions || {};
+            userConf.actionsConfig = that.viewSave.actionsConfig || {};
             userConf.fieldsConfig = that.viewSave.fieldsConfig || {};
-            var aS = userConf.customActions['action-save-import'] || {};
+            var aS = userConf.actionsConfig['action-save-import'] || {};
             aS.csvDashboard = that;
             aS.execute = function () {
                 var thatAction = this;
@@ -374,7 +342,7 @@ const cImportMixin = {
                     thatAction.csvDashboard.checkStatus();
                 })
             }
-            userConf.customActions['action-save'] = aS;
+            userConf.actionsConfig['action-save'] = aS;
 
             return  userConf;
         },
@@ -382,7 +350,7 @@ const cImportMixin = {
             var that = this;
             var userConf = that.merge({},that.viewUpload);
             userConf.modelName = that.providerName;
-            userConf.customActions = that.viewUpload.customActions || {};
+            userConf.actionsConfig = that.viewUpload.actionsConfig || {};
             userConf.fieldsConfig = that.viewUpload.fieldsConfig || {};
             console.log('aaaa',userConf,'viewUpload',that.viewUpload);
 
@@ -390,7 +358,7 @@ const cImportMixin = {
             userConf.fields.push(rsName);
             //userConf.fields.push('resource');
             userConf.fieldsConfig[rsName] = that.confUpload;
-            var aS = userConf.customActions['action-save'] || {};
+            var aS = userConf.actionsConfig['action-save'] || {};
             aS.enabled =  false;
             aS.csvDashboard = that;
             aS.execute = function () {
@@ -425,7 +393,7 @@ const cImportMixin = {
                     thatAction.$crud.EventBus.$emit('start-import',params);
                 })
             }
-            userConf.customActions['action-save'] = aS;
+            userConf.actionsConfig['action-save'] = aS;
             return  userConf;
         }
     }

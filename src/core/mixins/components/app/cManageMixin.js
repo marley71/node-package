@@ -233,29 +233,29 @@ const cManageMixin = {
                 listConf = thisManage.mergeConfView(thisManage.$crud.conf['v-list'], listConf);
                 // se sono presente l'action-edit,action-view o action-insert le ridefinisco per la gestione automatica da parte della c-manage
                 if (listConf.actions.indexOf('action-edit') >= 0) {
-                    var aEdit = listConf.customActions['action-edit'] || {};
+                    var aEdit = listConf.actionsConfig['action-edit'] || {};
                     aEdit.execute = function () {
                         thisManage._createEdit(this);
                         thisManage.showEdit();
                     }
-                    listConf.customActions['action-edit'] = aEdit;
+                    listConf.actionsConfig['action-edit'] = aEdit;
                 }
                 if (listConf.actions.indexOf('action-view') >= 0) {
-                    var aView = listConf.customActions['action-view'] || {};
+                    var aView = listConf.actionsConfig['action-view'] || {};
                     aView.execute = function () {
                         thisManage._createView(this);
                         thisManage.showView();
                     }
-                    listConf.customActions['action-view'] = aView;
+                    listConf.actionsConfig['action-view'] = aView;
                 }
 
                 if (listConf.actions.indexOf('action-insert') >= 0) {
-                    var aInsert = listConf.customActions['action-insert'] || {};
+                    var aInsert = listConf.actionsConfig['action-insert'] || {};
                     aInsert.execute = function () {
                         thisManage._createInsert(this);
                         thisManage.showInsert();
                     }
-                    listConf.customActions['action-insert'] = aInsert;
+                    listConf.actionsConfig['action-insert'] = aInsert;
                 }
             }
             return listConf;
@@ -269,7 +269,7 @@ const cManageMixin = {
                 //listEditConf = thisManage.mergeConfView(thisManage.$crud.conf.listEdit, listEditConf);
                 console.log('acions list edit ', listEditConf.actions);
                 if (listEditConf.actions.indexOf('action-view') >= 0) {
-                    listEditConf.customActions['action-view'] = {
+                    listEditConf.actionsConfig['action-view'] = {
                         execute: function () {
                             thisManage._createView(this);
                             thisManage.showView();
@@ -278,7 +278,7 @@ const cManageMixin = {
                 }
 
                 if (listEditConf.actions.indexOf('action-insert') >= 0) {
-                    listEditConf.customActions['action-insert'] = {
+                    listEditConf.actionsConfig['action-insert'] = {
                         execute: function () {
                             thisManage._createInsert(this);
                             thisManage.showInsert();
@@ -292,9 +292,9 @@ const cManageMixin = {
             var thisManage = this;
             var searchConf = thisManage.search || {};
             var listComp = thisManage.inlineEdit?thisManage.listEditComp:thisManage.listComp;
-            if (!searchConf.customActions) searchConf.customActions = {};
+            if (!searchConf.actionsConfig) searchConf.actionsConfig = {};
 
-            var acSearch = searchConf.customActions['action-search'] || {};
+            var acSearch = searchConf.actionsConfig['action-search'] || {};
             // forzo la execute della search, siamo in un manage...
             acSearch.execute = function () {
                 var that = this;
@@ -304,7 +304,7 @@ const cManageMixin = {
                 listComp.reload();
                 return;
             };
-            searchConf.customActions['action-search'] = acSearch;
+            searchConf.actionsConfig['action-search'] = acSearch;
             return searchConf;
         },
         _getEditConfiguration: function () {
@@ -313,10 +313,9 @@ const cManageMixin = {
             var editConf = thisManage.edit || {};
             editConf = thisManage.mergeConfView(thisManage.$crud.conf['v-edit'], editConf);
             // prendo eventuali configurazioni locali al modello.
-            var _asb = editConf.customActions['action-save-back'] || {};
-            //var _as = editConf.customActions['action-save'] || {};
+            var _asb = editConf.actionsConfig['action-save-back'] || {};
             editConf = thisManage.mergeConfView(editConf, {
-                customActions: {
+                actionsConfig: {
                     'action-save-back': thisManage.merge(thisManage._actionSaveBack(),_asb),
                     'action-back': thisManage._actionBack(),
                     //'action-save' : thisManage.merge(_as,)
@@ -334,10 +333,10 @@ const cManageMixin = {
             insertConf = thisManage.mergeConfView(thisManage.$crud.conf['v-insert'], insertConf);
 
             // prendo eventuali configurazioni locali al modello.
-            var _asb = insertConf.customActions['action-save-back'] || {};
-            var _ab = insertConf.customActions['action-back'] || {};
+            var _asb = insertConf.actionsConfig['action-save-back'] || {};
+            var _ab = insertConf.actionsConfig['action-back'] || {};
             insertConf = thisManage.mergeConfView(insertConf, {
-                customActions: {
+                actionsConfig: {
                     'action-save-back': thisManage.merge(thisManage._actionSaveBack(),_asb),
                     'action-back': thisManage.merge(thisManage._actionBack(),_ab)
                 }

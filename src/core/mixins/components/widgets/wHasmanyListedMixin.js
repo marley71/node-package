@@ -42,7 +42,7 @@ const wHasmanyListedMixin = {
             var relationConf = that.relationConf || {};
             hmConf.metadata = relationConf;
             hmConf.defaultWidgetType = hmConf.defaultWidgetType || 'w-input';
-            hmConf.customActions = hmConf.customActions || {};
+            hmConf.actionsConfig = hmConf.actionsConfig || {};
             hmConf.fields = hmConf.fields || [];
             hmConf.fieldsConfig = hmConf.fieldsConfig || {};
             // aggiungo lo status in automatico
@@ -60,43 +60,27 @@ const wHasmanyListedMixin = {
                 hmConf.fields.push('status');
             }
             hmConf.fieldsConfig.status = 'w-hidden';
-            // hmConf = this.mergeConfView({
-            //     defaultWidgetType  : 'w-input',
-            //     //fields: [],
-            //     //fieldsConfig: {},
-            //     // routeName: null,
-            //     // value: value,
-            //     metadata: relationConf,
-            //     // customActions: {
-            //     //     'action-insert' : {
-            //     //         execute() {
-            //     //             this.view.value.push({});
-            //     //             this.view.reload();
-            //     //         }
-            //     //     }
-            //     // },
-            // }, hmConf);
             // forzo alcune cose che non possono essere definite dall'utente in configurazione
             hmConf.routeName = null;
             hmConf.value = that.value;
             if (!hmConf.modelName)
                 hmConf.modelName = that.name;
             if (hmConf.actions.indexOf('action-insert') >= 0) {
-                var aiConf = hmConf.customActions['action-insert'] || {};
+                var aiConf = hmConf.actionsConfig['action-insert'] || {};
                 aiConf.execute = function () {
                     //this.view.value.push({});
                     that.addItem();
                     this.view.reload();
                 }
-                hmConf.customActions['action-insert'] = aiConf;
+                hmConf.actionsConfig['action-insert'] = aiConf;
             }
             if (hmConf.actions.indexOf('action-delete') >= 0) {
-                var adConf = hmConf.customActions['action-delete'] || {};
+                var adConf = hmConf.actionsConfig['action-delete'] || {};
                 adConf.execute = function () {
                     that.deleteItem(this.index,1);
                     this.view.reload();
                 }
-                hmConf.customActions['action-delete'] = adConf;
+                hmConf.actionsConfig['action-delete'] = adConf;
             }
             var methods = hmConf.methods || {};
             methods.getFieldName = function (key) {

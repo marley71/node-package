@@ -343,6 +343,36 @@ const actionConfs = {
             });
             console.log('selected',that.view.selectedRows())
         }
+    },
+    'action-show-error' : {
+        text : 'app.mostra-solo-errori', //'Mostra solo errori',
+        css : 'btn-outline-danger',
+        type : 'collection',
+        controlType:'button',
+        execute() {
+            this.view.showError = true;
+            this.view.reload();
+        },
+        visible() {
+            if (this.view.metadata.has_datafile_errors)
+                return true
+            return false;
+        }
+    },
+    'action-mostra-tutti' : {
+        text : 'app.mostra-tutti', // 'Mostra tutti',
+        type : 'collection',
+        controlType:'button',
+        execute() {
+            this.view.showError = false;
+            this.view.reload();
+        },
+        visible() {
+            if (this.view.metadata.has_datafile_errors)
+                return true
+            return false;
+        }
+
     }
 }
 export default actionConfs

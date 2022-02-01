@@ -6,7 +6,7 @@ crud.conf['v-list-edit'] = {
     editMode: [],
     routeName: 'list',
     primaryKey: 'id',
-    customActions: {},
+    actionsConfig: {},
     fieldsConfig: {},
     orderFields: {},
     widgetTemplate: 'tpl-list',

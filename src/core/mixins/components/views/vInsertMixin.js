@@ -8,7 +8,7 @@ crud.conf['v-insert'] = {
     routeName: 'insert',
     widgetTemplate: 'tpl-record',
     actions: ['action-save', 'action-back'],
-    customActions: {},
+    actionsConfig: {},
     fieldsConfig: {
         id: 'w-hidden'
     },

@@ -15,40 +15,19 @@ crud.conf['w-swap'] = {
     toggleActive: false,
     switchClass: 'form-switch-success',
     dataSwitched: false,
-    json : null, // ultimo json caricato dalla chiamata ajax
+    isAjax:true,  // se e' un controllo che deve fare la chiamata di update altrimenti e' un controllo normale in una form
+    json : null, // ultimo json caricato dalla chiamata ajax,
+    _currentIndex : 0,  // indice corrente delle chiavi di domainValues
 }
 
 const wSwapMixin = {
-    mounted: function () {
-        var that = this;
-        var index = that._getIndex();
-        that.toggleActive = index?true:false;
-        that.slot = that.domainValues[index];
-    },
-    // computed : {
-    //
-    //     cssVars() {
-    //         return {
-    //             '--bg-inactive': this.bgInactive,
-    //             '--bg-active': this.bgActive,
-    //         }
-    //     },
-    //     checkedValue: {
-    //         get() {
-    //             console.log('toggleActive',this.toggleActive)
-    //             return this.toggleActive
-    //         },
-    //         set(newValue) {
-    //             this.toggleActive = newValue;
-    //         }
-    //     }
-    // },
     methods: {
-        getDV: function () {
-            return (this.domainValues || {})
-            // var that = this;
-            // //console.log('swaptype',that.swapType,'domainValues',that.domainValues)
-            // return (that.domainValues) ? that.domainValues : that.domainValues[that.swapType];
+        _ready() {
+            var that = this;
+            var keys = Object.keys(that.domainValues);
+            that._currentIndex = keys.indexOf(''+that.value);
+            that.toggleActive = that._currentIndex?true:false;
+            console.log('index e toggle ',that._currentIndex,that.toggleActive,keys,that.value,that.domainValues);
         },
         setRouteValues: function (route) {
             var that = this;
@@ -62,59 +41,55 @@ const wSwapMixin = {
             });
             return route;
         },
-        _swap: function (key) {
+        _swap: function () {
             var that = this;
-            var r = that._getRoute();
-            that.setRouteValues(r);
-            var dV = that.getDV();
-            that.waitStart()
-            Server.route(r, function (json) {
-                that.waitEnd();
-                that.json = json;
-                if (json.error) {
-                    //vueModal().title("Prova").text("Prova body").error().size('normal').show();
-                    that.errorDialog(json.msg);
-                    return;
-                }
-                console.log('key',key,'current',that._getCurrent())
-                that.value = that._getCurrent();
-                that.slot = dV[ that._getCurrent()];
+            if (that.isAjax) {
+                var r = that._getRoute();
+                that.setRouteValues(r);
+                that.waitStart()
+                Server.route(r, function (json) {
+                    that.waitEnd();
+                    that.json = json;
+                    if (json.error) {
+                        that.errorDialog(json.msg);
+                        return;
+                    }
+
+
+                    var keys = Object.keys(that.domainValues);
+                    that.value = keys[that._currentIndex];
+                    that.slot = that.domainValues[keys[that._currentIndex]];
+                    that.toggleActive = that._currentIndex?true:false;
+                    //console.log('value',that.value,'index',that._currentIndex);
+                    that.change();
+                })
+            } else {
+                that.value = that._getNext();
+                var keys = Object.keys(that.domainValues);
+                that.slot = that.domainValues[keys[that._currentIndex]];
+                that.toggleActive = that._currentIndex?true:false;
+                //console.log('value',that.value,'index',that._currentIndex);
                 that.change();
-            })
+            }
+
         },
-        swap() {
+        swap(event) {
             var that = this;
-            //console.log('INDEX ',index,vs,keys,keys[index],vs[index]);
-            that._swap(that._getNext());
+            console.log('event',event)
+            event.preventDefault();
+            that._swap();
         },
         /**
-         * restituisce il valore successivo
+         * sposta l'indice di uno e restituisce il valore successivo
          * @private
          */
         _getNext() {
             var that = this;
-            var keys = Object.keys(that.getDV());
-            var beforeIndex = this._getIndex();
-            var newIndex = (beforeIndex + 1) % keys.length;
-            console.log('_getNext',beforeIndex,newIndex,'key',keys[beforeIndex],keys[newIndex])
+            var keys = Object.keys(that.domainValues);
+            var newIndex = (that._currentIndex + 1) % keys.length;
+            //console.log('_getNext','value',keys[newIndex], 'index', newIndex);
+            that._currentIndex = newIndex;
             return keys[newIndex];
-        },
-
-        _getIndex() {
-            var that = this;
-            var dV = that.getDV();
-            var keys = Object.keys(dV);
-            var value = that.value ? that.value : keys[0];
-            var vs = keys.map(String);
-            var index = vs.indexOf("" + value);
-            //console.log('_getIndex','vs',vs,'value',""+value,'index',index);
-            return index;
-        },
-        _getCurrent() {
-            var that = this;
-            var keys = Object.keys(that.getDV());
-            console.log('_getCurrent',keys,that._getIndex(),keys[that._getIndex()])
-            return keys[that._getIndex()];
         },
     }
 }

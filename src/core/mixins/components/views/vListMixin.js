@@ -13,7 +13,7 @@ crud.conf['v-list'] = {
     json: {},
     primaryKey: 'id',
     routeName: 'list',
-    customActions: {},
+    actionsConfig: {},
     fieldsConfig: {},
     orderFields: {},
     widgetTemplate: 'tpl-list',
