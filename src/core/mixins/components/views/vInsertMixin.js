@@ -1,4 +1,5 @@
 import crud from "../../../crud";
+import Server from "../../../Server";
 
 crud.conf['v-insert'] = {
     confParent: 'v-record',
@@ -25,6 +26,17 @@ const vInsertMixin = {
                 })
             }
             return route
+        },
+        save(callback) {
+            var that = this;
+            var route = that.createRoute('create');
+            route.setValues({
+                modelName: that.modelName,
+            });
+            route.setParams(that.getViewData());
+            Server.route(route, function (json) {
+                callback(json);
+            })
         }
     }
 }

@@ -1,3 +1,7 @@
+/**
+ * azioni predefinite per l'utilizzo generale della libreria, estendono la proprietò crud.confs
+ */
+
 import Server from '../Server';
 
 const actionConfs = {
@@ -21,7 +25,7 @@ const actionConfs = {
         text : 'app.reset',
         execute : function () {
             if (this.view) {
-                console.log('target ref',this.view.targetRef);
+                //console.log('target ref',this.view.targetRef);
                 this.view.reset();
                 return ;
             }
@@ -35,12 +39,11 @@ const actionConfs = {
         icon : 'fa fa-search',
         text : 'app.cerca',
         execute () {
-            console.log('action-search',this,'view',this.view.targetRef);
+            //console.log('action-search',this,'view',this.view.targetRef);
             if (this.view && this.view.targetRef) {
-                console.log('target ref',this.view.targetRef);
+                //console.log('target ref',this.view.targetRef);
                 var targetView =  this.getComponent(this.view.targetRef); // this.$crud.cRefs[this.view.targetRef];
                 var formData = this.view.getViewData();
-                //formData['page'] = 1;
                 targetView.route.setParams(formData);
                 targetView.route.setParam('page',1);
                 targetView.reload();
@@ -56,37 +59,14 @@ const actionConfs = {
         icon : 'fa fa-save',
         text : 'app.salva',
         json : null,
-        setRouteValues : function(route) {
-            var that = this;
-            var pk = that.view.cPk || that.view.pk || 0;
-            if (pk) {
-                route.setValues({
-                    modelName: that.view.modelName,
-                    pk : pk
-                });
-            } else {
-                route.setValues({
-                    modelName: that.view.modelName,
-                });
-            }
-            route.setParams(that.view.getViewData());
-            return route;
-        },
         execute (callback) {
             this._save(callback)
         },
         methods: {
             _save (callback) {
                 var that = this;
-                console.log('action save',this);
-                var rName = 'create';
-                var pk = that.view.cPk || that.view.pk || 0;
-                if (pk)
-                    rName = 'update';
-                var r = that._getRoute(rName);
-                that.setRouteValues(r);
                 that.waitStart();
-                Server.route(r, function (json) {
+                that.view.save(function (json) {
                     that.waitEnd();
                     if (json.error) {
                         that.errorDialog(json.msg)
@@ -108,43 +88,25 @@ const actionConfs = {
         icon : 'fa fa-save',
         text : 'app.salva',
         json : null,
-        setRouteValues : function(route) {
-            var that = this;
-            var pk = that.view.cPk || that.view.pk || 0;
-            if (pk) {
-                route.setValues({
-                    modelName: that.view.modelName,
-                    pk : pk
-                });
-            } else {
-                route.setValues({
-                    modelName: that.view.modelName,
-                });
-            }
-            route.setParams(that.view.getViewData());
-            return route;
+        execute (callback) {
+            this._save(callback)
         },
-        execute : function (callback) {
-            var that = this;
-            console.log('action save',this);
-            var rName = 'create';
-            var pk = that.view.cPk || that.view.pk || 0;
-            if (pk)
-                rName = 'update';
-            var r = that._getRoute(rName);
-            that.setRouteValues(r);
-            that.waitStart();
-            Server.route(r, function (json) {
-                that.waitEnd();
-                if (json.error) {
-                    that.errorDialog(json.msg)
-                    return ;
-                }
-                that.json = json;
-                var msg = json.msg?json.msg:that.translate('app.salvataggio-ok');
-                that.alertSuccess(msg,that.alertTime);
-                callback();
-            })
+        methods: {
+            _save (callback) {
+                var that = this;
+                that.waitStart();
+                that.view.save(function (json) {
+                    that.waitEnd();
+                    if (json.error) {
+                        that.errorDialog(json.msg)
+                        return ;
+                    }
+                    that.json = json;
+                    var msg = json.msg?json.msg:that.translate('app.salvataggio-ok');
+                    that.alertSuccess(msg,that.alertTime);
+                    callback();
+                })
+            }
         },
         afterExecute () {
             window.history.back();
@@ -159,7 +121,6 @@ const actionConfs = {
         icon : 'fa fa-edit',
         execute () {
             let url = '#/edit/' + this.pascalCase('model_'+this.view.modelName) + '.edit/' + this.modelData[this.view.primaryKey]
-            //var url = "/edit/" + this.view.modelName + "/" + this.modelData[this.view.primaryKey];
             document.location.href=url
         }
     },

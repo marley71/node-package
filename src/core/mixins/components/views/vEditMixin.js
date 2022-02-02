@@ -1,4 +1,5 @@
 import crud from "../../../crud";
+import Server from "../../../Server";
 
 crud.conf['v-edit'] = {
     confParent: 'v-record',
@@ -26,6 +27,19 @@ const vEditMixin = {
                 })
             }
             return route
+        },
+        save(callback) {
+            var that = this;
+            var route = that.createRoute('update');
+            var pk = that.cPk || that.pk || 0;
+            route.setValues({
+                modelName: that.modelName,
+                pk : pk
+            });
+            route.setParams(that.getViewData());
+            Server.route(route, function (json) {
+                callback(json);
+            })
         }
     }
 }

@@ -47,17 +47,8 @@ const vBaseMixin = {
         reload() {
             var that = this;
             that.loading = true;
-            // non funziona il force update
-            //that.$forceUpdate();
             setTimeout(function () {
                 that.load();
-
-                // that.setRouteValues(that.route);
-                // that.fetchData(that.route, function (json) {
-                //     that.fillData(that.route, json);
-                //     that.draw();
-                //     //that.loading = false;
-                // });
             },10)
 
         },

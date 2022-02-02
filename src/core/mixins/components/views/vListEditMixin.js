@@ -2,12 +2,13 @@ import crud from "../../../crud";
 
 crud.conf['v-list-edit'] = {
     confParent: 'v-list',
-    widgetsEdit: {},
+    widgetsEdit: {}, // configurazioni widgets in modalità edit
     editMode: [],
     routeName: 'list',
     primaryKey: 'id',
     actionsConfig: {},
     fieldsConfig: {},
+    fieldsConfigEditMode:{}, // configurazione campi in modalità edit
     orderFields: {},
     widgetTemplate: 'tpl-list',
     actions: [

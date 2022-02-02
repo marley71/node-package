@@ -1,3 +1,7 @@
+/**
+ * routes predefinite per l'utilizzo generale della libreria, estendono la proprietò crud.confs.routes
+ */
+
 const routeConfs = {
     list: {
         method: 'get',

@@ -174,19 +174,8 @@ const cComponentMixin = {
             var defaultConf =  that.mergeConf(that.$crud.conf[that.cConfDefaultName]);
             var componentNameConf = that.mergeConf(that.$crud.conf[that.$options.name]);
             var mergedConf = that.merge(defaultConf,componentNameConf);
-            //console.log('_getDefaultConf  defaultConf',that.cConfDefaultName,defaultConf);
-            //console.log('_getDefaultConf componentNameConf',that.$options.name,componentNameConf)
-            //console.log('_getDefaultConf mergedConf',mergedConf)
             return mergedConf;
         },
-        /**
-         * setta la configurazione della route secondo le proprie esigenze.
-         * @param route
-         * @returns {*}
-         */
-        // setRouteValues : function(route) {
-        //     return route;
-        // },
         /**
          * istanzia l'oggetto route definito da routeName nella configurazione altrimenti ritorna null
          * @param routeName : nome della route se null la prende dalla proprieta routeName del componente
@@ -200,10 +189,11 @@ const cComponentMixin = {
             var rn = routeName?routeName:that.routeName;
             if (!rn)
                 return null;
-            if (!that.$crud.routes[rn])
-                throw "Impossibile trovare la route " + rn;
-            //console.log('routeName',rn,that.$crud.routes[rn])
-            return new Route(that.$crud.routes[rn]);
+            return that.createRoute(rn);
+            // if (!that.$crud.routes[rn])
+            //     throw "Impossibile trovare la route " + rn;
+            // //console.log('routeName',rn,that.$crud.routes[rn])
+            // return new Route(that.$crud.routes[rn]);
         },
 
         beforeLoadResources : function () {

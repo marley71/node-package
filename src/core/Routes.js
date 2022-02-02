@@ -1,6 +1,6 @@
 /**
- * VERSIONE LIBRERIA 4
  * Classe per la gestione delle route verso il server.
+ *
  */
 
 import jQuery from "jquery"
@@ -8,13 +8,13 @@ import jQuery from "jquery"
 export default function Route(conf) {
 
     const defaultConf =  {
-        method : 'get',
-        url : '',
+        method : 'get',       // metodo della richiesta http, GET o POST
+        url : '',             // url della route, puo' contenere variabili racchiusi tra {} che vengono valorizzati prima dell'utilizzo
         params : {},          //  parametri da inviare alla route
         commonParams : {},    //  parametri statici da aggiungere sempre alla chiamata
         values : {},          //  vettore associativo per sostituire i parametri per la costruzione dell'url racchiusi da {}
         protocol : null,      // tipo di protocollo da usare
-        resultType : null,      // tipo di risultato, 'record' o 'list'
+        resultType : null,    // tipo di risultato, 'record' o 'list'
     };
 
     var _c = jQuery.extend(true,{},(conf || {}));

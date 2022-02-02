@@ -16,16 +16,6 @@ const crud = {
     app : null, // istanza app crud
     lang : {},
     cRefs : {},
-    // conf : {
-    //     // -- configurazioni widgets
-    //     //... confs_widgets,
-    //     // --- configurazioni views
-    //     //... confs_views,
-    //     // -- configurazioni actions
-    //     // ... actionConfs,
-    //     // -- configurazioni oggetti miscellaouns
-    //     //... confs_misc,
-    // },
     conf : actionConfs,
     routes : routeConfs,
     protocols : {
