@@ -13,6 +13,8 @@ crud.conf['w-upload-ajax'] = {
         value: {},
     },
     json:null,
+    complete: false,
+    lastUpload:false,
 }
 
 const wUploadAjaxMixin = {
@@ -90,6 +92,8 @@ const wUploadAjaxMixin = {
             for (var k in that.ajaxFields)
                 fdata.append(k, that.ajaxFields[k])
 
+
+
             jQuery.ajax({
                 url: realUrl,
                 headers: Server.getHearders(),
@@ -119,7 +123,7 @@ const wUploadAjaxMixin = {
                     that.value =  JSON.stringify({});
                     return;
                 }
-                that.$emit('success', that);
+
                 that.complete = true;
 
                 console.log('data.result', data.result);
@@ -127,9 +131,14 @@ const wUploadAjaxMixin = {
                 that.lastUpload = that.cloneObj(data.result);
 
                 that.value = JSON.stringify(data.result); //.replace(/\\"/g, '"');
-                var refPreview = that._uid + 'preview';
-                //console.log('refPreview',refPreview,that.$crud.cRefs[refPreview])
-                that.$crud.cRefs[refPreview].value = data.result;
+                var wPreview = that.getComponent(that.previewConf.cRef);
+
+                //var refPreview = that._uid + 'preview';
+                console.log('wPreview',wPreview,data.result);
+                wPreview.setValue(data.result);
+
+                //that.$crud.cRefs[refPreview].value = data.result;
+
                 that.onSuccess();
             }).fail(function (data, error, msg) {
                 console.log("An error occurred, the files couldn't be sent!");

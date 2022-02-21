@@ -5,6 +5,7 @@ crud.conf['w-preview'] = {
     iconClass: '',
     iconSize:'',
     value: {},
+    currentMimetype : null,
     mimetypes: {
         // associazione mimetype del file con icona da visualizzare
         icons: {
@@ -44,6 +45,9 @@ crud.conf['w-preview'] = {
 
 const wPreviewMixin = {
     methods: {
+        _ready() {
+            this.currentMimetype = this.getType();
+        },
         getType: function () {
             var that = this
             if (!that.value.mimetype) {
@@ -54,6 +58,7 @@ const wPreviewMixin = {
                 that.icon = true
                 that.iconClass = that.mimetypes.icons['default']
                 if (that.mimetypes.icons[that.value.mimetype]) {
+                    console.log('icon class',that.mimetypes.icons[that.value.mimetype])
                     that.iconClass = that.mimetypes.icons[that.value.mimetype]
                 }
 
@@ -65,6 +70,13 @@ const wPreviewMixin = {
             }
             console.warn('mimetype invalid ' + that.value.mimetype)
             return null
+        },
+        setValue(value) {
+            var that = this;
+            that.value = value;
+            that.currentMimetype = that.getType();
+            // non si aggiorna l'icona... la forzo
+            that.jQe('[crud-icon]').attr('class',that.iconClass + ' ' + that.iconSize);
         }
     }
 }
