@@ -37,7 +37,7 @@ const vBaseMixin = {
             that.setRouteValues(that.route);
             that.fetchData(that.route, function (json) {
                 that.json = json;
-                console.log('vBase.load that',that);
+                //console.log('vBase.load that',that);
                 that.fillData(that.route, json);
                 that.afterLoadData(json);
                 that.draw();
