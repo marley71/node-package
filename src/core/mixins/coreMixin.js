@@ -1,7 +1,7 @@
 import jQuery from 'jquery'
-import Route from '../Routes'
-import Server from '../Server'
-import Vue from 'vue'
+import Route from '../Routes.js'
+import Server from '../Server.js'
+//import Vue from 'vue'
 // import ProtocolList from "../ProtocolList";
 // import ProtocolRecord from "../ProtocolRecord";
 
@@ -772,17 +772,14 @@ const coreMixin = {
                     window.jQuery(this).remove();
                 })
 
-                // console.log('html', htmlNode.html());
-                //Vue.prototype.$crud = that.$crud;
                 that.$crud.conf[name] = window[that.camelCase(name)];
-                var cDef = Vue.component(name, {
+                var cDef = that.$crud._app.component(name, {
                     extends: that.$options.components['c-component'],
                     template: htmlNode.html()
                 });
                 cDef.prototype.$crud = that.$crud;
                 that.$options.components[name] = cDef;
-                //that.$options.components[name]
-                //Vue.prototype.$options.components['get-chart'] = that.$options.components['get-chart']
+
                 that.$crud._dynamicComponents[name] = cDef;
                 return callback();
             });
@@ -803,7 +800,7 @@ const coreMixin = {
                 //     aClassName = that.$crud.conf[name].confParent
                 // }
                 //console.log(aClassName,'non esiste la creao',name,that.$options.components[aClassName])
-                that.$options.components[name] = Vue.component(name, {
+                that.$options.components[name] = that.$crud._app.component(name, {
                     extends: that.$options.components[conf.componentName]
                 });
                 that.$options.components[name].prototype.$crud = that.$crud;

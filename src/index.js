@@ -73,7 +73,7 @@ import ProtocolList from './core/ProtocolList'
 import ProtocolRecord from './core/ProtocolRecord'
 
 
-export {
+export default {
     crud,
     coreMixin,
     dialogsMixin,

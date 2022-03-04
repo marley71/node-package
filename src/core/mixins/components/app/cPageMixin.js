@@ -1,4 +1,4 @@
-import Vue from 'vue'
+
 import crud from "../../../crud";
 
 crud.conf['c-page'] = {}
@@ -21,7 +21,7 @@ const cPageMixin = {
         var name = 'page'+id;
 
         that.createComponent(name,that.cPath,function () {
-            var cdef = Vue.component(name);
+            var cdef = that.$crud._app.component(name);
             var conf = that.cConf || {};
             var componente = new cdef({
                 propsData : { cConf : conf}

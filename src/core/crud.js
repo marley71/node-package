@@ -23,6 +23,6 @@ const crud = {
       'record' : ProtocolRecord
     },
     env : {},
-
+    _app : null,
 }
 export default crud
