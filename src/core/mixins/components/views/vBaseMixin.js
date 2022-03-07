@@ -12,6 +12,7 @@ crud.conf['v-base'] = {
 }
 
 const vBaseMixin = {
+    //inject : ['loading'],
     props: {
         cFields: {
             default: null
@@ -100,15 +101,15 @@ const vBaseMixin = {
 
             var that = this;
 
-            var conf = that.$crud.conf[name] || {};
+            var conf = crud.conf[name] || {};
             if (!conf.componentName)
                 conf.componentName = 'a-base';
             //var componentName = conf.componentName ? conf.componentName : 'a-base';
-            conf = that.merge(that.$crud.conf[conf.componentName], conf);
+            conf = that.merge(crud.conf[conf.componentName], conf);
             if (that.actionsConfig[name])
                 conf = that.merge(conf, that.actionsConfig[name]);
             else {
-                conf = that.merge(that.$crud.conf[conf.componentName], conf);
+                conf = that.merge(crud.conf[conf.componentName], conf);
             }
             // console.log('actionconfig',name,conf)
             conf = that.mergeConf(conf);
@@ -122,9 +123,6 @@ const vBaseMixin = {
             if (that.cConf) {
                 if (typeof that.cConf === 'string' || that.cConf instanceof String) {
                     conf = this.getDescendantProp(window, that.cConf);
-                    // if (!conf) {
-                    //     conf = this.getDescendantProp(this.$crud.conf, this.cConf);
-                    // }
                 } else
                     conf = that.cConf;
             } else {
@@ -139,7 +137,7 @@ const vBaseMixin = {
                         if (type == 'insert' && cm['edit'])
                             conf = cm['edit'];
                         else {
-                            conf = this.$crud.conf[type];
+                            conf = crud.conf[type];
                         }
                     }
 
@@ -155,9 +153,9 @@ const vBaseMixin = {
             var that = this;
             //var _compName = this.$options.name;
             console.log('confDefaultName', that.cConfDefaultName, 'componentName', that.$options.name, 'viewConf', that.cType)
-            var defaultConf = that.mergeConf(that.$crud.conf[that.cConfDefaultName]);
-            var componentNameConf = that.mergeConf(that.$crud.conf[that.$options.name]);
-            //var typeConf = that.mergeConf(that.$crud.conf[that.cType]);
+            var defaultConf = that.mergeConf(crud.conf[that.cConfDefaultName]);
+            var componentNameConf = that.mergeConf(crud.conf[that.$options.name]);
+            //var typeConf = that.mergeConf(crud.conf[that.cType]);
 
             var mergedConf = that.merge(defaultConf, componentNameConf);
             //mergedConf = that.merge(mergedConf, typeConf);
@@ -171,7 +169,7 @@ const vBaseMixin = {
             console.log('_load routeConf', that.routeConf, 'cConf', this.cConf);
             if (that.routeConf) {
                 if (typeof that.routeConf === 'string' || that.routeConf instanceof String) {
-                    conf = this.getDescendantProp(that.$crud, that.routeConf);
+                    conf = this.getDescendantProp(crud, that.routeConf);
                 } else
                     conf = that.routeConf;
             }

@@ -34,7 +34,7 @@ const aGroupedMixin = {
         for (var k in that.actions) {
             var row = that.index
             var aName = that.actions[k];
-            var conf = that.$crud.conf[aName] || {};
+            var conf = crud.conf[aName] || {};
             var customConf = that.actionsConfig[aName] || {};
 
             conf = that.mergeConf(conf);

@@ -128,8 +128,7 @@ const wUploadAjaxMixin = {
 
                 that.value = JSON.stringify(data.result); //.replace(/\\"/g, '"');
                 var refPreview = that._uid + 'preview';
-                //console.log('refPreview',refPreview,that.$crud.cRefs[refPreview])
-                that.$crud.cRefs[refPreview].value = data.result;
+                crud.cRefs[refPreview].value = data.result;
                 that.onSuccess();
             }).fail(function (data, error, msg) {
                 console.log("An error occurred, the files couldn't be sent!");

@@ -64,7 +64,7 @@ const wDateSelectMixin = {
                 that.errorDialog('invalid Date');
                 return;
             }
-            var _cday = that.$crud.cRefs.day;
+            var _cday = crud.cRefs.day;
             var d = moment(that.value);
             _cday.domainValues = this._dayValues();
             _cday.domainValuesOrder = Object.keys(this._dayValues());
@@ -73,9 +73,9 @@ const wDateSelectMixin = {
         _getValidDate: function () {
             var that = this;
             //var s = jQuery(that.$el).find('[c-marker="year"]').val() +  "-" + jQuery(that.$el).find('[c-marker="month"]').val().padStart(2,'0')  + "-" + jQuery(that.$el).find('[c-marker="day"]').val().padStart(2,'0') ;
-            var _cday = that.$crud.cRefs.day;
-            var _cmonth = that.$crud.cRefs.month
-            var _cyear = that.$crud.cRefs.year;
+            var _cday = crud.cRefs.day;
+            var _cmonth = crud.cRefs.month
+            var _cyear = crud.cRefs.year;
 
             var sdate = _cyear.getValue() + "-" + _cmonth.getValue().toString().padStart(2, '0') + "-" + _cday.getValue().toString().padStart(2, '0');
 

@@ -24,18 +24,7 @@ const wHasmanyListedMixin = {
     // },
 
     methods: {
-        /**
-         * ritorna la subview associata hai campi dell'hasmany
-         * @param index: indice della view richiesta
-         * @return {null|*}
-         */
-        // getView : function(index) {
-        //     var that = this;
-        //     var vConf = that.confViews[index];
-        //     if (!vConf)
-        //         return null;
-        //     return that.$crud.cRefs[vConf.cRef];
-        // },
+
         getHasmanyConf: function () {
             var that = this;
             var hmConf = that.hasmanyConf || {};
@@ -129,25 +118,6 @@ const wHasmanyListedMixin = {
             var values = istanceView.getViewData();
             values.splice(index,1);
             istanceView.value = values;
-            // console.log('delete', refId, this.$crud.cRefs[refId].value)
-            // var newConfViews = {};
-            // // per questioni di aggiornamento assegno ad un'altra variabile, altrimenti vue non renderizza come dovuto
-            // for (var vId in that.confViews) {
-            //     newConfViews[vId] = that.confViews[vId];
-            // }
-            // // if (this.$crud.cRefs[refId].value.status == 'new') {
-            //     delete newConfViews[refId];
-            //     this.$crud.cRefs[refId].$destroy();
-            //
-            // // } else {
-            // //     newConfViews[refId].value.status = 'deleted';
-            // //     if (that.getComponent(refId)) {
-            // //         that.getComponent(refId).getWidget('status').setValue('deleted');
-            // //     }
-            // // }
-            // console.log('newConfView',newConfViews);
-            // that.$set(that, 'confViews', newConfViews);
-            // this.$forceUpdate();
         },
         showItem: function (refId) {
             //console.log('show item',index,this.confViews[index]);
@@ -172,7 +142,7 @@ const wHasmanyListedMixin = {
             var value = [];
             for (let k in that.confViews) {
                 var vId = this.confViews[k].cRef;
-                value.push(this.$crud.cRefs[vId].getValue());
+                value.push(crud.cRefs[vId].getValue());
             }
             return value;
         }

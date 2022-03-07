@@ -206,7 +206,7 @@ const cImportMixin = {
 
     mounted() {
         var that = this;
-        that.$crud.EventBus.$on('start-import',function (params) {
+        crud.EventBus.$on('start-import',function (params) {
             console.log('event',params);
             that.jobId = params.jobId;
             that.progressEnabled = true;

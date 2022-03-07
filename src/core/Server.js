@@ -103,7 +103,7 @@ Server.get = function (url, params, callback) {
 
 Server.route = function(route,callback) {
     var __cb = callback?callback:function (json) {console.debug(route.className,json)};
-    var realUrl = Server.getUrl(route.getUrl());
+    var realUrl = route.getUrl();
     var params = route.getParams();
     Server[route.getMethod()](realUrl,params,function (json) {
         __cb(json);

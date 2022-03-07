@@ -22,7 +22,7 @@ const cComponentMixin = {
 
     created () {
         var that = this;
-        //console.log('CREATEDDDD',that.$crud,that.$options.name,that.cConf);
+        //console.log('CREATEDDDD',crud,that.$options.name,that.cConf);
         // controllo che nella configurazione dinamica non ci siano definiti dei metodi. in caso ci siano
         // estendo il componente con questi metodi aggiuntivi
         var __call = function (lk) {
@@ -41,12 +41,13 @@ const cComponentMixin = {
     mounted() {
         var that = this;
         if (that.cRef) {
-            that.$crud.cRefs[that.cRef] = this;
+            crud.cRefs[that.cRef] = this;
         }
         if (that.cCompRef) {
-            that.$crud.cRefs[that.cCompRef] = this;
+            crud.cRefs[that.cCompRef] = this;
         }
 
+        //console.log('ccomponentmixin',crud,that.cRef,that.cCompRef)
 
         // var __call = function (lk) {
         //     that[lk] = function () {
@@ -88,8 +89,8 @@ const cComponentMixin = {
     },
     beforeDestroy () {
         var cr = this.cRef || this.cCompRef;
-        if (cr && this.$crud.cRefs[cr])
-            delete this.$crud.cRefs[cr];
+        if (cr && crud.cRefs[cr])
+            delete crud.cRefs[cr];
     },
     data : function() {
         var _conf = this._loadConf();
@@ -171,8 +172,8 @@ const cComponentMixin = {
          */
         _getDefaultConf() {
             var that = this;
-            var defaultConf =  that.mergeConf(that.$crud.conf[that.cConfDefaultName]);
-            var componentNameConf = that.mergeConf(that.$crud.conf[that.$options.name]);
+            var defaultConf =  that.mergeConf(crud.conf[that.cConfDefaultName]);
+            var componentNameConf = that.mergeConf(crud.conf[that.$options.name]);
             var mergedConf = that.merge(defaultConf,componentNameConf);
             return mergedConf;
         },
@@ -190,10 +191,10 @@ const cComponentMixin = {
             if (!rn)
                 return null;
             return that.createRoute(rn);
-            // if (!that.$crud.routes[rn])
+            // if (!crud.routes[rn])
             //     throw "Impossibile trovare la route " + rn;
-            // //console.log('routeName',rn,that.$crud.routes[rn])
-            // return new Route(that.$crud.routes[rn]);
+            // //console.log('routeName',rn,crud.routes[rn])
+            // return new Route(crud.routes[rn]);
         },
 
         beforeLoadResources : function () {

@@ -1,3 +1,5 @@
+import crud from '../crud.js'
+import {createApp } from 'vue';
 
 const dialogsMixin = {
     methods : {
@@ -12,16 +14,45 @@ const dialogsMixin = {
             if (callbacks)
                 cConf.callbacks = callbacks;
 
-            var d = new that.$options.components[name]({
-                propsData : {
-                    cConf : cConf
-                }
-            });
             var id= 'd' + (new Date().getTime());
+            cConf.cRef = id;
             window.jQuery('body').append('<div id="'+id+'"></div>');
-            d.$mount('#'+id);
-            d.show();
-            return d;
+            //console.log('component',name,crud._app.component(name))
+            var dlg = createApp(crud._app.component(name),{
+                cConf:cConf
+            });
+            dlg.crud = crud;
+            //dlg.component(crud._app.component(name))
+            dlg.mount('#' + id);
+            console.log('dlg',dlg);
+            crud.cRefs[id].show();
+            return dlg;
+
+            // window.def = crud._app.component(name);
+            // console.log('name',name,def);
+            // //var d = new def();
+            // // var def = defineComponent(crud._app.component(name));
+            // //
+            // // //var ComponentClass = Vue.extend(crud._app.component(name))
+            // //
+            // // var d = new def({
+            // //     propsData : {
+            // //         cConf : cConf
+            // //     }
+            // // });
+            // console.log('d',d);
+            //
+            //
+            //
+            // var d = createApp(crud._app.component(name),{
+            //     propsData : {
+            //         cConf : cConf
+            //     }
+            // });
+            //
+            // d.$mount('#'+id);
+            // d.show();
+            // return d;
         },
         messageDialog : function (bodyProps,callbacks) {
             return this.__dialog('d-message',bodyProps,callbacks);

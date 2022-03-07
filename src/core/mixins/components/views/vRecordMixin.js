@@ -106,7 +106,7 @@ const vRecordMixin = {
             var actions = [];
             for (var i in that.actions) {
                 var aName = that.actions[i];
-                if (that.$crud.conf[aName])
+                if (crud.conf[aName])
                     actions.push(aName);
                 else if (that.actionsConfig[aName])
                     actions.push(aName);
@@ -159,7 +159,7 @@ const vRecordMixin = {
                 return null;
             }
             //console.log('getWidget',key,rConf);
-            return this.$crud.cRefs[rConf.cRef];
+            return crud.cRefs[rConf.cRef];
         },
         getAction: function (name) {
             var rConf = this.actionsConf[name];
@@ -168,7 +168,7 @@ const vRecordMixin = {
                 return null;
             }
             //console.log('getAction',name,rConf);
-            return this.$crud.cRefs[rConf.cRef];
+            return crud.cRefs[rConf.cRef];
         },
         /**
          * aspetta che i widgets o il widgets esista e poi chiama la callback

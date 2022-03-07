@@ -68,7 +68,7 @@ const vCollectionMixin = {
                 throw 'accesso a render con chiave inesistente ' + row + "," + key;
             }
             var wConf = that.widgets[row][key];
-            that.$crud.cRefs[wConf.cRef].setValue(value);
+            crud.cRefs[wConf.cRef].setValue(value);
         },
         createWidgets: function () {
             var that = this;
@@ -119,7 +119,7 @@ const vCollectionMixin = {
                 //console.warn('attenzione widget non trovato per riga ' + row +  " key " + key);
                 return null;
             }
-            return this.$crud.cRefs[wConf.cRef];
+            return crud.cRefs[wConf.cRef];
         },
 
         getRecordAction: function (row, actionName) {
@@ -128,7 +128,7 @@ const vCollectionMixin = {
                 //console.warn('attenzione recordAction non trovata per riga ' + row +  " nome " + actionName);
                 return null;
             }
-            return this.$crud.cRefs[aConf.cRef];
+            return crud.cRefs[aConf.cRef];
         },
         getCollectionAction: function (actionName) {
             var aConf = this.collectionActions[actionName];
@@ -136,7 +136,7 @@ const vCollectionMixin = {
                 //console.warn('attenzione action non trovata nome ' + actionName);
                 return null;
             }
-            return this.$crud.cRefs[aConf.cRef];
+            return crud.cRefs[aConf.cRef];
         },
         /**
          * controlla la validità delle azioni inserite nel vettore actions
@@ -152,8 +152,8 @@ const vCollectionMixin = {
                 var aConf = {};
                 var valid = true;
 
-                if (that.$crud.conf[aName]) {
-                    aConf = that.$crud.conf[aName];
+                if (crud.conf[aName]) {
+                    aConf = crud.conf[aName];
                 } else if (that.actionsConfig[aName]) {
                     aConf = that.mergeConf(that.actionsConfig[aName]);
                 } else {

@@ -1,9 +1,7 @@
 import jQuery from 'jquery'
 import Route from '../Routes.js'
 import Server from '../Server.js'
-//import Vue from 'vue'
-// import ProtocolList from "../ProtocolList";
-// import ProtocolRecord from "../ProtocolRecord";
+import crud from '../crud.js'
 
 const coreMixin = {
     methods : {
@@ -34,7 +32,7 @@ const coreMixin = {
 
         dynamicComponent(name) {
             var that = this;
-            var cDef = that.$options.components[name] || that.$crud._dynamicComponents[name];
+            var cDef = that.$options.components[name] || crud._dynamicComponents[name];
             if (!cDef) {
                 throw new Error({message: name + ' componente non trovato'})
             }
@@ -65,7 +63,7 @@ const coreMixin = {
             return params[name];
         },
         getComponent : function (refId) {
-            return this.$crud.cRefs[refId];
+            return crud.cRefs[refId];
         },
         waitStart : function (msg,container) {
             var that = this;
@@ -83,22 +81,22 @@ const coreMixin = {
                 }
             })
             comp.$mount('#'+id);
-            that.$crud._wait_istances.push(comp);
+            crud._wait_istances.push(comp);
             return comp;
         },
         waitEnd : function (component) {
             var that = this;
-            if (that.$crud._wait_istances.length == 0)
+            if (crud._wait_istances.length == 0)
                 return ;
             if (component) {
-                for (var i in that.$crud._wait_istances) {
-                    let comp =that.$crud._wait_istances[i];
+                for (var i in crud._wait_istances) {
+                    let comp =crud._wait_istances[i];
                     if (comp._uid == component._uid) {
-                        that.$crud._wait_istances.splice(i,1);
+                        crud._wait_istances.splice(i,1);
                     }
                 }
             } else {
-                let comp = that.$crud._wait_istances.pop();
+                let comp = crud._wait_istances.pop();
                 comp.$destroy();
                 comp.$el.parentNode.removeChild(comp.$el);
             }
@@ -108,7 +106,7 @@ const coreMixin = {
             var that = this;
             var divId = 'd' + (new Date().getTime());
             var cDef = that.dynamicComponent(compName);
-            // var cDef = that.$options.components[compName] || that.$crud._dynamicComponents[compName];
+            // var cDef = that.$options.components[compName] || crud._dynamicComponents[compName];
             // if (!cDef) {
             //     throw new Error({message: compName + ' componente non trovato'})
             // }
@@ -155,7 +153,7 @@ const coreMixin = {
         createBigModalView : function(viewName,propsData,title,callbacks) {
             var that = this;
             var divId = 'd' + (new Date().getTime());
-            //var dialogComp = new that.$crud.components.views[viewName]({
+            //var dialogComp = new crud.components.views[viewName]({
             var dialogComp = new that.$options.components[viewName]({
                 propsData: propsData
             });
@@ -224,13 +222,14 @@ const coreMixin = {
          * @returns {string|*}
          */
         hasTranslation : function (key) {
-            if (this.$crud.lang[key])
+            if (crud.lang[key])
                 return true;
             return false;
         },
 
         _translate : function (key,plural,params) {
-            var testi = this.$crud.lang[key];
+            console.log('_translate',key,plural,params);
+            var testi = crud.lang[key];
             if (!testi)
                 return key;
             testi = testi.split('|');
@@ -248,7 +247,7 @@ const coreMixin = {
          * @param routeName : nome della configurazione della route
          */
         createRoute : function(routeName) {
-            var routeConf = this.$crud.routes[routeName];
+            var routeConf = crud.routes[routeName];
             if (!routeConf)
                 throw "Impossibile trovare la route " + routeName;
             return new Route(routeConf);
@@ -270,7 +269,7 @@ const coreMixin = {
                 //return new window[className]();
                 //return eval('new ' + className + '()');
 
-                return new this.$crud.protocols[name]();
+                return new crud.protocols[name]();
             } catch (e) {
                 console.error('failed to create ' + className,e);
             }
@@ -392,11 +391,11 @@ const coreMixin = {
 
             return String(str)
                 // Enables camel case support.
-                .replace(this.$crud._CAMEL_CASE_REGEXP, '$1 $2')
+                .replace(crud._CAMEL_CASE_REGEXP, '$1 $2')
                 // Add a space after any digits.
-                .replace(this.$crud._TRAILING_DIGIT_REGEXP, '$1 $2')
+                .replace(crud._TRAILING_DIGIT_REGEXP, '$1 $2')
                 // Remove all non-word characters and replace with a single space.
-                .replace(this.$crud._NON_WORD_REGEXP, ' ')
+                .replace(crud._NON_WORD_REGEXP, ' ')
                 // Trim whitespace around the string.
                 .replace(/^ | $/g, '')
                 // Finally lower case the entire string.
@@ -536,7 +535,7 @@ const coreMixin = {
                 return _conf || {};
             }
 
-            var _rD = rootData || that.$crud.conf;
+            var _rD = rootData || crud.conf;
             //console.log('_rD',_rD,'conf',conf);
             var _c = __getConfObj(conf,_rD);
             var _parents = [];
@@ -545,7 +544,7 @@ const coreMixin = {
             while(_c){
                 //console.log('parent',_c.confParent);
                 if (_c.confParent) {
-                    _c = __getConfObj(_c.confParent,that.$crud.conf);
+                    _c = __getConfObj(_c.confParent,crud.conf);
                     _parents.push(_c);
                 } else {
                     _parents.push(_c);
@@ -646,7 +645,7 @@ const coreMixin = {
             var ext = re.exec(fileName)[1];
             var realPath = fileName;
             if (fileName.indexOf('http') != 0) {
-                realPath = ( (fileName.charAt(0) == '/') || (fileName.indexOf('../') === 0) || (fileName.indexOf('./') === 0)) ? fileName : that.$crud.pluginsPath + fileName;
+                realPath = ( (fileName.charAt(0) == '/') || (fileName.indexOf('../') === 0) || (fileName.indexOf('./') === 0)) ? fileName : crud.pluginsPath + fileName;
             }
             if (ext == 'js') {
                 this._loadScript(realPath,_callback);
@@ -671,13 +670,13 @@ const coreMixin = {
             var that = this;
             var _callback = function () {
                 //that.log.info('loaded... ' + scriptName);
-                that.$crud._resources[fileName] = true;
-                that.$crud._resources_loaded[fileName] = true;
+                crud._resources[fileName] = true;
+                crud._resources_loaded[fileName] = true;
                 if (callback) {
                     callback();
                 }
             }
-            if (!that.$crud._resources[fileName]) {
+            if (!crud._resources[fileName]) {
                 jQuery.get(fileName,function (html) {
                     jQuery('body').append(html);
                     callback();
@@ -692,13 +691,13 @@ const coreMixin = {
             var that = this;
             var _callback = function () {
                 //that.log.info('loaded... ' + scriptName)
-                that.$crud._resources[scriptName] = true;
-                that.$crud._resources_loaded[scriptName] = true;
+                crud._resources[scriptName] = true;
+                crud._resources_loaded[scriptName] = true;
                 if (callback) {
                     callback();
                 }
             }
-            if (!that.$crud._resources[scriptName]) {
+            if (!crud._resources[scriptName]) {
                 //that.log.info('loading... ' + scriptName);
 
                 var body 		= document.getElementsByTagName('body')[0];
@@ -721,13 +720,13 @@ const coreMixin = {
             var that = this;
             var _callback = function () {
                 //that.log.info('loaded... ' + scriptName);
-                that.$crud._resources[scriptName] = true;
-                that.$crud._resources_loaded[scriptName] = true;
+                crud._resources[scriptName] = true;
+                crud._resources_loaded[scriptName] = true;
                 if (callback) {
                     callback();
                 }
             }
-            if (!that.$crud._resources[scriptName]) {
+            if (!crud._resources[scriptName]) {
                 //that.log.info('loading... ' + scriptName);
                 var body 		= document.getElementsByTagName('body')[0];
                 var script 		= document.createElement('link');
@@ -745,7 +744,7 @@ const coreMixin = {
 
         _newComponent (name,fileName,callback) {
             var that = this;
-            if (this.$crud._dynamicComponents[name])
+            if (crud._dynamicComponents[name])
                 return callback();
             console.log('carico componente',name,fileName);
             var route = that.createRoute('pages');
@@ -772,15 +771,15 @@ const coreMixin = {
                     window.jQuery(this).remove();
                 })
 
-                that.$crud.conf[name] = window[that.camelCase(name)];
-                var cDef = that.$crud._app.component(name, {
+                crud.conf[name] = window[that.camelCase(name)];
+                var cDef = crud._app.component(name, {
                     extends: that.$options.components['c-component'],
                     template: htmlNode.html()
                 });
-                cDef.prototype.$crud = that.$crud;
+                cDef.prototype.$crud = crud;
                 that.$options.components[name] = cDef;
 
-                that.$crud._dynamicComponents[name] = cDef;
+                crud._dynamicComponents[name] = cDef;
                 return callback();
             });
         },
@@ -796,14 +795,14 @@ const coreMixin = {
                 throw name + " questa azione non contiene l'azione da estendere"
             // se non esiste il componente di azione lo creo al volo
             if (!that.$options.components[name]) {
-                // if (that.$crud.conf[name] && that.$crud.conf[name].confParent) {
-                //     aClassName = that.$crud.conf[name].confParent
+                // if (crud.conf[name] && crud.conf[name].confParent) {
+                //     aClassName = crud.conf[name].confParent
                 // }
                 //console.log(aClassName,'non esiste la creao',name,that.$options.components[aClassName])
-                that.$options.components[name] = that.$crud._app.component(name, {
+                that.$options.components[name] = crud._app.component(name, {
                     extends: that.$options.components[conf.componentName]
                 });
-                that.$options.components[name].prototype.$crud = that.$crud;
+                that.$options.components[name].prototype.$crud = crud;
             }
         },
     }

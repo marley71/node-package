@@ -1,6 +1,6 @@
 import Server from '../../core/Server'
 import jQuery from 'jquery'
-
+import crud from '../crud'
 const mainMixin = {
     // created () {
     //     var that = this;
@@ -41,7 +41,7 @@ const mainMixin = {
             if (languageFile) {
                 Server.get(languageFile,{},function (json) {
                     console.log('caricato file',languageFile);
-                    that.$crud.lang = json;
+                    crud.lang = json;
                     return callback();
                 })
             } else
@@ -54,7 +54,7 @@ const mainMixin = {
                 Server.get(routesFile,{},function (json) {
                     console.log('caricato file',routesFile);
                     for (var k in json) {
-                        that.$crud.routes[k] = json[k];
+                        crud.routes[k] = json[k];
                         return callback();
                     }
 
@@ -69,7 +69,7 @@ const mainMixin = {
                 Server.get(actionsFile,{},function (json) {
                     console.log('caricato file',actionsFile);
                     for (var k in json) {
-                        that.$crud.actions[k] = json[k];
+                        crud.actions[k] = json[k];
                     }
                     return callback();
                 })
@@ -83,7 +83,7 @@ const mainMixin = {
                 var name = jQuery(this).attr('name');
                 var key = name.substr(nokey.length);
                 console.log('filedKey', key);
-                that.$crud.env[key] = jQuery(this).attr('content');
+                crud.env[key] = jQuery(this).attr('content');
             })
         },
         loadEnvFile (callback) {
@@ -92,7 +92,7 @@ const mainMixin = {
             if (envFile) {
                 Server.get(envFile,{},function (json) {
                     console.log('caricato env file',envFile);
-                    that.$crud.env = json;
+                    crud.env = json;
                     return callback();
                 })
             } else

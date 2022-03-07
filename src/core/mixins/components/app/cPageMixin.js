@@ -11,17 +11,17 @@ const cPageMixin = {
     mounted() {
         var that = this;
         if (!that.cPath) {
-            if (!that.$crud.env.mainPage) {
+            if (!crud.env.mainPage) {
                 that.jQe('#page_container').html(that.translate('app.pagina-non-trovata'));
                 return;
             }
-            that.cPath = that.$crud.env.mainPage;
+            that.cPath = crud.env.mainPage;
         }
         var id = Math.floor(Math.random()*1000);
         var name = 'page'+id;
 
         that.createComponent(name,that.cPath,function () {
-            var cdef = that.$crud._app.component(name);
+            var cdef = crud._app.component(name);
             var conf = that.cConf || {};
             var componente = new cdef({
                 propsData : { cConf : conf}

@@ -42,7 +42,7 @@ const actionConfs = {
             //console.log('action-search',this,'view',this.view.targetRef);
             if (this.view && this.view.targetRef) {
                 //console.log('target ref',this.view.targetRef);
-                var targetView =  this.getComponent(this.view.targetRef); // this.$crud.cRefs[this.view.targetRef];
+                var targetView =  this.getComponent(this.view.targetRef);
                 var formData = this.view.getViewData();
                 targetView.route.setParams(formData);
                 targetView.route.setParam('page',1);

@@ -113,7 +113,7 @@ const wMapMixin = {
         },
         initMap: function () {
             var that = this
-            if (!that.$crud.env.apiKey) {
+            if (!crud.env.apiKey) {
                 throw new Error({
                     code: 404,
                     message: 'nessuna apiKey definita!'
@@ -140,8 +140,8 @@ const wMapMixin = {
                 that.createMarker()
             }
 
-            var scriptName = 'https://maps.googleapis.com/maps/api/js?key=' + that.$crud.env.apiKey + '&callback=__initMap' + random
-            if (!that.$crud._resources[scriptName]) {
+            var scriptName = 'https://maps.googleapis.com/maps/api/js?key=' + crud.env.apiKey + '&callback=__initMap' + random
+            if (!crud._resources[scriptName]) {
                 that._loadScript(scriptName)
             } else {
                 window['__initMap' + random]()

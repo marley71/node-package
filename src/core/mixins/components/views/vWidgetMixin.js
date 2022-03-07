@@ -8,7 +8,7 @@ const vWidgetMixin = {
             if (typeof this.cWidget === 'string' || this.cWidget instanceof String) {
                 conf = this.getDescendantProp(window, this.cWidget)
                 if (!conf) {
-                    conf = this.getDescendantProp(this.$crud.conf, this.cWidget)
+                    conf = this.getDescendantProp(crud.conf, this.cWidget)
                 }
             } else {
                 conf = this.cWidget

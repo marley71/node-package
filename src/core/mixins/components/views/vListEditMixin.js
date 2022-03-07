@@ -121,7 +121,7 @@ const vListEditMixin = {
         },
         getWidgetEdit (row, key) {
             var wConf = this.widgetsEdit[row][key];
-            return this.$crud.cRefs[wConf.cRef];
+            return crud.cRefs[wConf.cRef];
         },
         setRowData (index,values) {
             var that = this;
@@ -141,9 +141,8 @@ const vListEditMixin = {
                 //values[k] = that.getWidgetEdit(index,k);
                 //console.log('edit r',that.view.widgetsEdit[that.index][k])
                 var sref = that.widgetsEdit[index][k].cRef; //  're-' + that.index + '-' +  k;
-                if (that.$crud.cRefs[sref])
+                if (crud.cRefs[sref])
                     values[k] = that.getWidgetEdit(index,k).getValue();
-                    //values[k] = that.$crud.cRefs[sref].getValue();
             }
             console.log('rowEditData values',values);
             return values;
@@ -155,7 +154,7 @@ const vListEditMixin = {
                 //values[k] = that.getWidget(index,k);
                 //console.log('edit r',that.view.widgetsEdit[that.index][k])
                 var sref = that.widgets[index][k].cRef; //  're-' + that.index + '-' +  k;
-                if (that.$crud.cRefs[sref])
+                if (crud.cRefs[sref])
                     values[k] = that.getWidget(index,k).getValue();
             }
             console.log('rowData values',values);
