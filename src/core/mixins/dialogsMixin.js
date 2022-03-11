@@ -18,7 +18,7 @@ const dialogsMixin = {
             cConf.cRef = id;
             window.jQuery('body').append('<div id="'+id+'"></div>');
             //console.log('component',name,crud._app.component(name))
-            var dlg = createApp(crud._app.component(name),{
+            var dlg = createApp(crud.app.component(name),{
                 cConf:cConf
             });
             dlg.crud = crud;

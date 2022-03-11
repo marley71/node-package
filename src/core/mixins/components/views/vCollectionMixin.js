@@ -55,9 +55,15 @@ const vCollectionMixin = {
             that.checkValidActions();
             that.createActionsConf();
             that.loading = false;
-            that.$forceUpdate();
-            //console.log('draw',that.loading);
+
+            // console.log('draw',that.loading,that);
+            // that.completed();
+            // console.log('draw1',that.loading,that);
+
+            //that.$forceUpdate();
+
             setTimeout(function () {
+                console.log('draw',that.loading,that);
                 that.completed();
             }, 100);
         },

@@ -1,6 +1,8 @@
 import jQuery from 'jquery';
 import crud from '../../../crud'
 
+//const todo = crud()
+
 crud.conf['a-base'] = {
     componentName : 'a-base',
     confParent: 'c-component',

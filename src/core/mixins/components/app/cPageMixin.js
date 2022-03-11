@@ -21,7 +21,7 @@ const cPageMixin = {
         var name = 'page'+id;
 
         that.createComponent(name,that.cPath,function () {
-            var cdef = crud._app.component(name);
+            var cdef = crud.app.component(name);
             var conf = that.cConf || {};
             var componente = new cdef({
                 propsData : { cConf : conf}

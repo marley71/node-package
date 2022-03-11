@@ -3,7 +3,10 @@
  */
 
 import jQuery from 'jquery';
-const Server = {};
+import crud from './crud.js';
+const Server = {
+    useApi : true
+};
 
 
 /**
@@ -18,9 +21,19 @@ Server.getUrl = function (url) {
 };
 
 Server.getHearders = function() {
-    return {
-        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+    console.log('Server this',this,crud.app);
+    var headers = {};
+    if (Server.useApi) {
+       headers = {
+           'Authorization': 'Bearer ' + crud.token
+       }
+    } else {
+        headers = {
+            'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+        }
     }
+    console.log('Server headers',headers,crud);
+    return headers;
 }
 
 Server.post = function (url, params, callback) {

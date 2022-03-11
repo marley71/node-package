@@ -38,9 +38,9 @@ const vBaseMixin = {
             that.setRouteValues(that.route);
             that.fetchData(that.route, function (json) {
                 that.json = json;
-                console.log('vBase.load that',that);
                 that.fillData(that.route, json);
                 that.afterLoadData(json);
+                console.log('vBase.load that, json',that,json);
                 that.draw();
             });
         },
@@ -54,6 +54,9 @@ const vBaseMixin = {
 
         },
 
+        draw() {
+            throw "Implementare il metodo draw";
+        },
         // evento chiamato quando la view ha caricato i dati e disegnato tutti i controlli e azioni
         completed: function () {
 
@@ -242,10 +245,10 @@ const vBaseMixin = {
                 w.label = key;
                 // se c'e' un langContext, applico la regola
                 if (that.langContext) {
-                    w.label = that.$options.filters.translate(key + '.label', that.langContext);
+                    w.label = that.translate(key + '.label', that.langContext);
                 }
             } else {
-                w.label = that.$options.filters.translate(w.label);
+                w.label = that.translate(w.label);
             }
             return w;
         },

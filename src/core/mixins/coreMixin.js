@@ -228,7 +228,7 @@ const coreMixin = {
         },
 
         _translate : function (key,plural,params) {
-            console.log('_translate',key,plural,params);
+            //console.log('_translate',key,plural,params);
             var testi = crud.lang[key];
             if (!testi)
                 return key;
@@ -772,7 +772,7 @@ const coreMixin = {
                 })
 
                 crud.conf[name] = window[that.camelCase(name)];
-                var cDef = crud._app.component(name, {
+                var cDef = crud.app.component(name, {
                     extends: that.$options.components['c-component'],
                     template: htmlNode.html()
                 });
@@ -789,20 +789,33 @@ const coreMixin = {
          * @param actionBase azione da estendere
          * @private
          */
-        _createActionComponent (name,conf) {
+        _createActionComponentOld (name,conf) {
             var that = this;
             if (!conf.componentName)
                 throw name + " questa azione non contiene l'azione da estendere"
             // se non esiste il componente di azione lo creo al volo
+            console.log('_createActionComponent',name,that.$options.components[name],crud.app.component(name));
             if (!that.$options.components[name]) {
                 // if (crud.conf[name] && crud.conf[name].confParent) {
                 //     aClassName = crud.conf[name].confParent
                 // }
                 //console.log(aClassName,'non esiste la creao',name,that.$options.components[aClassName])
-                that.$options.components[name] = crud._app.component(name, {
+                that.$options.components[name] = crud.app.component(name, {
                     extends: that.$options.components[conf.componentName]
                 });
-                that.$options.components[name].prototype.$crud = crud;
+                that.$options.components[name].crud = crud;
+            }
+        },
+        _createActionComponent (name,conf) {
+            var that = this;
+            if (!conf.componentName)
+                throw name + " questa azione non contiene l'azione da estendere"
+            // se non esiste il componente di azione lo creo al volo
+            //console.log('_createActionComponent',name,crud.app.component(name),conf.componentName);
+            if (!crud.app.component(name)) {
+                crud.app.component(name,{
+                    extends : conf.componentName
+                })
             }
         },
     }
