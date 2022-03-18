@@ -44,7 +44,8 @@ const vListMixin = {
             //console.log('GETORDERCONF CALLED',key,order);
             conf.orderDirection = (order.field == conf.orderField) ? order.direction : null;
             conf.view = that;
-            return conf;
+            return that.mergeConf({},conf);
+            //return conf;
         },
         selectAllRows: function () {
             var that = this;

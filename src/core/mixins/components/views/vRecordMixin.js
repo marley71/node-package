@@ -90,7 +90,7 @@ const vRecordMixin = {
             for (var k in keys) {
                 var key = keys[k];
                 widgets[key] = that._createWidgetConfig(key,that.value);
-                widgets[key].cRef = that.getRefId(that._uid, 'w', key);
+                widgets[key].widgetConf.cRef = that.getRefId(that._uid, 'w', key);
             }
 
             //console.log('v-record.widgets', widgets);

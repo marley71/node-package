@@ -36,6 +36,7 @@ const cComponentMixin = {
         }
         that.Server = Server;
         that.Route = Route;
+        that._uid = crud.uniqueId++;
     },
 
     mounted() {

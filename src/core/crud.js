@@ -49,7 +49,8 @@ const crud = {
       'list' : ProtocolList,
       'record' : ProtocolRecord
     },
-    env : {}
+    env : {},
+    uniqueId : 1,
 }
 
 export default crud

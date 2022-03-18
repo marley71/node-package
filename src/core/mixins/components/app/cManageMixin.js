@@ -1,4 +1,5 @@
 import crud from "../../../crud";
+import { createApp } from 'vue'
 
 crud.conf['c-manage'] = {
     // -- selector varie aree della manage
@@ -67,14 +68,18 @@ const cManageMixin = {
             var conf = that.inlineEdit?that._getListEditConfiguration():that._getListConfiguration();
             var cName = that.inlineEdit?that.listEditComponentName:that.listComponentName;
             var cDef = that.dynamicComponent(cName);
-            that.listComp = new cDef({
-                propsData: {
-                    cConf: conf,
-                    cRef: that._uid + 'list-view'
-                }
+            that.listComp = createApp(cDef,{
+                cConf: conf,
+                cRef: that._uid + 'list-view'
             });
+            // that.listComp = new cDef({
+            //     propsData: {
+            //         cConf: conf,
+            //         cRef: that._uid + 'list-view'
+            //     }
+            // });
             var tId = that.createContainer(that.jQe(that.listSelector),true);
-            that.listComp.$mount('#'+tId);
+            that.listComp.mount('#'+tId);
         },
         showList() {
 
@@ -89,12 +94,17 @@ const cManageMixin = {
             var tId = that.createContainer(that.jQe(that.searchSelector),true);
             var cDef = that.dynamicComponent(that.searchComponentName);
 
-            that.searchComp = new cDef({
-                propsData: {
-                    cConf: conf,
-                }
-            });
-            that.searchComp.$mount('#' + tId);
+            that.searchComp = createApp(cDef,{
+                cConf : conf,
+            })
+
+
+            // that.searchComp = new cDef({
+            //     propsData: {
+            //         cConf: conf,
+            //     }
+            // });
+            that.searchComp.mount('#' + tId);
         },
         showSearch() {
 
@@ -201,7 +211,7 @@ const cManageMixin = {
         _actionSaveBack: function () {
             var thisManage = this;
 
-            return thisManage.merge(thisManage.$crud.conf['action-save'], {
+            return thisManage.merge(crud.conf['action-save'], {
                 text: 'Salva e Torna alla lista',
                 afterExecute: function () {
                     thisManage.showList();
@@ -230,7 +240,7 @@ const cManageMixin = {
 
             if (!thisManage.inlineEdit) {
                 //listConf = conf.listConf || originalConf.list || {};
-                listConf = thisManage.mergeConfView(thisManage.$crud.conf['v-list'], listConf);
+                listConf = thisManage.mergeConfView(crud.conf['v-list'], listConf);
                 // se sono presente l'action-edit,action-view o action-insert le ridefinisco per la gestione automatica da parte della c-manage
                 if (listConf.actions.indexOf('action-edit') >= 0) {
                     var aEdit = listConf.actionsConfig['action-edit'] || {};
@@ -258,15 +268,16 @@ const cManageMixin = {
                     listConf.actionsConfig['action-insert'] = aInsert;
                 }
             }
-            return listConf;
+            return thisManage.merge({},listConf);
+            //return listConf;
         },
         _getListEditConfiguration: function () {
             var thisManage = this;
             var listEditConf = thisManage.listEdit || {};
 
             //if (thisManage.inlineEdit) {
-                listEditConf = thisManage.mergeConfView(thisManage.$crud.conf['v-list-edit'], listEditConf);
-                //listEditConf = thisManage.mergeConfView(thisManage.$crud.conf.listEdit, listEditConf);
+                listEditConf = thisManage.mergeConfView(crud.conf['v-list-edit'], listEditConf);
+                //listEditConf = thisManage.mergeConfView(crud.conf.listEdit, listEditConf);
                 console.log('acions list edit ', listEditConf.actions);
                 if (listEditConf.actions.indexOf('action-view') >= 0) {
                     listEditConf.actionsConfig['action-view'] = {
@@ -305,13 +316,14 @@ const cManageMixin = {
                 return;
             };
             searchConf.actionsConfig['action-search'] = acSearch;
-            return searchConf;
+            return thisManage.merge({},searchConf);
+            //return searchConf;
         },
         _getEditConfiguration: function () {
             var thisManage = this;
 
             var editConf = thisManage.edit || {};
-            editConf = thisManage.mergeConfView(thisManage.$crud.conf['v-edit'], editConf);
+            editConf = thisManage.mergeConfView(crud.conf['v-edit'], editConf);
             // prendo eventuali configurazioni locali al modello.
             var _asb = editConf.actionsConfig['action-save-back'] || {};
             editConf = thisManage.mergeConfView(editConf, {
@@ -330,7 +342,7 @@ const cManageMixin = {
         _getInsertConfiguration: function () {
             var thisManage = this;
             var insertConf = thisManage.insert || thisManage.edit || {};
-            insertConf = thisManage.mergeConfView(thisManage.$crud.conf['v-insert'], insertConf);
+            insertConf = thisManage.mergeConfView(crud.conf['v-insert'], insertConf);
 
             // prendo eventuali configurazioni locali al modello.
             var _asb = insertConf.actionsConfig['action-save-back'] || {};
@@ -355,7 +367,7 @@ const cManageMixin = {
         _getViewConfiguration: function () {
             var thisManage = this;
             var viewConf = thisManage.view || {};
-            viewConf = thisManage.mergeConfView(thisManage.$crud.conf['v-view'], viewConf);
+            viewConf = thisManage.mergeConfView(crud.conf['v-view'], viewConf);
             return viewConf;
         }
     }

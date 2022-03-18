@@ -58,9 +58,10 @@ const vCollectionMixin = {
 
             // console.log('draw',that.loading,that);
             // that.completed();
-            // console.log('draw1',that.loading,that);
+        // console.log('draw1',that.loading,that);
 
             //that.$forceUpdate();
+            //that.completed();
 
             setTimeout(function () {
                 console.log('draw',that.loading,that);
@@ -86,10 +87,11 @@ const vCollectionMixin = {
                 for (var k in that.keys) {
                     var key = that.keys[k];
                     widgets[i][key] = that._createWidgetConfig(key,value[i]);
-                    widgets[i][key].cRef = that.getRefId(that._uid, 'w', i, key);
+                    widgets[i][key].widgetConf.cRef = that.getRefId(that._uid, 'w', i, key);
                 }
             }
             that.widgets = widgets;
+            console.log('vCollection widgets',widgets);
         },
         /**
          * valorizza i campi correnti calcolandoli o dai dati o dalla configurazione nella proprietà fields.

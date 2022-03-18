@@ -103,7 +103,9 @@ const vBaseMixin = {
         getActionConfig: function (name) {
 
             var that = this;
-
+            var vactionConf =  {
+                componentName : 'a-base'
+            };
             var conf = crud.conf[name] || {};
             if (!conf.componentName)
                 conf.componentName = 'a-base';
@@ -116,7 +118,8 @@ const vBaseMixin = {
             }
             // console.log('actionconfig',name,conf)
             conf = that.mergeConf(conf);
-            return conf;
+            vactionConf.cConf = conf;
+            return vactionConf;
         },
 
 
@@ -201,9 +204,9 @@ const vBaseMixin = {
                     c = this.merge(c, conf);
                 }
             }
-
-            if (!c.template)
-                c.template = that.widgetTemplate;
+            //
+            // if (!c.template)
+            //     c.template = that.widgetTemplate;
             c = this.merge(c, (that.metadata[key] || {}));
             //console.log('_defaultWidgetConfig',c);
             return c;
@@ -235,6 +238,10 @@ const vBaseMixin = {
          */
         _createWidgetConfig (key,modelData) {
             var that = this;
+            var vWidgetConf =  {
+                templateName : that.widgetTemplate
+            };
+
             var w = that._defaultWidgetConfig(key);
             w.modelData = modelData;
             if (modelData && (key in modelData))
@@ -250,7 +257,11 @@ const vBaseMixin = {
             } else {
                 w.label = that.translate(w.label);
             }
-            return w;
+            if (w.template)
+                vWidgetConf.teplateName = w.template;
+            vWidgetConf.widgetConf = w;
+            // creo una copia per non far fallire la funzione reactive per gli oggetti con riferimento..
+            return that.merge({},vWidgetConf);
         },
 
         /**

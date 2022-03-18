@@ -32,7 +32,7 @@ const coreMixin = {
 
         dynamicComponent(name) {
             var that = this;
-            var cDef = that.$options.components[name] || crud._dynamicComponents[name];
+            var cDef = crud.app.component(name) || crud._dynamicComponents[name];
             if (!cDef) {
                 throw new Error({message: name + ' componente non trovato'})
             }
@@ -811,12 +811,14 @@ const coreMixin = {
             if (!conf.componentName)
                 throw name + " questa azione non contiene l'azione da estendere"
             // se non esiste il componente di azione lo creo al volo
-            //console.log('_createActionComponent',name,crud.app.component(name),conf.componentName);
-            if (!crud.app.component(name)) {
-                crud.app.component(name,{
-                    extends : conf.componentName
-                })
-            }
+
+            // if (!crud.app.component(name)) {
+            //     console.log('CREATO');
+            //     crud.app.component(name,{
+            //         extends : conf.componentName
+            //     })
+            // }
+            // console.log('_createActionComponent',name,crud.app.component(name));
         },
     }
 }

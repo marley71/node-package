@@ -6,19 +6,16 @@ import Server from '../Server';
 
 const actionConfs = {
     'action-record-grouped' : {
-        confParent : 'a-grouped',
         componentName:'a-grouped',
         type :'record',
         title: 'grouped'
     },
     'action-collection-grouped' : {
-        confParent : 'a-grouped',
         componentName:'a-grouped',
         type :'collection',
         title: 'grouped'
     },
     'action-reset' : {
-        confParent : 'a-base',
         type : 'collection',
         title : 'app.reset',
         css: 'rounded',
@@ -32,7 +29,6 @@ const actionConfs = {
         }
     },
     'action-search' : {
-        confParent : 'a-base',
         type : 'collection',
         title : 'app.cerca',
         css: 'bg-blue-300 rounded',
@@ -52,7 +48,6 @@ const actionConfs = {
         }
     },
     'action-save' : {
-        confParent : 'a-base',
         type : 'collection',
         title : 'app.salva',
         css: 'bg-green-500 text-white rounded',
@@ -81,7 +76,6 @@ const actionConfs = {
         }
     },
     'action-save-back' : {
-        confParent : 'a-base',
         type : 'collection',
         title : 'app.salva.torna-indietro',
         css: 'bg-green-500 text-white rounded',
@@ -113,7 +107,6 @@ const actionConfs = {
         }
     },
     'action-edit' : {
-        confParent : 'a-base',
         type : 'record',
         title : 'app.modifica',
         css: '',
@@ -125,7 +118,6 @@ const actionConfs = {
         }
     },
     'action-view' : {
-        confParent : 'a-base',
         type : 'record',
         title : 'app.vista',
         css: '',
@@ -137,7 +129,6 @@ const actionConfs = {
         }
     },
     'action-delete' : {
-        confParent : 'a-base',
         type : 'record',
         title : 'app.cancella',
         css: 'bg-red-100',
@@ -174,7 +165,6 @@ const actionConfs = {
         }
     },
     'action-save-row' : {
-        confParent : 'a-base',
         type: 'record',
         title: 'app.salva',
         css: '',
@@ -214,7 +204,6 @@ const actionConfs = {
         },
     },
     'action-edit-mode':  {
-        confParent : 'a-base',
         type : 'record',
         title : 'app.modifica',
         css: '',
@@ -226,7 +215,6 @@ const actionConfs = {
         }
     },
     'action-view-mode' : {
-        confParent : 'a-base',
         type : 'record',
         title : 'app.annulla',
         css: '',
@@ -239,7 +227,6 @@ const actionConfs = {
         }
     },
     'action-insert' : {
-        confParent : 'a-base',
         type : 'collection',
         visible : true,
         enabled : true,
@@ -254,7 +241,6 @@ const actionConfs = {
         }
     },
     'action-back' : {
-        confParent : 'a-base',
         type : 'collection',
         title : 'app.indietro',
         css: 'rounded',
@@ -265,7 +251,6 @@ const actionConfs = {
         }
     },
     'action-delete-selected' : {
-        confParent : 'a-base',
         type : 'collection',
         title : 'app.cancella-selezionati',
         css: 'bg-red-100 rounded',
