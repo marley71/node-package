@@ -114,10 +114,11 @@ const wMapMixin = {
         initMap: function () {
             var that = this
             if (!crud.env.apiKey) {
-                throw new Error({
-                    code: 404,
-                    message: 'nessuna apiKey definita!'
-                })
+                throw 'nessuna apiKey definita!'
+                // throw new Error({
+                //     code: 404,
+                //     message: 'nessuna apiKey definita!'
+                // })
             }
             var random = 10 // Math.floor(Math.random() * 10000);
             window['__initMap' + random] = function () {
