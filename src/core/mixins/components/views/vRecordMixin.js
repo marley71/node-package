@@ -90,7 +90,7 @@ const vRecordMixin = {
             for (var k in keys) {
                 var key = keys[k];
                 widgets[key] = that._createWidgetConfig(key,that.value);
-                widgets[key].widgetConf.cRef = that.getRefId(that._uid, 'w', key);
+                widgets[key].cRef = that.getRefId(that._uid, 'w', key);
             }
 
             //console.log('v-record.widgets', widgets);
@@ -126,7 +126,7 @@ const vRecordMixin = {
             for (var i in that.actions) {
                 var aName = that.actions[i];
                 var aConf = that.getActionConfig(aName);
-                that._createActionComponent(aName,aConf);
+                //that._createActionComponent(aName,aConf);
                 aConf.modelData = this.cloneObj(that.value);
                 aConf.modelName = that.cModel;
                 aConf.rootElement = that.$el;

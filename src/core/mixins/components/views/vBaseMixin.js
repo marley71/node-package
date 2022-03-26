@@ -204,11 +204,9 @@ const vBaseMixin = {
                     c = this.merge(c, conf);
                 }
             }
-            //
-            // if (!c.template)
-            //     c.template = that.widgetTemplate;
+
             c = this.merge(c, (that.metadata[key] || {}));
-            //console.log('_defaultWidgetConfig',c);
+            console.log('_defaultWidgetConfig',c);
             return c;
         },
         getFieldName: function (key) {
@@ -238,9 +236,6 @@ const vBaseMixin = {
          */
         _createWidgetConfig (key,modelData) {
             var that = this;
-            var vWidgetConf =  {
-                templateName : that.widgetTemplate
-            };
 
             var w = that._defaultWidgetConfig(key);
             w.modelData = modelData;
@@ -257,11 +252,12 @@ const vBaseMixin = {
             } else {
                 w.label = that.translate(w.label);
             }
-            if (w.template)
-                vWidgetConf.teplateName = w.template;
-            vWidgetConf.widgetConf = w;
+            if (!w.template)
+                w.template = that.widgetTemplate;
+
             // creo una copia per non far fallire la funzione reactive per gli oggetti con riferimento..
-            return that.merge({},vWidgetConf);
+            //return that.merge({},w);
+            return Object.create(w);
         },
 
         /**

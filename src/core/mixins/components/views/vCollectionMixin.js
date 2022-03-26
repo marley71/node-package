@@ -87,7 +87,7 @@ const vCollectionMixin = {
                 for (var k in that.keys) {
                     var key = that.keys[k];
                     widgets[i][key] = that._createWidgetConfig(key,value[i]);
-                    widgets[i][key].widgetConf.cRef = that.getRefId(that._uid, 'w', i, key);
+                    widgets[i][key].cRef = that.getRefId(that._uid, 'w', i, key);
                 }
             }
             that.widgets = widgets;
@@ -212,7 +212,7 @@ const vCollectionMixin = {
                 aConf.cRef = that.getRefId(that._uid, 'ra', row, aName);
                 aConf.name = aName;
                 aConf.view = that;
-                that._createActionComponent(aName,aConf);
+                //that._createActionComponent(aName,aConf);
                 recordActions[row][aName] = aConf;
             }
         },
@@ -225,7 +225,7 @@ const vCollectionMixin = {
             for (var i in collectionActionsName) {
                 var aName = collectionActionsName[i];
                 var aConf = that.getActionConfig(aName);
-                that._createActionComponent(aName,aConf);
+                //that._createActionComponent(aName,aConf);
                 //var a = jQuery.extend(true,{},aConf);
                 //a.id = data.value[i].id;
                 aConf.modelData = jQuery.extend(true, {}, that.value);

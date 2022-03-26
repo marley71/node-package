@@ -67,11 +67,17 @@ const cManageMixin = {
                 that.listComp.$destroy();
             var conf = that.inlineEdit?that._getListEditConfiguration():that._getListConfiguration();
             var cName = that.inlineEdit?that.listEditComponentName:that.listComponentName;
-            var cDef = that.dynamicComponent(cName);
-            that.listComp = createApp(cDef,{
+            conf.cRef = that._uid + 'list-view'
+            that.listComp = that.newComponent(cName,{
                 cConf: conf,
-                cRef: that._uid + 'list-view'
             });
+
+
+            // var cDef = that.dynamicComponent(cName);
+            // that.listComp = createApp(cDef,{
+            //     cConf: conf,
+            //     cRef: that._uid + 'list-view'
+            // });
             // that.listComp = new cDef({
             //     propsData: {
             //         cConf: conf,
@@ -92,11 +98,15 @@ const cManageMixin = {
                 that.searchComp.$destroy();
             var conf = that._getSearchConfiguration();
             var tId = that.createContainer(that.jQe(that.searchSelector),true);
-            var cDef = that.dynamicComponent(that.searchComponentName);
+            //var cDef = that.dynamicComponent(that.searchComponentName);
 
-            that.searchComp = createApp(cDef,{
-                cConf : conf,
-            })
+            that.searchComp = that.newComponent(that.searchComponentName,{
+                cConf: conf,
+            });
+
+            // that.searchComp = createApp(cDef,{
+            //     cConf : conf,
+            // })
 
 
             // that.searchComp = new cDef({
@@ -133,12 +143,19 @@ const cManageMixin = {
             var tId = thisManage.createContainer(thisManage.jQe(thisManage.updateSelector),true);
 
             conf.pk = action.modelData[thisManage.listComp.primaryKey];
-            var cDef = thisManage.dynamicComponent(thisManage.editComponentName);
-            thisManage.editComp = new cDef({
-                propsData: {
-                    cConf: conf
-                }
+
+            thisManage.editComp = thisManage.newComponent(thisManage.editComponentName,{
+                cConf: conf,
             });
+
+
+
+            // var cDef = thisManage.dynamicComponent(thisManage.editComponentName);
+            // thisManage.editComp = new cDef({
+            //     propsData: {
+            //         cConf: conf
+            //     }
+            // });
             thisManage.editComp.$mount('#' + tId);
         },
         showEdit() {
@@ -167,13 +184,19 @@ const cManageMixin = {
             var conf = thisManage._getViewConfiguration();
             conf.pk = action.modelData[primaryKey];
             console.log('cManage viewConf',conf,'action caller',action);
-            var cDef = thisManage.dynamicComponent(thisManage.viewComponentName);
-            thisManage.viewComp = new cDef({
-                propsData: {
-                    cConf: conf,
-                    //cBig: true,
-                }
+            // var cDef = thisManage.dynamicComponent(thisManage.viewComponentName);
+            // thisManage.viewComp = new cDef({
+            //     propsData: {
+            //         cConf: conf,
+            //         //cBig: true,
+            //     }
+            // });
+
+            thisManage.viewComp = thisManage.newComponent(thisManage.viewComp,{
+                cConf: conf,
             });
+
+
             thisManage.viewComp.$mount('#' + id);
             dlgView.show();
         },
@@ -195,12 +218,19 @@ const cManageMixin = {
             }
 
             console.log('_createInsert',thisManage.insertConf);
-            var cDef = thisManage.dynamicComponent(thisManage.insertComponentName);
-            thisManage.insertComp = new cDef({
-                propsData: {
-                    cConf: thisManage.insertConf
-                }
+
+            thisManage.viewComp = thisManage.newComponent(thisManage.insertComponentName,{
+                cConf: thisManage.insertConf,
             });
+
+
+
+            // var cDef = thisManage.dynamicComponent(thisManage.insertComponentName);
+            // thisManage.insertComp = new cDef({
+            //     propsData: {
+            //         cConf: thisManage.insertConf
+            //     }
+            // });
 
             thisManage.insertComp.$mount('#' + tId);
 

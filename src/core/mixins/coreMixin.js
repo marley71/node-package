@@ -2,9 +2,18 @@ import jQuery from 'jquery'
 import Route from '../Routes.js'
 import Server from '../Server.js'
 import crud from '../crud.js'
+import { createApp } from 'vue'
 
 const coreMixin = {
     methods : {
+        newComponent(name,rootProps) {
+            var rP = rootProps || {};
+            var comp = createApp(crud.app.component(name),rP);
+            for (var k in crud.app._context.components) {
+                comp.component(k,crud.app.component(k));
+            }
+            return comp;
+        },
 
         lining : function (text,maxLength,char) {
             if (!text) {
@@ -30,19 +39,19 @@ const coreMixin = {
             return textSpaced;
         },
 
-        dynamicComponent(name) {
-            var that = this;
-            var cDef = crud.app.component(name) || crud._dynamicComponents[name];
-            if (!cDef) {
-                throw new Error({message: name + ' componente non trovato'})
-            }
-            return cDef;
-        },
+        // dynamicComponent(name) {
+        //     var that = this;
+        //     var cDef = crud.app.component(name) || crud._dynamicComponents[name];
+        //     if (!cDef) {
+        //         throw new Error({message: name + ' componente non trovato'})
+        //     }
+        //     return cDef;
+        // },
 
-        createComponent(name,fileName,callback) {
-            var _cb = callback?callback:function (){};
-            this._newComponent(name,fileName,_cb);
-        },
+        // createComponent(name,fileName,callback) {
+        //     var _cb = callback?callback:function (){};
+        //     this._newComponent(name,fileName,_cb);
+        // },
         getHashParams () {
             var params = {};
             var hash = window.location.hash || "";
@@ -193,15 +202,15 @@ const coreMixin = {
          * @param compName
          * @param conf
          */
-        showComponent : function(container,compName,propsData) {
-            var cDef = this.dynamicComponent(compName);
-            var comp = new cDef({
-                propsData: propsData
-            });
-            var idC = this.createContainer(container);
-            comp.$mount(window.jQuery('#'+idC)[0]);
-            return comp;
-        },
+        // showComponent : function(container,compName,propsData) {
+        //     var cDef = this.dynamicComponent(compName);
+        //     var comp = new cDef({
+        //         propsData: propsData
+        //     });
+        //     var idC = this.createContainer(container);
+        //     comp.$mount(window.jQuery('#'+idC)[0]);
+        //     return comp;
+        // },
 
         /**
          * ritorna la traduzione della chiave passata presente nel vettore $lang altrimenti ritorna al chiave stessa
@@ -742,84 +751,84 @@ const coreMixin = {
             }
         },
 
-        _newComponent (name,fileName,callback) {
-            var that = this;
-            if (crud._dynamicComponents[name])
-                return callback();
-            console.log('carico componente',name,fileName);
-            var route = that.createRoute('pages');
-            var path = fileName.replaceAll('/', '.');
-            route.setValues({
-                path: path
-            })
-            var params = {};
-            route.setParams(params);
-            Server.route(route, function (html) {
-                if (html.error) {
-                    that.errorDialog(html.msg);
-                    return callback();
-                }
-                var htmlNode = window.jQuery('<div>' + html + '</div>');
-                // contiene il tag html => pagina principale
-                if (htmlNode.find('html').length >= 1) {
-                    // console.log(htmlNode.html())
-                    throw new Error({code: 500, message: 'app.invalid-html'})
-                }
-                window.jQuery.each(htmlNode.find('script'), function () {
-                    // console.log('script',window.jQuery(this).text());
-                    window.jQuery('body').append(window.jQuery(this));
-                    window.jQuery(this).remove();
-                })
-
-                crud.conf[name] = window[that.camelCase(name)];
-                var cDef = crud.app.component(name, {
-                    extends: that.$options.components['c-component'],
-                    template: htmlNode.html()
-                });
-                cDef.prototype.$crud = crud;
-                that.$options.components[name] = cDef;
-
-                crud._dynamicComponents[name] = cDef;
-                return callback();
-            });
-        },
+        // _newComponent (name,fileName,callback) {
+        //     var that = this;
+        //     if (crud._dynamicComponents[name])
+        //         return callback();
+        //     console.log('carico componente',name,fileName);
+        //     var route = that.createRoute('pages');
+        //     var path = fileName.replaceAll('/', '.');
+        //     route.setValues({
+        //         path: path
+        //     })
+        //     var params = {};
+        //     route.setParams(params);
+        //     Server.route(route, function (html) {
+        //         if (html.error) {
+        //             that.errorDialog(html.msg);
+        //             return callback();
+        //         }
+        //         var htmlNode = window.jQuery('<div>' + html + '</div>');
+        //         // contiene il tag html => pagina principale
+        //         if (htmlNode.find('html').length >= 1) {
+        //             // console.log(htmlNode.html())
+        //             throw new Error({code: 500, message: 'app.invalid-html'})
+        //         }
+        //         window.jQuery.each(htmlNode.find('script'), function () {
+        //             // console.log('script',window.jQuery(this).text());
+        //             window.jQuery('body').append(window.jQuery(this));
+        //             window.jQuery(this).remove();
+        //         })
+        //
+        //         crud.conf[name] = window[that.camelCase(name)];
+        //         var cDef = crud.app.component(name, {
+        //             extends: that.$options.components['c-component'],
+        //             template: htmlNode.html()
+        //         });
+        //         cDef.prototype.$crud = crud;
+        //         that.$options.components[name] = cDef;
+        //
+        //         crud._dynamicComponents[name] = cDef;
+        //         return callback();
+        //     });
+        // },
         /**
          * crea un componente vue per l'azione di nome name se non esiste
          * @param name nome del componente della nuova azione
          * @param actionBase azione da estendere
          * @private
          */
-        _createActionComponentOld (name,conf) {
-            var that = this;
-            if (!conf.componentName)
-                throw name + " questa azione non contiene l'azione da estendere"
-            // se non esiste il componente di azione lo creo al volo
-            console.log('_createActionComponent',name,that.$options.components[name],crud.app.component(name));
-            if (!that.$options.components[name]) {
-                // if (crud.conf[name] && crud.conf[name].confParent) {
-                //     aClassName = crud.conf[name].confParent
-                // }
-                //console.log(aClassName,'non esiste la creao',name,that.$options.components[aClassName])
-                that.$options.components[name] = crud.app.component(name, {
-                    extends: that.$options.components[conf.componentName]
-                });
-                that.$options.components[name].crud = crud;
-            }
-        },
-        _createActionComponent (name,conf) {
-            var that = this;
-            if (!conf.componentName)
-                throw name + " questa azione non contiene l'azione da estendere"
-            // se non esiste il componente di azione lo creo al volo
-
-            // if (!crud.app.component(name)) {
-            //     console.log('CREATO');
-            //     crud.app.component(name,{
-            //         extends : conf.componentName
-            //     })
-            // }
-            // console.log('_createActionComponent',name,crud.app.component(name));
-        },
+        // _createActionComponentOld (name,conf) {
+        //     var that = this;
+        //     if (!conf.componentName)
+        //         throw name + " questa azione non contiene l'azione da estendere"
+        //     // se non esiste il componente di azione lo creo al volo
+        //     console.log('_createActionComponent',name,that.$options.components[name],crud.app.component(name));
+        //     if (!that.$options.components[name]) {
+        //         // if (crud.conf[name] && crud.conf[name].confParent) {
+        //         //     aClassName = crud.conf[name].confParent
+        //         // }
+        //         //console.log(aClassName,'non esiste la creao',name,that.$options.components[aClassName])
+        //         that.$options.components[name] = crud.app.component(name, {
+        //             extends: that.$options.components[conf.componentName]
+        //         });
+        //         that.$options.components[name].crud = crud;
+        //     }
+        // },
+        // _createActionComponent (name,conf) {
+        //     var that = this;
+        //     if (!conf.componentName)
+        //         throw name + " questa azione non contiene l'azione da estendere"
+        //     // se non esiste il componente di azione lo creo al volo
+        //
+        //     // if (!crud.app.component(name)) {
+        //     //     console.log('CREATO');
+        //     //     crud.app.component(name,{
+        //     //         extends : conf.componentName
+        //     //     })
+        //     // }
+        //     // console.log('_createActionComponent',name,crud.app.component(name));
+        // },
     }
 }
 
