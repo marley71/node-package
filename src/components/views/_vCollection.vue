@@ -1,54 +1,29 @@
-import jQuery from "jquery"
-import crud from "../../../crud";
+<template>
 
-crud.conf['v-collection'] = {
-    modelName: null,
-    value: [],
-    metadata: {},
-    needSelection: false,
-    collectionActionsName: [],
-    recordActionsName: [],
-    collectionActions: {},
-    recordActions: [],
-    paginator: true
-}
+</template>
 
-const vCollectionMixin = {
+<script>
 
-    props: {
-        'cModel': {
-            default: null
-        },
-    },
+import jQuery from "jquery";
+import _vBase from './_vBase.vue'
+import crudStore from '../../utility/crudStore';
 
-    beforeDestroy() {
-        for (var row in this.widgets) {
-            for (var key in this.widgets[row]) {
-                this.getWidget(row, key) && this.getWidget(row, key).$destroy();
-            }
-        }
-        for (let row in this.recordActions) {
-            for (let key in this.recordActions[row]) {
-                this.getRecordAction(row, key) && this.getRecordAction(row, key).$destroy();
-            }
-        }
-        for (let key in this.collectionActions) {
-            this.getCollectionAction(key) && this.getCollectionAction(key).$destroy();
+export default {
+    name: "_vCollection",
+    data() {
+        return {
+            modelName: null,
+            value: [],
+            metadata: {},
+            needSelection: false,
+            collectionActionsName: [],
+            recordActionsName: [],
+            collectionActions: {},
+            recordActions: [],
+            paginator: true
         }
     },
     methods: {
-
-        _dynamicData: function (conf) {
-            console.log('dynamicData',conf);
-            if (this.cModel)
-                conf.modelName = this.cModel;
-            if (!conf.langContext && conf.langContext !== null) {
-                conf.langContext = conf.modelName ? conf.modelName : this.cModel
-                conf.langContext += '.fields';
-            }
-            return conf;
-        },
-
         draw: function () {
             var that = this;
             that.createWidgets();
@@ -61,7 +36,7 @@ const vCollectionMixin = {
 
             // console.log('draw',that.loading,that);
             // that.completed();
-        // console.log('draw1',that.loading,that);
+            // console.log('draw1',that.loading,that);
 
             //that.$forceUpdate();
             //that.completed();
@@ -330,7 +305,10 @@ const vCollectionMixin = {
             }
             __waitW();
         }
-    },
+    }
 }
+</script>
 
-export default vCollectionMixin
+<style scoped>
+
+</style>

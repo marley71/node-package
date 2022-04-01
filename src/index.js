@@ -1,3 +1,11 @@
+// import { defineStore } from 'pinia'
+// const crudStore = defineStore('crudStore', {
+//     state : () => ({
+//         prop1 : 'propsss'
+//     })
+// })
+
+
 
 import crud from './core/crud'
 
@@ -72,6 +80,22 @@ import Route from './core/Routes'
 import ProtocolList from './core/ProtocolList'
 import ProtocolRecord from './core/ProtocolRecord'
 
+import crudStore from './utility/crudStore'
+// -- misc --
+import _cComponent from './components/misc/_cComponent.vue'
+// --widgets --
+import _wBase from './components/widgets/_wBase.vue'
+import _wInput from './components/widgets/_wInput.vue'
+import _wAutocomplete from './components/widgets/_wAutocomplete.vue'
+import _wText from './components/widgets/_wText.vue'
+// --- actions
+import _aBase from './components/actions/_aBase.vue'
+// --- views --
+import _vBase from './components/views/_vBase.vue'
+import _vRecord from './components/views/_vRecord.vue'
+import _vView from './components/views/_vView.vue'
+import _vAction from './components/views/_vAction.vue'
+import _vWidget from './components/views/_vWidget.vue'
 
 export default {
     crud,
@@ -135,6 +159,13 @@ export default {
     Route,
     ProtocolList,
     ProtocolRecord,
+    // nuovi oggetti
+
+    crudStore,
+    _cComponent,
+    _wBase,_wInput,_wAutocomplete,_wText,
+    _aBase,
+    _vBase,_vRecord,_vView,_vAction,_vWidget
 }
 
 

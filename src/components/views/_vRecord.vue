@@ -1,53 +1,29 @@
-import crud from "../../../crud";
 
-crud.conf['v-record'] = {
-    modelName: null,
-    widgetTemplate: 'tpl-record',
-    pk: 0,
-    value: {},
-    metadata: {},
-    route: null,
-    widgets: {},
-    actionsConf: [],
-    actionsName: {},
-    defaultWidgetType: 'w-input',
-    fields: [],
-    fieldsConfig: {}
-}
+<script>
+import _vBase from './_vBase.vue'
+import crudStore from '../../utility/crudStore';
 
-
-const vRecordMixin = {
-    props: {
-        'cModel': {
-            default: null
-        },
-        'cPk': {
-            default: 0,
+export default {
+    name: "_vRecord",
+    extends: _vBase,
+    props: ['cPk'],
+    data() {
+        return {
+            modelName: null,
+            widgetTemplate: 'tpl-record',
+            pk: 0,
+            value: {},
+            metadata: {},
+            route: null,
+            widgets: {},
+            actionsConf: [],
+            actionsName: {},
+            defaultWidgetType: 'w-input',
+            fields: [],
+            fieldsConfig: {}
         }
     },
-    beforeDestroy() {
-        for (let key in this.widgets) {
-            this.getWidget(key) && this.getWidget(key).$destroy();
-        }
-        for (let key in this.actionsConf) {
-            this.getAction(key) && this.getAction(key).$destroy();
-        }
-    },
-
     methods: {
-        _dynamicData: function (conf) {
-            console.debug('vRecordMixin._dynamicData',conf)
-            if (this.cModel)
-                conf.modelName = this.cModel;
-            if (this.cPk)
-                conf.pk = this.cPk;
-            if (!conf.langContext && conf.langContext !== null) {
-                conf.langContext = conf.modelName ? conf.modelName : this.cModel
-                conf.langContext += '.fields';
-            }
-            return conf;
-        },
-
         setRouteValues: function (route) {
             var that = this;
             console.log('setRouteValues', that);
@@ -75,10 +51,11 @@ const vRecordMixin = {
         },
         setWidgetValue: function (key, value) {
             var that = this;
+            const store = crudStore();
             if (!that.widgets[key]) {
                 throw 'accesso a render con chiave inesistente ' + key;
             }
-            crud.cRefs[that.widgets[key].cRef].setValue(value);
+            store.cRefs[that.widgets[key].cRef].setValue(value);
         },
         /**
          * crea le configurazioni per i widgets della view
@@ -103,10 +80,11 @@ const vRecordMixin = {
          */
         checkValidActions: function () {
             var that = this;
+            const store = crudStore();
             var actions = [];
             for (var i in that.actions) {
                 var aName = that.actions[i];
-                if (crud.conf[aName])
+                if (store.conf[aName])
                     actions.push(aName);
                 else if (that.actionsConfig[aName])
                     actions.push(aName);
@@ -135,8 +113,8 @@ const vRecordMixin = {
                 aConf.cRef = that.getRefId(that._uid, 'a', aName);
                 aConf.name = aName;
                 aConf.view = that;
-                //actionsConf[aName] = that.merge({},aConf);
-                actionsConf[aName] = {};
+                actionsConf[aName] = that.merge({},aConf);
+                //actionsConf[aName] = {};
             }
             that.actionsConf = actionsConf;
         },
@@ -157,21 +135,23 @@ const vRecordMixin = {
         },
         getWidget: function (key) {
             var rConf = this.widgets[key];
+            const store = crudStore();
             if (!rConf) {
                 //console.warn('attenzione widget non trovato key ' + key);
                 return null;
             }
             //console.log('getWidget',key,rConf);
-            return crud.cRefs[rConf.cRef];
+            return store.cRefs[rConf.cRef];
         },
         getAction: function (name) {
             var rConf = this.actionsConf[name];
+            const store = crudStore();
             if (!rConf) {
                 //console.warn('attenzione action non trovata nome ' + name);
                 return null;
             }
             //console.log('getAction',name,rConf);
-            return crud.cRefs[rConf.cRef];
+            return store.cRefs[rConf.cRef];
         },
         /**
          * aspetta che i widgets o il widgets esista e poi chiama la callback
@@ -205,4 +185,8 @@ const vRecordMixin = {
         }
     }
 }
-export default vRecordMixin
+</script>
+
+<style scoped>
+
+</style>

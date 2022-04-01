@@ -1,4 +1,10 @@
-const vWidgetMixin = {
+<template>
+
+</template>
+
+<script>
+export default {
+    name: "_vWidget",
     props : ['cWidget'],
     data: function () {
         var that = this;
@@ -9,18 +15,18 @@ const vWidgetMixin = {
         cw = that._wConf2Object(cw);
         ct = that._tplConf2Object(ct);
 
-        var reactive = {
+        var wData = {
             widgetConf : cw,
             templateConf : ct
         }
         //console.log('reactive',reactive);
-        return reactive;
+        return wData;
     },
     methods: {
-      getTemplateName () {
-          //console.log('cTemplate',this.templateConf.name)
-          return this.templateConf.name;
-      },
+        getTemplateName () {
+            //console.log('cTemplate',this.templateConf.name)
+            return this.templateConf.name;
+        },
         _wConf2Object(cw) {
             var that = this;
             var conf = null
@@ -37,7 +43,7 @@ const vWidgetMixin = {
             return conf;
         },
         _tplConf2Object(ct) {
-          var that = this;
+            var that = this;
             var tplConf = {};
             var ct = ct || {};
             // check se template e' una stringa o una configurazione
@@ -52,4 +58,8 @@ const vWidgetMixin = {
         }
     }
 }
-export default vWidgetMixin
+</script>
+
+<style scoped>
+
+</style>

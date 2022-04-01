@@ -1,13 +1,29 @@
 const vActionMixin = {
+    props: ['cAction'],
     data() {
         var that = this
+        // console.log('CA');
+        // return {
+        //     componentName : 'a-base',
+        //     cConf : {},
+        //     name : 'action-none'
+        // }
         var ca = that.cAction || {};
-        ca = window.jQuery.extend({
-            componentName : 'a-base',
-            cConf : {},
-            name : 'action-none'
-        },ca);
-        return ca;
+
+        var aData = {
+            componentName : ca.componentName || 'a-base',
+            cConf : ca, //that.merge({},ca),
+            name : ca.name || 'action-none'
+        }
+        return aData;
+
+
+        // ca = window.jQuery.extend({
+        //     componentName : 'a-base',
+        //     cConf : {},
+        //     name : 'action-none'
+        // },ca);
+        // return ca;
 
         // var aConf = {
         //     componentName : 'a-base',

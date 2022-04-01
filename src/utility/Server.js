@@ -3,7 +3,8 @@
  */
 
 import jQuery from 'jquery';
-import crud from './crud.js';
+import crudStore from './crudStore';
+
 const Server = {
     useApi : true
 };
@@ -21,18 +22,19 @@ Server.getUrl = function (url) {
 };
 
 Server.getHearders = function() {
-    console.log('Server this',this,crud.app);
+
+    console.log('Server this',this,store.app);
     var headers = {};
     if (Server.useApi) {
        headers = {
-           'Authorization': 'Bearer ' + crud.token
+           'Authorization': 'Bearer ' + store.token
        }
     } else {
         headers = {
             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
         }
     }
-    //console.log('Server headers',headers,crud);
+    //console.log('Server headers',headers,store);
     return headers;
 }
 
