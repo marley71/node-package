@@ -243,9 +243,9 @@ export default {
             }
             if (!w.template)
                 w.template = that.widgetTemplate;
-
+            return w;
             // creo una copia per non far fallire la funzione reactive per gli oggetti con riferimento..
-            return that.merge({},w);
+            //return that.merge({},w);
         },
 
         /**

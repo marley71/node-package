@@ -1,6 +1,3 @@
-<template>
-
-</template>
 
 <script>
 import _wBase from './_wBase.vue'
@@ -15,7 +12,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

@@ -10,6 +10,7 @@ import crudStore from '../utility/crudStore';
 
 const coreMixin = {
     methods : {
+
         newComponent(name,rootProps) {
             const store = crudStore();
             var rP = rootProps || {};
@@ -77,18 +78,24 @@ const coreMixin = {
             const store = crudStore();
             var _c = container?container:'body';
             var id = that.createContainer(_c);
-
-            let comp = new that.$options.components['c-wait']({
-                propsData: {
-                    cConf: {
-                        msg:msg,
-                        global :(_c==='body')?true:false,
-                    }
-                    // cMsg : msg,
-                    // cGlobal : (_c==='body')?true:false,
+            let comp = that.newComponent('c-wait',{
+                cConf : {
+                    msg :msg,
+                    global : (_c==='body')?true:false,
                 }
             })
-            comp.$mount('#'+id);
+
+            // let comp = new that.$options.components['c-wait']({
+            //     propsData: {
+            //         cConf: {
+            //             msg:msg,
+            //             global :(_c==='body')?true:false,
+            //         }
+            //         // cMsg : msg,
+            //         // cGlobal : (_c==='body')?true:false,
+            //     }
+            // })
+            comp.mount('#'+id);
             store._wait_istances.push(comp);
             return comp;
         },
@@ -106,8 +113,8 @@ const coreMixin = {
                 }
             } else {
                 let comp = store._wait_istances.pop();
-                comp.$destroy();
-                comp.$el.parentNode.removeChild(comp.$el);
+                comp.unmount();
+                //comp.$el.parentNode.removeChild(comp.$el);
             }
         },
 
@@ -833,6 +840,21 @@ const coreMixin = {
         //     // }
         //     // console.log('_createActionComponent',name,store.app.component(name));
         // },
+        /**
+         * istanzia l'oggetto route definito da routeName nella configurazione altrimenti ritorna null
+         * @param routeName : nome della route se null la prende dalla proprieta routeName del componente
+         * @return {null}
+         * @private
+         */
+        _getRoute : function (routeName) {
+            var that = this;
+            if (that.route)
+                return that.route;
+            var rn = routeName?routeName:that.routeName;
+            if (!rn)
+                return null;
+            return that.createRoute(rn);
+        },
     }
 }
 

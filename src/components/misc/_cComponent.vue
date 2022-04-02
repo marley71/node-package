@@ -4,12 +4,14 @@
 // import Server from "../../../Server";
 import coreMixin from "../../mixins/coreMixin";
 import dialogsMixin from "../../mixins/dialogsMixin";
+import crudStore from '../../utility/crudStore';
 
 export default {
     name: '_cComponent',
     props: ['cConf'],
     mixins: [coreMixin,dialogsMixin],
     created() {
+        const store = crudStore()
         var conf = this.cConf || {};
         if (this.cConf) {
             if (typeof this.cConf === 'string' || this.cConf instanceof String)
@@ -24,6 +26,9 @@ export default {
         var methods = conf.methods || {};
         for (var k in methods) {
             this[k] = methods[k];
+        }
+        if (conf.cRef) {
+            store.cRefs[conf.cRef] = this;
         }
         // var computed = conf.computed || {};
         // for (var k in computed) {
@@ -83,26 +88,6 @@ export default {
 
         ready() {
             // methodo per il ready del dell'oggetto per codice di customizzazione
-        },
-
-        /**
-         * istanzia l'oggetto route definito da routeName nella configurazione altrimenti ritorna null
-         * @param routeName : nome della route se null la prende dalla proprieta routeName del componente
-         * @return {null}
-         * @private
-         */
-        _getRoute : function (routeName) {
-            var that = this;
-            if (that.route)
-                return that.route;
-            var rn = routeName?routeName:that.routeName;
-            if (!rn)
-                return null;
-            return that.createRoute(rn);
-            // if (!crud.routes[rn])
-            //     throw "Impossibile trovare la route " + rn;
-            // //console.log('routeName',rn,crud.routes[rn])
-            // return new Route(crud.routes[rn]);
         },
     }
 }

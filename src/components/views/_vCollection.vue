@@ -10,6 +10,7 @@ import crudStore from '../../utility/crudStore';
 
 export default {
     name: "_vCollection",
+    extends: _vBase,
     data() {
         return {
             modelName: null,
@@ -49,11 +50,12 @@ export default {
 
         setWidgetValue: function (row, key, value) {
             var that = this;
+            const store = crudStore();
             if (!that.widgets[row][key]) {
                 throw 'accesso a render con chiave inesistente ' + row + "," + key;
             }
             var wConf = that.widgets[row][key];
-            crud.cRefs[wConf.cRef].setValue(value);
+            store.cRefs[wConf.cRef].setValue(value);
         },
         createWidgets: function () {
             var that = this;
@@ -100,29 +102,32 @@ export default {
             return visible;
         },
         getWidget: function (row, key) {
+            const store = crudStore();
             var wConf = (this.widgets[row] && this.widgets[row][key]) ? this.widgets[row][key]:null;
             if (!wConf) {
                 //console.warn('attenzione widget non trovato per riga ' + row +  " key " + key);
                 return null;
             }
-            return crud.cRefs[wConf.cRef];
+            return store.cRefs[wConf.cRef];
         },
 
         getRecordAction: function (row, actionName) {
+            const store = crudStore();
             var aConf = this.recordActions[row][actionName];
             if (!aConf) {
                 //console.warn('attenzione recordAction non trovata per riga ' + row +  " nome " + actionName);
                 return null;
             }
-            return crud.cRefs[aConf.cRef];
+            return store.cRefs[aConf.cRef];
         },
         getCollectionAction: function (actionName) {
+            const store = crudStore();
             var aConf = this.collectionActions[actionName];
             if (!aConf) {
                 //console.warn('attenzione action non trovata nome ' + actionName);
                 return null;
             }
-            return crud.cRefs[aConf.cRef];
+            return store.cRefs[aConf.cRef];
         },
         /**
          * controlla la validità delle azioni inserite nel vettore actions
@@ -131,6 +136,7 @@ export default {
          */
         checkValidActions: function () {
             var that = this;
+            const store = crudStore();
             var collectionActionsName = [];
             var recordActionsName = [];
             for (var i in that.actions) {
@@ -138,8 +144,8 @@ export default {
                 var aConf = {};
                 var valid = true;
 
-                if (crud.conf[aName]) {
-                    aConf = crud.conf[aName];
+                if (store.conf[aName]) {
+                    aConf = store.conf[aName];
                 } else if (that.actionsConfig[aName]) {
                     aConf = that.mergeConf(that.actionsConfig[aName]);
                 } else {
@@ -193,9 +199,9 @@ export default {
                 aConf.name = aName;
                 aConf.view = that;
                 //that._createActionComponent(aName,aConf);
-                //recordActions[row][aName] = aConf;
+                recordActions[row][aName] = aConf;
                 //recordActions[row][aName] = that.merge({},aConf);
-                recordActions[row][aName] = {};
+                //recordActions[row][aName] = {};
                 //that.merge({},aConf);
                 // for (var k in aConf) {
                 //     recordActions[row][aName][k] = aConf[k];
@@ -221,8 +227,8 @@ export default {
                 that.needSelection = that.needSelection || aConf.needSelection;
                 aConf.name = aName;
                 aConf.view = that;
-                //collectionActions[aName] = aConf;
-                collectionActions[aName] = {}; //that.merge({},aConf);
+                collectionActions[aName] = aConf;
+                //collectionActions[aName] = that.merge({},aConf);
             }
             that.collectionActions = collectionActions;
         },
