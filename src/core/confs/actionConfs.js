@@ -2,7 +2,7 @@
  * azioni predefinite per l'utilizzo generale della libreria, estendono la proprietò crud.confs
  */
 
-import Server from '../Server';
+import Server from '../Server222';
 
 const actionConfs = {
     'action-record-grouped' : {

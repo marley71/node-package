@@ -2,7 +2,7 @@
 <script>
 import _wBase from './_wBase.vue'
 import jQuery from "jquery";
-import Server from "../../core/Server";
+import Server from "../../utility/Server";
 import crudStore from '../../utility/crudStore';
 
 export default {

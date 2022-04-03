@@ -1,6 +1,6 @@
 import Route from '../../../Routes'
 import crud from "../../../crud";
-import Server from "../../../Server";
+import Server from "../../../Server222";
 
 crud.conf['c-component'] = {
     resourcesLoaded: false

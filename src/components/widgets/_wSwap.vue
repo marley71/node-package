@@ -1,7 +1,7 @@
 
 <script>
 import _wBase from './_wBase.vue'
-import Server from "../../core/Server";
+import Server from "../../utility/Server";
 export default {
     name: "_wSwap",
     extends : _wBase,

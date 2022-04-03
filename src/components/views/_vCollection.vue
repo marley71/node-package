@@ -24,15 +24,29 @@ export default {
             paginator: true
         }
     },
+    unmounted() {
+        console.log('unmounted _vCollection');
+        // for (var row in this.widgets) {
+        //     for (var key in this.widgets[row]) {
+        //         console.log('unmounted',this.getWidget(row, key));
+        //         this.getWidget(row, key) && this.getWidget(row, key).unmount();
+        //     }
+        // }
+        // for (let row in this.recordActions) {
+        //     for (let key in this.recordActions[row]) {
+        //         this.getRecordAction(row, key) && this.getRecordAction(row, key).unmount();
+        //     }
+        // }
+        // for (let key in this.collectionActions) {
+        //     this.getCollectionAction(key) && this.getCollectionAction(key).unmount();
+        // }
+    },
     methods: {
         draw: function () {
             var that = this;
             that.createWidgets();
-            console.log('vCollection.createWidgets')
             that.checkValidActions();
-            console.log('vCollection.checkValidActions')
             that.createActionsConf();
-            console.log('vCollection.createActionsConf')
             that.loading = false;
 
             // console.log('draw',that.loading,that);
@@ -43,7 +57,6 @@ export default {
             //that.completed();
 
             setTimeout(function () {
-                console.log('draw',that.loading,that);
                 that.completed();
             }, 100);
         },
@@ -71,7 +84,6 @@ export default {
                 }
             }
             that.widgets = widgets;
-            console.log('vCollection widgets',widgets);
         },
         /**
          * valorizza i campi correnti calcolandoli o dai dati o dalla configurazione nella proprietà fields.
@@ -179,7 +191,6 @@ export default {
             for (var i in that.value) {
                 that.recordActions.push({});
                 that.createRecordActions(i);
-                console.log('vCollection.createRecordActions',i,that.value[i])
             }
         },
         createRecordActions: function (row) {
@@ -198,28 +209,17 @@ export default {
                 aConf.cRef = that.getRefId(that._uid, 'ra', row, aName);
                 aConf.name = aName;
                 aConf.view = that;
-                //that._createActionComponent(aName,aConf);
                 recordActions[row][aName] = aConf;
-                //recordActions[row][aName] = that.merge({},aConf);
-                //recordActions[row][aName] = {};
-                //that.merge({},aConf);
-                // for (var k in aConf) {
-                //     recordActions[row][aName][k] = aConf[k];
-                // }
             }
         },
         createCollectionActions: function () {
             var that = this;
             var collectionActions = [];
             var collectionActionsName = that.collectionActionsName;
-            //var data = that.data;
 
             for (var i in collectionActionsName) {
                 var aName = collectionActionsName[i];
                 var aConf = that.getActionConfig(aName);
-                //that._createActionComponent(aName,aConf);
-                //var a = jQuery.extend(true,{},aConf);
-                //a.id = data.value[i].id;
                 aConf.modelData = jQuery.extend(true, {}, that.value);
                 aConf.modelName = that.cModel;
                 aConf.rootElement = that.$el;

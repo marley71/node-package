@@ -1,6 +1,6 @@
 import jQuery from 'jquery'
 import Route from '../Routes.js'
-import Server from '../Server.js'
+import Server from '../Server222.js'
 import crud from '../crud.js'
 import { createApp } from 'vue'
 

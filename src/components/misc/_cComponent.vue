@@ -11,13 +11,14 @@ export default {
     props: ['cConf'],
     mixins: [coreMixin,dialogsMixin],
     created() {
+        var that = this;
         const store = crudStore()
         var conf = this.cConf || {};
         if (this.cConf) {
             if (typeof this.cConf === 'string' || this.cConf instanceof String)
-                conf = window[this.cConf];
+                conf = that.getDescendantProp(window,this.cConf);
         }
-        console.log('conf',conf);
+        //console.log('conf',conf);
         for (var k in conf) {
             if (['methods','computed'].indexOf(k) >= 0)
                 continue;

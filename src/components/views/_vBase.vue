@@ -1,6 +1,6 @@
 <script>
 import _cComponent from "../misc/_cComponent.vue";
-import Server from "../../core/Server";
+import Server from "../../utility/Server";
 import crudStore from '../../utility/crudStore';
 
 export default {

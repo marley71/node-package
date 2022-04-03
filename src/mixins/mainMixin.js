@@ -1,14 +1,8 @@
-import Server from '../../core/Server'
+//import Server from '../../core/Server'
 import jQuery from 'jquery'
-import crud from '../crud'
+import crudStore from '../utility/crudStore';
+
 const mainMixin = {
-    // created () {
-    //     var that = this;
-    //     that.loadLanguageFile();
-    //     that.loadRoutesFile();
-    //     that.loadActionsFile();
-    //     that.loadEnvFile();
-    // },
 
     methods: {
         loadConfigurations (callback) {
@@ -37,11 +31,12 @@ const mainMixin = {
         },
         loadLanguageFile (callback) {
             var that = this;
+            const store = crudStore();
             var languageFile = that.getMetaValue('crud.translations');
             if (languageFile) {
                 Server.get(languageFile,{},function (json) {
                     console.log('caricato file',languageFile);
-                    crud.lang = json;
+                    store.lang = json;
                     return callback();
                 })
             } else
@@ -49,12 +44,13 @@ const mainMixin = {
         },
         loadRoutesFile (callback) {
             var that = this;
+            const store = crudStore();
             var routesFile = that.getMetaValue('crud.routes');
             if (routesFile) {
                 Server.get(routesFile,{},function (json) {
                     console.log('caricato file',routesFile);
                     for (var k in json) {
-                        crud.routes[k] = json[k];
+                        store.routes[k] = json[k];
                         return callback();
                     }
 
@@ -64,12 +60,13 @@ const mainMixin = {
         },
         loadActionsFile (callback) {
             var that = this;
+            const store = crudStore();
             var actionsFile = that.getMetaValue('crud.actions');
             if (actionsFile) {
                 Server.get(actionsFile,{},function (json) {
                     console.log('caricato file',actionsFile);
                     for (var k in json) {
-                        crud.actions[k] = json[k];
+                        store.actions[k] = json[k];
                     }
                     return callback();
                 })
@@ -78,21 +75,23 @@ const mainMixin = {
         },
         loadEnvMeta () {
             var that = this;
+            const store = crudStore();
             var nokey = "crud.env.";
             jQuery('meta[name*="crud.env."]').each(function () {
                 var name = jQuery(this).attr('name');
                 var key = name.substr(nokey.length);
                 console.log('filedKey', key);
-                crud.env[key] = jQuery(this).attr('content');
+                store.env[key] = jQuery(this).attr('content');
             })
         },
         loadEnvFile (callback) {
             var that = this;
+            const store = crudStore();
             var envFile = that.getMetaValue('crud.env-file');
             if (envFile) {
                 Server.get(envFile,{},function (json) {
                     console.log('caricato env file',envFile);
-                    crud.env = json;
+                    store.env = json;
                     return callback();
                 })
             } else

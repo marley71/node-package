@@ -1,5 +1,5 @@
 import jQuery from "jquery";
-import Server from '../../../Server'
+import Server from '../../../Server222'
 import crud from "../../../crud";
 
 crud.conf['w-autocomplete'] = {

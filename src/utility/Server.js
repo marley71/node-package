@@ -22,8 +22,8 @@ Server.getUrl = function (url) {
 };
 
 Server.getHearders = function() {
-
-    console.log('Server this',this,store.app);
+    const store = crudStore();
+    console.log('Server thissssssss',store.app);
     var headers = {};
     if (Server.useApi) {
        headers = {

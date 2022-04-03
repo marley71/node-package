@@ -1,22 +1,26 @@
-import crud from "../../../crud";
-import Server from "../../../Server222";
 
-crud.conf['v-edit'] = {
-    confParent: 'v-record',
-    beforeForm: null,
-    beforeActions: null,
-    primaryKey: 'id',
-    routeName: 'edit',
-    widgetTemplate: 'tpl-record',
-    actions: ['action-save', 'action-back'],
-    actionsConfig: {},
-    fieldsConfig: {
-        id: 'w-hidden'
+<script>
+import _vRecord from "./_vRecord.vue"
+import Server from "../../utility/Server";
+export default {
+    name: "_vEdit",
+    extends: _vRecord,
+    data() {
+        return {
+            confParent: 'v-record',
+            beforeForm: null,
+            beforeActions: null,
+            primaryKey: 'id',
+            routeName: 'edit',
+            widgetTemplate: 'tpl-record',
+            actions: ['action-save', 'action-back'],
+            actionsConfig: {},
+            fieldsConfig: {
+                id: 'w-hidden'
+            },
+            fields: []
+        }
     },
-    fields: []
-}
-
-const vEditMixin = {
     methods: {
         setRouteValues: function (route) {
             var that = this
@@ -43,5 +47,5 @@ const vEditMixin = {
         }
     }
 }
+</script>
 
-export default vEditMixin

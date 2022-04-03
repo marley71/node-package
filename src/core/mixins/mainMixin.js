@@ -1,4 +1,4 @@
-import Server from '../../core/Server'
+import Server from '../Server222'
 import jQuery from 'jquery'
 import crud from '../crud'
 const mainMixin = {

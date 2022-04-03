@@ -1,62 +1,16 @@
-// import { defineStore } from 'pinia'
-// const crudStore = defineStore('crudStore', {
-//     state : () => ({
-//         prop1 : 'propsss'
-//     })
-// })
-
-
-
-import crud from './core/crud'
-
-//import coreMixin from './core/mixins/coreMixin'
-//import dialogsMixin from './core/mixins/dialogsMixin'
-import mainMixin from './core/mixins/mainMixin'
-//import choiceMixin from './core/mixins/choiceMixin'
-
-//import aBaseMixin from './core/mixins/components/actions/aBaseMixin'
-import aGroupedMixin from './core/mixins/components/actions/aGroupedMixin'
-import aOrderMixin from './core/mixins/components/actions/aOrderMixin'
-
-import cCalendarMixin from './core/mixins/components/app/cCalendarMixin'
-import cImportMixin from './core/mixins/components/app/cImportMixin'
-import cManageMixin from './core/mixins/components/app/cManageMixin'
-import cPageMixin from './core/mixins/components/app/cPageMixin'
-
-import dAlertMixin from './core/mixins/components/dialogs/dAlertMixin'
-import dBaseMixin from './core/mixins/components/dialogs/dBaseMixin'
-
-import cComponentMixin from './core/mixins/components/misc/cComponentMixin'
-import cPaginatorMixin from './core/mixins/components/misc/cPaginatorMixin'
-import cWaitMixin from './core/mixins/components/misc/cWaitMixin'
-
-// --- views ---
-import vActionMixin from './core/mixins/components/views/vActionMixin'
-import vWidgetMixin from './core/mixins/components/views/vWidgetMixin'
-import vBaseMixin from './core/mixins/components/views/vBaseMixin'
-import vCollectionMixin from './core/mixins/components/views/vCollectionMixin'
-import vRecordMixin from './core/mixins/components/views/vRecordMixin'
-import vListMixin from './core/mixins/components/views/vListMixin'
-import vListEditMixin from './core/mixins/components/views/vListEditMixin'
-import vEditMixin from './core/mixins/components/views/vEditMixin'
-import vInsertMixin from './core/mixins/components/views/vInsertMixin'
-import vViewMixin from './core/mixins/components/views/vViewMixin'
-import vSearchMixin from './core/mixins/components/views/vSearchMixin'
-import vHasmanyMixin from './core/mixins/components/views/vHasmanyMixin'
-
-
-import Server from './core/Server'
-import Route from './core/Routes'
-import ProtocolList from './core/ProtocolList'
-import ProtocolRecord from './core/ProtocolRecord'
 
 
 // ---- nuovi oggetti
+import Server from './utility/Server'
+import Route from './utility/Routes'
+import ProtocolList from './utility/ProtocolList'
+import ProtocolRecord from './utility/ProtocolRecord'
 
 import crudStore from './utility/crudStore'
 import coreMixin from './mixins/coreMixin'
 import dialogsMixin from './mixins/dialogsMixin'
 import choiceMixin from './mixins/choiceMixin'
+import mainMixin from './mixins/choiceMixin'
 
 // -- misc --
 import _cComponent from './components/misc/_cComponent.vue'
@@ -91,62 +45,49 @@ import _wTextarea from './components/widgets/_wTextarea.vue'
 import _wTexthtml from './components/widgets/_wTexthtml.vue'
 import _wUpload from './components/widgets/_wUpload.vue'
 import _wUploadAjax from './components/widgets/_wUploadAjax.vue'
-
 // --- actions
 import _aBase from './components/actions/_aBase.vue'
+import _aOrder from './components/actions/_aOrder.vue'
+import _aGrouped from './components/actions/_aGrouped.vue'
 // --- views --
 import _vBase from './components/views/_vBase.vue'
 import _vRecord from './components/views/_vRecord.vue'
 import _vCollection from './components/views/_vCollection.vue'
 import _vList from './components/views/_vList.vue'
+import _vListEdit from './components/views/_vListEdit.vue'
+import _vEdit from './components/views/_vEdit.vue'
+import _vInsert from './components/views/_vInsert.vue'
+import _vSearch from './components/views/_vSearch.vue'
 import _vView from './components/views/_vView.vue'
+import _vHasmany from './components/views/_vHasmany.vue'
 import _vAction from './components/views/_vAction.vue'
 import _vWidget from './components/views/_vWidget.vue'
+// --- app ---
+import _cCalendar from './components/app/_cCalendar.vue'
+import _cImport from './components/app/_cImport.vue'
+import _cManage from './components/app/_cManage.vue'
+// --- dialogs -----
+import _dBase from './components/dialogs/_dBase.vue'
+import _dAlert from './components/dialogs/_dAlert.vue'
 
 export default {
-    crud,
-    //coreMixin,
-    //dialogsMixin,
-    mainMixin,
-    //choiceMixin,
-    //aBaseMixin,
-    aGroupedMixin,
-    aOrderMixin,
-    cCalendarMixin,
-    cImportMixin,
-    cManageMixin,
-    cPageMixin,
-    dAlertMixin,
-    dBaseMixin,
-    cComponentMixin,
-    cPaginatorMixin,
-    cWaitMixin,
-    vActionMixin,
-    vWidgetMixin,
-    vBaseMixin,
-    vRecordMixin,
-    vCollectionMixin,
-    vListMixin,
-    vListEditMixin,
-    vEditMixin,
-    vInsertMixin,
-    vViewMixin,
-    vSearchMixin,
-    vHasmanyMixin,
+
+    // nuovi oggetti
     Server,
     Route,
     ProtocolList,
     ProtocolRecord,
-    // nuovi oggetti
-
-    crudStore, coreMixin, dialogsMixin, choiceMixin,
+    crudStore, coreMixin, dialogsMixin, choiceMixin,mainMixin,
     _cComponent,_cPaginator,_cWait,
     _wBase,_wInput,_wAutocomplete,_wB2Select2,_wB2mSelect2,_wBelongsTo,_wCheckbox,_wCustom,
     _wDatePicker,_wDateSelect,_wDateText,_wHasmany,_wHasmanyListed,_wHidden,_wImage,_wInputHelped,
     _wMap,_wMapView,_wPreview,_wRadio,_wSelect,_wStatus,_wSwap,_wText,_wTextarea,_wTexthtml,
     _wUpload,_wUploadAjax,
-    _aBase,
-    _vBase,_vRecord,_vCollection,_vAction,_vWidget,_vList,_vView
+    _aBase,_aOrder,_aGrouped,
+    _vBase,_vRecord,_vCollection,_vAction,_vWidget,_vList,_vListEdit,_vEdit,_vInsert,
+    _vSearch,_vView,_vHasmany,
+    _cCalendar,_cImport,_cManage,
+    _dBase,_dAlert,
 }
 
 

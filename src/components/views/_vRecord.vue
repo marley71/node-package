@@ -8,7 +8,8 @@ export default {
     extends: _vBase,
     props: ['cPk'],
     data() {
-        return {
+        var that = this;
+        var d = {
             modelName: null,
             widgetTemplate: 'tpl-record',
             pk: 0,
@@ -21,6 +22,17 @@ export default {
             defaultWidgetType: 'w-input',
             fields: [],
             fieldsConfig: {}
+        }
+        if (that.cPk)
+            d.pk = that.cPk;
+        return d;
+    },
+    unmount() {
+        for (let key in this.widgets) {
+            this.getWidget(key) && this.getWidget(key).unmount();
+        }
+        for (let key in this.actionsConf) {
+            this.getAction(key) && this.getAction(key).unmount();
         }
     },
     methods: {
@@ -113,7 +125,7 @@ export default {
                 aConf.cRef = that.getRefId(that._uid, 'a', aName);
                 aConf.name = aName;
                 aConf.view = that;
-                actionsConf[aName] = that.merge({},aConf);
+                actionsConf[aName] = aConf;
                 //actionsConf[aName] = {};
             }
             that.actionsConf = actionsConf;

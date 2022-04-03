@@ -1,5 +1,5 @@
 <script>
-import Server from "../../core/Server";
+import Server from "../../utility/Server";
 import jQuery from "jquery";
 import _wBase from './_wBase.vue'
 

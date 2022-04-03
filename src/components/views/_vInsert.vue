@@ -1,22 +1,26 @@
-import crud from "../../../crud";
-import Server from "../../../Server222";
 
-crud.conf['v-insert'] = {
-    confParent: 'v-record',
-    beforeForm: null,
-    beforeActions: null,
-    primaryKey: 'id',
-    routeName: 'insert',
-    widgetTemplate: 'tpl-record',
-    actions: ['action-save', 'action-back'],
-    actionsConfig: {},
-    fieldsConfig: {
-        id: 'w-hidden'
+<script>
+import _vRecord from "./_vRecord.vue"
+import Server from "../../utility/Server";
+export default {
+    name: "_vInsert",
+    extends: _vRecord,
+    data() {
+        return {
+            confParent: 'v-record',
+            beforeForm: null,
+            beforeActions: null,
+            primaryKey: 'id',
+            routeName: 'insert',
+            widgetTemplate: 'tpl-record',
+            actions: ['action-save', 'action-back'],
+            actionsConfig: {},
+            fieldsConfig: {
+                id: 'w-hidden'
+            },
+            fields: []
+        }
     },
-    fields: []
-}
-
-const vInsertMixin = {
     methods: {
         setRouteValues: function (route) {
             var that = this
@@ -40,4 +44,4 @@ const vInsertMixin = {
         }
     }
 }
-export default vInsertMixin
+</script>
