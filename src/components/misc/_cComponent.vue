@@ -1,7 +1,5 @@
 <script>
-// import Route from '../../../Routes'
-// import crud from "../../../crud";
-// import Server from "../../../Server";
+
 import coreMixin from "../../mixins/coreMixin";
 import dialogsMixin from "../../mixins/dialogsMixin";
 import crudStore from '../../utility/crudStore';
@@ -12,7 +10,7 @@ export default {
     mixins: [coreMixin,dialogsMixin],
     created() {
         var that = this;
-        const store = crudStore()
+        //const store = crudStore()
         var conf = this.cConf || {};
         if (this.cConf) {
             if (typeof this.cConf === 'string' || this.cConf instanceof String)
@@ -29,7 +27,7 @@ export default {
             this[k] = methods[k];
         }
         if (conf.cRef) {
-            store.cRefs[conf.cRef] = this;
+            that.store.cRefs[conf.cRef] = this;
         }
         // var computed = conf.computed || {};
         // for (var k in computed) {
@@ -59,8 +57,10 @@ export default {
         }
     },
     data() {
+        const store = crudStore()
         return {
-            resourcesLoaded: false
+            resourcesLoaded: false,
+            store : store
         }
     },
     methods: {

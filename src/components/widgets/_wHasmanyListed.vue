@@ -1,7 +1,6 @@
 
 <script>
 import _wBase from './_wBase.vue'
-import crudStore from '../../utility/crudStore';
 
 export default {
     name: "_wHasmanyListed",
@@ -119,11 +118,10 @@ export default {
 
         getValue: function () {
             var that = this;
-            const store = crudStore();
             var value = [];
             for (let k in that.confViews) {
                 var vId = this.confViews[k].cRef;
-                value.push(store.cRefs[vId].getValue());
+                value.push(that.store.cRefs[vId].getValue());
             }
             return value;
         }

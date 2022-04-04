@@ -3,7 +3,6 @@
 import _wBase from './_wBase.vue'
 import jQuery from "jquery";
 import Server from "../../utility/Server";
-import crudStore from '../../utility/crudStore';
 
 export default {
     name: "_wUploadAjax",
@@ -78,7 +77,6 @@ export default {
         },
         sendAjax: function () {
             var that = this;
-            const store = crudStore()
             var fDesc = that._getFileValue();
             if (!fDesc)
                 throw 'descrittore file upload non valido';
@@ -135,7 +133,7 @@ export default {
 
                 that.value = JSON.stringify(data.result); //.replace(/\\"/g, '"');
                 var refPreview = that._uid + 'preview';
-                store.cRefs[refPreview].value = data.result;
+                that.store.cRefs[refPreview].value = data.result;
                 that.onSuccess();
             }).fail(function (data, error, msg) {
                 console.log("An error occurred, the files couldn't be sent!");

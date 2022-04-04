@@ -1,8 +1,8 @@
 
 <script>
 import _cComponent from "../misc/_cComponent.vue";
-import crud from "../../core/crud";
 import jQuery from "jquery";
+
 export default {
     name: "_aGrouped",
     extends : _cComponent,
@@ -35,7 +35,7 @@ export default {
         for (var k in that.actions) {
             var row = that.index
             var aName = that.actions[k];
-            var conf = crud.conf[aName] || {};
+            var conf = that.store.conf[aName] || {};
             var customConf = that.actionsConfig[aName] || {};
 
             conf = that.mergeConf(conf);
@@ -50,7 +50,7 @@ export default {
                 conf.componentName = 'a-base';
             }
             actionsConf[aName] = conf;
-            that._createActionComponent(aName,conf);
+            //that._createActionComponent(aName,conf);
         }
         //console.log('actionsConfig',actionsConf);
         that.actionsConfig = actionsConf;

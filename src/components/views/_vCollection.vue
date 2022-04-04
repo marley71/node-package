@@ -6,7 +6,6 @@
 
 import jQuery from "jquery";
 import _vBase from './_vBase.vue'
-import crudStore from '../../utility/crudStore';
 
 export default {
     name: "_vCollection",
@@ -63,12 +62,11 @@ export default {
 
         setWidgetValue: function (row, key, value) {
             var that = this;
-            const store = crudStore();
             if (!that.widgets[row][key]) {
                 throw 'accesso a render con chiave inesistente ' + row + "," + key;
             }
             var wConf = that.widgets[row][key];
-            store.cRefs[wConf.cRef].setValue(value);
+            that.store.cRefs[wConf.cRef].setValue(value);
         },
         createWidgets: function () {
             var that = this;
@@ -114,32 +112,29 @@ export default {
             return visible;
         },
         getWidget: function (row, key) {
-            const store = crudStore();
             var wConf = (this.widgets[row] && this.widgets[row][key]) ? this.widgets[row][key]:null;
             if (!wConf) {
                 //console.warn('attenzione widget non trovato per riga ' + row +  " key " + key);
                 return null;
             }
-            return store.cRefs[wConf.cRef];
+            return this.store.cRefs[wConf.cRef];
         },
 
         getRecordAction: function (row, actionName) {
-            const store = crudStore();
             var aConf = this.recordActions[row][actionName];
             if (!aConf) {
                 //console.warn('attenzione recordAction non trovata per riga ' + row +  " nome " + actionName);
                 return null;
             }
-            return store.cRefs[aConf.cRef];
+            return this.store.cRefs[aConf.cRef];
         },
         getCollectionAction: function (actionName) {
-            const store = crudStore();
             var aConf = this.collectionActions[actionName];
             if (!aConf) {
                 //console.warn('attenzione action non trovata nome ' + actionName);
                 return null;
             }
-            return store.cRefs[aConf.cRef];
+            return this.store.cRefs[aConf.cRef];
         },
         /**
          * controlla la validità delle azioni inserite nel vettore actions
@@ -148,7 +143,6 @@ export default {
          */
         checkValidActions: function () {
             var that = this;
-            const store = crudStore();
             var collectionActionsName = [];
             var recordActionsName = [];
             for (var i in that.actions) {
@@ -156,8 +150,8 @@ export default {
                 var aConf = {};
                 var valid = true;
 
-                if (store.conf[aName]) {
-                    aConf = store.conf[aName];
+                if (that.store.conf[aName]) {
+                    aConf = that.store.conf[aName];
                 } else if (that.actionsConfig[aName]) {
                     aConf = that.mergeConf(that.actionsConfig[aName]);
                 } else {

@@ -1,11 +1,14 @@
 
 <script>
 import _vList from "./_vList.vue"
-import crud from "../../core/crud";
+
+
 export default {
     name: "_vListEdit",
     extends: _vList,
+
     data() {
+
         return {
             confParent: 'v-list',
             widgetsEdit: {}, // configurazioni widgets in modalità edit
@@ -125,7 +128,7 @@ export default {
         },
         getWidgetEdit (row, key) {
             var wConf = this.widgetsEdit[row][key];
-            return crud.cRefs[wConf.cRef];
+            return this.store.cRefs[wConf.cRef];
         },
         setRowData (index,values) {
             var that = this;
@@ -145,7 +148,7 @@ export default {
                 //values[k] = that.getWidgetEdit(index,k);
                 //console.log('edit r',that.view.widgetsEdit[that.index][k])
                 var sref = that.widgetsEdit[index][k].cRef; //  're-' + that.index + '-' +  k;
-                if (crud.cRefs[sref])
+                if (that.store.cRefs[sref])
                     values[k] = that.getWidgetEdit(index,k).getValue();
             }
             console.log('rowEditData values',values);
@@ -158,7 +161,7 @@ export default {
                 //values[k] = that.getWidget(index,k);
                 //console.log('edit r',that.view.widgetsEdit[that.index][k])
                 var sref = that.widgets[index][k].cRef; //  're-' + that.index + '-' +  k;
-                if (crud.cRefs[sref])
+                if (that.store.cRefs[sref])
                     values[k] = that.getWidget(index,k).getValue();
             }
             console.log('rowData values',values);

@@ -2,7 +2,6 @@
 
 <script>
 import _cComponent from "../misc/_cComponent.vue";
-//import crud from "../../core/crud";
 import Server from "../../utility/Server";
 export default {
     name: "_cImport",

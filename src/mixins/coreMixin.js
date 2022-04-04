@@ -1,8 +1,6 @@
 import jQuery from 'jquery'
 import Route from '../utility/Routes'
-import Server from '../utility/Server'
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
 import crudStore from '../utility/crudStore';
 
 //const pinia = createPinia();

@@ -1,7 +1,8 @@
 
 <script>
 import _cComponent from "../misc/_cComponent.vue";
-import crud from "../../core/crud";
+//import crudStore from '../../utility/crudStore';
+
 export default {
     name: "_cManage",
     extends: _cComponent,
@@ -190,8 +191,7 @@ export default {
         },
         _actionSaveBack: function () {
             var thisManage = this;
-
-            return thisManage.merge(crud.conf['action-save'], {
+            return thisManage.merge(thisManage.store.conf['action-save'], {
                 text: 'Salva e Torna alla lista',
                 afterExecute: function () {
                     thisManage.showList();
@@ -212,15 +212,11 @@ export default {
         },
         _getListConfiguration: function () {
             var thisManage = this;
-            // var modelConf = "Model" + thisManage.pascalCase(conf.modelName);
-            // var originalConf = window[modelConf] ? window[modelConf] : {};
-            // //console.log('conf.modelName',conf.modelName,modelConf,originalConf);
-            // var originalConf = thisManage.list || {};
             var listConf = thisManage.list || {};
 
             if (!thisManage.inlineEdit) {
                 //listConf = conf.listConf || originalConf.list || {};
-                listConf = thisManage.mergeConfView(crud.conf['v-list'], listConf);
+                listConf = thisManage.mergeConfView({}, listConf);
                 // se sono presente l'action-edit,action-view o action-insert le ridefinisco per la gestione automatica da parte della c-manage
                 if (listConf.actions.indexOf('action-edit') >= 0) {
                     var aEdit = listConf.actionsConfig['action-edit'] || {};
@@ -256,8 +252,8 @@ export default {
             var listEditConf = thisManage.listEdit || {};
 
             //if (thisManage.inlineEdit) {
-            listEditConf = thisManage.mergeConfView(crud.conf['v-list-edit'], listEditConf);
-            //listEditConf = thisManage.mergeConfView(crud.conf.listEdit, listEditConf);
+            listEditConf = thisManage.mergeConfView(thisManage.conf['v-list-edit'], listEditConf);
+            //listEditConf = thisManage.mergeConfView(store.conf.listEdit, listEditConf);
             console.log('acions list edit ', listEditConf.actions);
             if (listEditConf.actions.indexOf('action-view') >= 0) {
                 listEditConf.actionsConfig['action-view'] = {
@@ -301,9 +297,8 @@ export default {
         },
         _getEditConfiguration: function () {
             var thisManage = this;
-
             var editConf = thisManage.edit || {};
-            editConf = thisManage.mergeConfView(crud.conf['v-edit'], editConf);
+            editConf = thisManage.mergeConfView(thisManage.store.conf['v-edit'], editConf);
             // prendo eventuali configurazioni locali al modello.
             var _asb = editConf.actionsConfig['action-save-back'] || {};
             editConf = thisManage.mergeConfView(editConf, {
@@ -322,7 +317,7 @@ export default {
         _getInsertConfiguration: function () {
             var thisManage = this;
             var insertConf = thisManage.insert || thisManage.edit || {};
-            insertConf = thisManage.mergeConfView(crud.conf['v-insert'], insertConf);
+            insertConf = thisManage.mergeConfView(thisManage.store.conf['v-insert'], insertConf);
 
             // prendo eventuali configurazioni locali al modello.
             var _asb = insertConf.actionsConfig['action-save-back'] || {};
@@ -347,7 +342,7 @@ export default {
         _getViewConfiguration: function () {
             var thisManage = this;
             var viewConf = thisManage.view || {};
-            viewConf = thisManage.mergeConfView(crud.conf['v-view'], viewConf);
+            viewConf = thisManage.mergeConfView(thisManage.store.conf['v-view'], viewConf);
             return viewConf;
         }
     }

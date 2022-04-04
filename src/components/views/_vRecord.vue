@@ -1,7 +1,6 @@
 
 <script>
 import _vBase from './_vBase.vue'
-import crudStore from '../../utility/crudStore';
 
 export default {
     name: "_vRecord",
@@ -63,11 +62,10 @@ export default {
         },
         setWidgetValue: function (key, value) {
             var that = this;
-            const store = crudStore();
             if (!that.widgets[key]) {
                 throw 'accesso a render con chiave inesistente ' + key;
             }
-            store.cRefs[that.widgets[key].cRef].setValue(value);
+            that.store.cRefs[that.widgets[key].cRef].setValue(value);
         },
         /**
          * crea le configurazioni per i widgets della view
@@ -92,11 +90,10 @@ export default {
          */
         checkValidActions: function () {
             var that = this;
-            const store = crudStore();
             var actions = [];
             for (var i in that.actions) {
                 var aName = that.actions[i];
-                if (store.conf[aName])
+                if (that.store.conf[aName])
                     actions.push(aName);
                 else if (that.actionsConfig[aName])
                     actions.push(aName);
@@ -147,23 +144,21 @@ export default {
         },
         getWidget: function (key) {
             var rConf = this.widgets[key];
-            const store = crudStore();
             if (!rConf) {
                 //console.warn('attenzione widget non trovato key ' + key);
                 return null;
             }
             //console.log('getWidget',key,rConf);
-            return store.cRefs[rConf.cRef];
+            return this.store.cRefs[rConf.cRef];
         },
         getAction: function (name) {
             var rConf = this.actionsConf[name];
-            const store = crudStore();
             if (!rConf) {
                 //console.warn('attenzione action non trovata nome ' + name);
                 return null;
             }
             //console.log('getAction',name,rConf);
-            return store.cRefs[rConf.cRef];
+            return this.store.cRefs[rConf.cRef];
         },
         /**
          * aspetta che i widgets o il widgets esista e poi chiama la callback

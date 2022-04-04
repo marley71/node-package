@@ -1,7 +1,6 @@
 <script>
 import _cComponent from "../misc/_cComponent.vue";
 import Server from "../../utility/Server";
-import crudStore from '../../utility/crudStore';
 
 export default {
     name: "_vBase",
@@ -95,12 +94,11 @@ export default {
          */
         getActionConfig: function (name) {
             var that = this;
-            const store = crudStore();
-            var conf = store.conf[name] || {};
+            var conf = that.store.conf[name] || {};
             if (!conf.componentName)
                 conf.componentName = 'a-base';
             //var componentName = conf.componentName ? conf.componentName : 'a-base';
-            conf = that.merge(store.conf[conf.componentName], conf);
+            conf = that.merge(that.store.conf[conf.componentName], conf);
             if (that.actionsConfig[name]) {
                 conf = that.merge(conf, that.actionsConfig[name]);
             }
@@ -130,7 +128,7 @@ export default {
                         if (type == 'insert' && cm['edit'])
                             conf = cm['edit'];
                         else {
-                            conf = store.conf[type];
+                            conf = that.store.conf[type];
                         }
                     }
 
@@ -144,11 +142,10 @@ export default {
 
         _getDefaultConf: function () {
             var that = this;
-            const store = crudStore();
             //var _compName = this.$options.name;
             console.log('confDefaultName', that.cConfDefaultName, 'componentName', that.$options.name, 'viewConf', that.cType)
-            var defaultConf = that.mergeConf(store.conf[that.cConfDefaultName]);
-            var componentNameConf = that.mergeConf(store.conf[that.$options.name]);
+            var defaultConf = that.mergeConf(that.store.conf[that.cConfDefaultName]);
+            var componentNameConf = that.mergeConf(that.store.conf[that.$options.name]);
             //var typeConf = that.mergeConf(store.conf[that.cType]);
 
             var mergedConf = that.merge(defaultConf, componentNameConf);
@@ -160,11 +157,10 @@ export default {
         _loadRouteConf: function () {
             var that = this;
             var conf = null;
-            const store = crudStore();
             console.log('_load routeConf', that.routeConf, 'cConf', this.cConf);
             if (that.routeConf) {
                 if (typeof that.routeConf === 'string' || that.routeConf instanceof String) {
-                    conf = this.getDescendantProp(store, that.routeConf);
+                    conf = this.getDescendantProp(that.store, that.routeConf);
                 } else
                     conf = that.routeConf;
             }

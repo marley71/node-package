@@ -2,7 +2,7 @@
 
 <script>
 import _wBase from './_wBase.vue'
-import crudStore from '../../utility/crudStore';
+
 export default {
     name: "_wHasmany",
     extends: _wBase,
@@ -65,15 +65,14 @@ export default {
 
         deleteItem: function (refId) {
             var that = this;
-            const store = crudStore()
-            console.log('delete', refId, store.cRefs[refId].value)
+            console.log('delete', refId, that.store.cRefs[refId].value)
             var newConfViews = {};
             // per questioni di aggiornamento assegno ad un'altra variabile, altrimenti vue non renderizza come dovuto
             for (var vId in that.confViews) {
                 newConfViews[vId] = that.confViews[vId];
             }
             delete newConfViews[refId];
-            store.cRefs[refId].$destroy();
+            that.store.cRefs[refId].unmount();
             console.log('newConfView',newConfViews);
             that.$set(that, 'confViews', newConfViews);
             this.$forceUpdate();
@@ -98,11 +97,10 @@ export default {
 
         getValue: function () {
             var that = this;
-            const store = crudStore()
             var value = [];
             for (let k in that.confViews) {
                 var vId = this.confViews[k].cRef;
-                value.push(store.cRefs[vId].getValue());
+                value.push(that.store.cRefs[vId].getValue());
             }
             return value;
         }

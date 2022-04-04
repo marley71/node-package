@@ -1,7 +1,6 @@
 
 <script>
 import _wBase from './_wBase.vue'
-import crudStore from '../../utility/crudStore';
 
 export default {
     name: "_wMap",
@@ -119,8 +118,7 @@ export default {
         },
         initMap: function () {
             var that = this
-            const store = crudStore();
-            if (!store.env.apiKey) {
+            if (!that.store.env.apiKey) {
                 throw 'nessuna apiKey definita!'
                 // throw new Error({
                 //     code: 404,
@@ -148,8 +146,8 @@ export default {
                 that.createMarker()
             }
 
-            var scriptName = 'https://maps.googleapis.com/maps/api/js?key=' + store.env.apiKey + '&callback=__initMap' + random
-            if (!store._resources[scriptName]) {
+            var scriptName = 'https://maps.googleapis.com/maps/api/js?key=' + that.store.env.apiKey + '&callback=__initMap' + random
+            if (!that.store._resources[scriptName]) {
                 that._loadScript(scriptName)
             } else {
                 window['__initMap' + random]()
