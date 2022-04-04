@@ -6,6 +6,7 @@ export default {
     name: "_vRecord",
     extends: _vBase,
     props: ['cPk'],
+    provide: ['route'],
     data() {
         var that = this;
         var d = {
@@ -26,30 +27,32 @@ export default {
             d.pk = that.cPk;
         return d;
     },
-    unmount() {
-        for (let key in this.widgets) {
-            this.getWidget(key) && this.getWidget(key).unmount();
-        }
-        for (let key in this.actionsConf) {
-            this.getAction(key) && this.getAction(key).unmount();
-        }
+    unmounted() {
+        console.log('unmounted _vRecord');
+        // for (let key in this.widgets) {
+        //     this.getWidget(key) && this.getWidget(key).unmount();
+        // }
+        // for (let key in this.actionsConf) {
+        //     this.getAction(key) && this.getAction(key).unmount();
+        // }
     },
     methods: {
-        setRouteValues: function (route) {
-            var that = this;
-            console.log('setRouteValues', that);
-            if (that.routeConf) {
-                var _conf = that._loadRouteConf();
-                console.log('routeConf params', _conf);
-                var params = route.getParams();
-                var p2 = _conf.params || {};
-                for (var k in p2) {
-                    params[k] = p2[k];
-                }
-                route.setParams(params);
-            }
-            return route;
-        },
+        // da generalizzare prendendo i paramatri di default dalla route e instanziandoli
+        // setRouteValues: function (route) {
+        //     var that = this;
+        //     console.log('setRouteValues', that);
+        //     if (that.routeConf) {
+        //         var _conf = that._loadRouteConf();
+        //         console.log('routeConf params', _conf);
+        //         var params = route.getParams();
+        //         var p2 = _conf.params || {};
+        //         for (var k in p2) {
+        //             params[k] = p2[k];
+        //         }
+        //         route.setParams(params);
+        //     }
+        //     return route;
+        // },
         draw: function () {
             var that = this;
             that.checkValidActions();

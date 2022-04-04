@@ -23,13 +23,6 @@ export default {
 
             inlineEdit: false,
 
-            listComp: null,
-            searchComp: null,
-            listEditComp: null,
-            editComp: null,
-            insertComp: null,
-            viewComp: null,
-
             layoutGradientColor: null,
             manageHeaderClass: null,
             manageHeaderTextClass: 'text-dark',
@@ -56,65 +49,78 @@ export default {
         this.showList();
     },
     unmounted() {
-        if (this.listComp) this.listComp.unmount();
-        if (this.listEditComp) this.listEditComp.unmount();
-        if (this.editComp) this.editComp.unmount();
-        if (this.searchComp) this.searchComp.unmount();
-        if (this.viewComp) this.viewComp.unmount();
-        if (this.insertComp) this.insertComp.unmount();
+        var listComp = this.getComponent('list');
+        if (listComp) listComp.unmount();
+
+        var listEditComp = this.getComponent('listEdit');
+        if (listEditComp) listEditComp.unmount();
+
+        var editComp = this.getComponent('edit');
+        if (editComp) editComp.unmount();
+
+        var searchComp = this.getComponent('search');
+        if (searchComp) searchComp.unmount();
+
+        var viewComp = this.getComponent('view');
+        if (viewComp) viewComp.unmount();
+
+        var insertComp = this.getComponent('insert');
+        if (insertComp) insertComp.unmount();
     },
 
     methods: {
         _createList: function () {
             var that = this;
-            if (that.listComp)
-                that.listComp.unmount();
+            var listComp = this.getComponent('list');
+            if (listComp)
+                listComp.unmount();
             var conf = that.inlineEdit?that._getListEditConfiguration():that._getListConfiguration();
             var cName = that.inlineEdit?that.listEditComponentName:that.listComponentName;
-            conf.cRef = that._uid + 'list-view'
-            that.listComp = that.newComponent(cName,{
-                cConf: conf,
-            });
+            conf.cRef = that._uid + '-list'
             var tId = that.createContainer(that.jQe(that.listSelector),true);
-            that.listComp.mount('#'+tId);
+            that.newComponent(cName,{
+                cConf: conf,
+            }).mount('#'+tId);
+            //console.log('lista creata',that.listComp.route,conf);
         },
         showList() {
 
         },
         _createSearch: function () {
             var that = this;
+            var searchComp = this.getComponent('search');
             if (!that.search || !that.search.fields || that.search.fields.length == 0)
                 return;
-            if (that.searchComp)
-                that.searchComp.unmount();
+            if (searchComp)
+                searchComp.unmount();
             var conf = that._getSearchConfiguration();
+            conf.cRef = that._uid + '-search'
             var tId = that.createContainer(that.jQe(that.searchSelector),true);
-            //var cDef = that.dynamicComponent(that.searchComponentName);
 
-            that.searchComp = that.newComponent(that.searchComponentName,{
+            that.newComponent(that.searchComponentName,{
                 cConf: conf,
-            });
-            that.searchComp.mount('#' + tId);
+            }).mount('#' + tId);
         },
         showSearch() {
 
         },
         _createEdit: function (action) {
             var thisManage = this;
-            if (thisManage.editComp) {
-                thisManage.editComp.unmount();
-                thisManage.editComp = null;
+            var editComp = this.getComponent('edit');
+            if (editComp) {
+                editComp.unmount();
             }
-            if (thisManage.insertComp) {
-                thisManage.insertComp.unmount();
-                thisManage.insertComp = null;
+            var insertComp = this.getComponent('insert');
+            if (insertComp) {
+                insertComp.unmount();
             }
 
             if (!this.edit) {
                 throw new Error({message:'configurazione edit non trovata',code:500});
             }
             //console.log('primary key ',thisManage.listComp.primaryKey,action)
-            var pkTranslation = thisManage.translate(thisManage.edit.modelName + "." + thisManage.listComp.primaryKey + '.label');
+            var listComp = thisManage.getComponent('list');
+            var pkTranslation = thisManage.translate(thisManage.edit.modelName + "." + listComp.primaryKey + '.label');
 
             thisManage.updateTitle = 'Modifica ' + thisManage.translate(thisManage.edit.modelName+'.label');
 
@@ -122,12 +128,11 @@ export default {
 
             var tId = thisManage.createContainer(thisManage.jQe(thisManage.updateSelector),true);
 
-            conf.pk = action.modelData[thisManage.listComp.primaryKey];
-
-            thisManage.editComp = thisManage.newComponent(thisManage.editComponentName,{
+            conf.pk = action.modelData[listComp.primaryKey];
+            conf.cRef = thisManage._uid + '-edit'
+            thisManage.newComponent(thisManage.editComponentName,{
                 cConf: conf,
-            });
-            thisManage.editComp.mount('#' + tId);
+            }).mount('#' + tId);
         },
         showEdit() {
 
@@ -135,18 +140,18 @@ export default {
         _createView: function (action) {
             var thisManage = this;
             //var that = this;
-
-            let primaryKey = thisManage.listComp.primaryKey;
-            let modelName = thisManage.listComp.modelName;
+            var listComp = this.getComponent('list');
+            let primaryKey = listComp.primaryKey;
+            let modelName = listComp.modelName;
 
             var pkTranslation = thisManage.translate(modelName + "." + primaryKey + '.label');
             thisManage.viewTitle = thisManage.translate("model." + modelName, 0) + ' (' +
                 pkTranslation +
                 ':' + action.modelData[primaryKey] + ')';
 
-            if (thisManage.viewComp) {
-                thisManage.viewComp.unmount();
-                thisManage.viewComp = null;
+            var viewComp = this.getComponent('view');
+            if (viewComp) {
+                viewComp.unmount();
             }
             var pk = action.modelData[primaryKey];
 
@@ -154,11 +159,12 @@ export default {
             var dlgView = thisManage.customDialog('<div id="' + id + '"></div>');
             var conf = thisManage._getViewConfiguration();
             conf.pk = action.modelData[primaryKey];
+            conf.cRef = that._uid + '-view'
             console.log('cManage viewConf',conf,'action caller',action);
-            thisManage.viewComp = thisManage.newComponent(thisManage.viewComp,{
+            thisManage.newComponent(thisManage.viewComp,{
                 cConf: conf,
-            });
-            thisManage.viewComp.mount('#' + id);
+            }).mount('#' + id);
+
             dlgView.show();
         },
         showView() {
@@ -171,19 +177,20 @@ export default {
 
             // var id = 'd' + (new Date().getTime());
             // thisManage.jQe('[c-edit-container]').html('<div id="' + id + '"></div>');
-            if (thisManage.insertComp)
-                thisManage.insertComp.unmount();
-            if (thisManage.editComp) {
-                thisManage.editComp.unmount();
-                thisManage.editComp = null;
-            }
+            var insertComp = this.getComponent('insert');
+            if (insertComp)
+                insertComp.unmount();
 
+            var editComp = this.getComponent('edit');
+            if (editComp) {
+                editComp.unmount();
+            }
+            this.insertConf.cRefs = thisManage._uid + '-insert';
             console.log('_createInsert',thisManage.insertConf);
 
-            thisManage.viewComp = thisManage.newComponent(thisManage.insertComponentName,{
+            thisManage.newComponent(thisManage.insertComponentName,{
                 cConf: thisManage.insertConf,
-            });
-            thisManage.insertComp.mount('#' + tId);
+            }).mount('#' + tId);
 
         },
         showInsert() {
@@ -191,22 +198,24 @@ export default {
         },
         _actionSaveBack: function () {
             var thisManage = this;
+            var listComp = this.getComponent('list');
             return thisManage.merge(thisManage.store.conf['action-save'], {
                 text: 'Salva e Torna alla lista',
                 afterExecute: function () {
                     thisManage.showList();
                     this.view.unmount();
-                    thisManage.listComp.reload();
+                    listComp.reload();
                 }
             });
         },
         _actionBack: function () {
             var thisManage = this;
+            var listComp = this.getComponent('list');
             return {
                 execute: function () {
                     thisManage.showList();
                     this.view.unmount();
-                    thisManage.listComp.reload();
+                    listComp.reload();
                 }
             }
         },
@@ -278,7 +287,7 @@ export default {
         _getSearchConfiguration: function () {
             var thisManage = this;
             var searchConf = thisManage.search || {};
-            var listComp = thisManage.inlineEdit?thisManage.listEditComp:thisManage.listComp;
+            var listComp = thisManage.inlineEdit?this.getComponent('listEdit'):this.getComponent('list');
             if (!searchConf.actionsConfig) searchConf.actionsConfig = {};
 
             var acSearch = searchConf.actionsConfig['action-search'] || {};
@@ -344,6 +353,10 @@ export default {
             var viewConf = thisManage.view || {};
             viewConf = thisManage.mergeConfView(thisManage.store.conf['v-view'], viewConf);
             return viewConf;
+        },
+
+        getComponent(type) {
+            return this.store.cRefs[this._uid+'-'+type]
         }
     }
 }

@@ -60,7 +60,8 @@ export default {
         const store = crudStore()
         return {
             resourcesLoaded: false,
-            store : store
+            store : store,
+            _uid : this._getNewUid()
         }
     },
     methods: {
@@ -90,6 +91,12 @@ export default {
         ready() {
             // methodo per il ready del dell'oggetto per codice di customizzazione
         },
+
+        _getNewUid() {
+            const store = crudStore()
+            store.uniqueId++;
+            return store.uniqueId;
+        }
     }
 }
 </script>
