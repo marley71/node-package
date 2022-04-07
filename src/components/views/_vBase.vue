@@ -262,7 +262,12 @@ export default {
             }
             that.json = json;
         },
-
+        hasHelp (key) {
+            var that = this
+            if (this.fieldsConfig[key]) {
+                return this.fieldsConfig[key].helpText || false
+            }
+        },
     }
 }
 </script>

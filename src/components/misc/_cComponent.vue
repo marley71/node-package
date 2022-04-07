@@ -14,7 +14,7 @@ export default {
         var conf = this.cConf || {};
         if (this.cConf) {
             if (typeof this.cConf === 'string' || this.cConf instanceof String)
-                conf = that.getDescendantProp(window,this.cConf);
+                conf = that.getDescendantProp(that._getModelConfs(),this.cConf);
         }
         //console.log('conf',conf);
         for (var k in conf) {
@@ -37,6 +37,7 @@ export default {
     },
     mounted() {
         var that = this;
+        console.log('LOADRESOURCES',that.resources)
         if (that.resources && that.resources.length) {
             that.beforeLoadResources();
             that.loadResources(that.resources,function () {
@@ -61,7 +62,8 @@ export default {
         return {
             resourcesLoaded: false,
             store : store,
-            _uid : this._getNewUid()
+            _uid : this._getNewUid(),
+            resources: [],
         }
     },
     methods: {
@@ -96,6 +98,10 @@ export default {
             const store = crudStore()
             store.uniqueId++;
             return store.uniqueId;
+        },
+
+        _getModelConfs() {
+            return this.store.app.config.globalProperties.$modelConfs;
         }
     }
 }
