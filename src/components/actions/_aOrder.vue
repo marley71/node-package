@@ -11,9 +11,9 @@ export default {
             type: 'collection',
             title: 'app.order',
             css: '',
-            iconSortAsc: '',
-            iconSortDesc: '',
-            iconSort: '',
+            iconSortAsc: 'fa fa-sort-up',
+            iconSortDesc: 'fa fa-sort-down',
+            iconSort: 'fa fa-sort',
             icon: null,
             text: ''
         }

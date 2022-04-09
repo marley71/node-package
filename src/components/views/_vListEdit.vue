@@ -32,11 +32,12 @@ export default {
         }
     },
     unmounted() {
-        for (var row in this.widgetsEdit) {
-            for (var key in this.widgetsEdit[row]) {
-                this.getWidgetEdit(row, key).unmount();
-            }
-        }
+        console.log('v-list-edit unmounted');
+        // for (var row in this.widgetsEdit) {
+        //     for (var key in this.widgetsEdit[row]) {
+        //         this.getWidgetEdit(row, key).unmount();
+        //     }
+        // }
     },
     methods: {
 
@@ -99,11 +100,11 @@ export default {
             if (that.actions.indexOf('action-save-row') >= 0)
                 that.showRA(index, 'action-save-row');
             //that.recordActions[index]['action-delete'].setVisible(false);
-            that.$set(that.editMode, index, true);
+            that.editMode[index] = true;
         },
         setViewMode: function (index) {
             var that = this;
-            that.$set(that.editMode, index, false);
+            that.editMode[index] = false;
             if (that.actions.indexOf('action-delete') >= 0)
                 that.showRA(index, 'action-delete');
             if (that.actions.indexOf('action-edit-mode') >= 0)

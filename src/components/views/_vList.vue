@@ -49,8 +49,8 @@ export default {
             //console.log('GETORDERCONF CALLED',key,order);
             conf.orderDirection = (order.field == conf.orderField) ? order.direction : null;
             conf.view = that;
-            return that.mergeConf({},conf);
-            //return conf;
+            //console.log('order',conf);
+            return conf;
         },
         selectAllRows: function () {
             var that = this;
@@ -65,7 +65,7 @@ export default {
                     sel.push(jQuery(this).val())
                 }
             });
-            //console.log('select3ed',sel);
+            console.log(that.jQe('[c-row-check]').length,'select3ed',sel);
             return sel;
         },
         setRouteValues: function (route) {

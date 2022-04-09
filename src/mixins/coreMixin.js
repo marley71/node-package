@@ -260,6 +260,7 @@ const coreMixin = {
         createRoute : function(routeName) {
             const store = crudStore();
             var routeConf = store.routes[routeName];
+            console.log('routeName',routeName,routeConf);
             if (!routeConf)
                 throw "Impossibile trovare la route " + routeName;
             return new Route(routeConf);

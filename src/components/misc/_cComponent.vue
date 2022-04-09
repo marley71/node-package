@@ -37,7 +37,7 @@ export default {
     },
     mounted() {
         var that = this;
-        console.log('LOADRESOURCES',that.resources)
+        //console.log('LOADRESOURCES',that.resources)
         if (that.resources && that.resources.length) {
             that.beforeLoadResources();
             that.loadResources(that.resources,function () {
@@ -75,9 +75,9 @@ export default {
         jQe(selector) {
             var that = this;
             if (selector) {
-                return window.jQuery(that.$el).find(selector).addBack(selector);
+                return window.jQuery(that.$refs.el).find(selector).addBack(selector);
             }
-            return window.jQuery(that.$el);
+            return window.jQuery(that.$refs.el);
         },
         beforeLoadResources : function () {
             //console.log('cComponent.beforeLoadResources')

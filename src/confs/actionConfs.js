@@ -268,6 +268,7 @@ const actionConfs = {
             var that = this;
             var checked = that.view.selectedRows();
             var num = checked.length;
+            console.log(num,'view',that.view)
             if (num === 0)
                 return ;
             that.confirmDialog(that.translate('app.conferma-multidelete',false,[num]), {

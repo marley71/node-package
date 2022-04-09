@@ -49,23 +49,24 @@ export default {
         this.showList();
     },
     unmounted() {
-        var listComp = this.getComponent('list');
-        if (listComp) listComp.unmount();
-
-        var listEditComp = this.getComponent('listEdit');
-        if (listEditComp) listEditComp.unmount();
-
-        var editComp = this.getComponent('edit');
-        if (editComp) editComp.unmount();
-
-        var searchComp = this.getComponent('search');
-        if (searchComp) searchComp.unmount();
-
-        var viewComp = this.getComponent('view');
-        if (viewComp) viewComp.unmount();
-
-        var insertComp = this.getComponent('insert');
-        if (insertComp) insertComp.unmount();
+        console.log('manage unmounted')
+        // var listComp = this.getComponent('list');
+        // if (listComp) listComp.unmount();
+        //
+        // var listEditComp = this.getComponent('listEdit');
+        // if (listEditComp) listEditComp.unmount();
+        //
+        // var editComp = this.getComponent('edit');
+        // if (editComp) editComp.unmount();
+        //
+        // var searchComp = this.getComponent('search');
+        // if (searchComp) searchComp.unmount();
+        //
+        // var viewComp = this.getComponent('view');
+        // if (viewComp) viewComp.unmount();
+        //
+        // var insertComp = this.getComponent('insert');
+        // if (insertComp) insertComp.unmount();
     },
 
     methods: {
@@ -106,14 +107,14 @@ export default {
         },
         _createEdit: function (action) {
             var thisManage = this;
-            var editComp = this.getComponent('edit');
-            if (editComp) {
-                editComp.unmount();
-            }
-            var insertComp = this.getComponent('insert');
-            if (insertComp) {
-                insertComp.unmount();
-            }
+            // var editComp = this.getComponent('edit');
+            // if (editComp) {
+            //     editComp.unmount();
+            // }
+            // var insertComp = this.getComponent('insert');
+            // if (insertComp) {
+            //     insertComp.unmount();
+            // }
 
             if (!this.edit) {
                 throw new Error({message:'configurazione edit non trovata',code:500});
@@ -185,7 +186,7 @@ export default {
             if (editComp) {
                 editComp.unmount();
             }
-            this.insertConf.cRefs = thisManage._uid + '-insert';
+            this.insertConf.cRef = thisManage._uid + '-insert';
             console.log('_createInsert',thisManage.insertConf);
 
             thisManage.newComponent(thisManage.insertComponentName,{
@@ -198,23 +199,23 @@ export default {
         },
         _actionSaveBack: function () {
             var thisManage = this;
-            var listComp = this.getComponent('list');
             return thisManage.merge(thisManage.store.conf['action-save'], {
                 text: 'Salva e Torna alla lista',
                 afterExecute: function () {
                     thisManage.showList();
-                    this.view.unmount();
+                    var listComp = thisManage.getComponent('list');
+                    //this.view.unmount();
                     listComp.reload();
                 }
             });
         },
         _actionBack: function () {
             var thisManage = this;
-            var listComp = this.getComponent('list');
             return {
                 execute: function () {
                     thisManage.showList();
-                    this.view.unmount();
+                    //this.view.unmount();
+                    var listComp = thisManage.getComponent('list');
                     listComp.reload();
                 }
             }

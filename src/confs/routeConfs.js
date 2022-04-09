@@ -94,7 +94,7 @@ const routeConfs = {
     },
     autocomplete: {
         method: "post",
-        url: "/foormaction/autocomplete/{foormName}/{viewType}",
+        url: "/foormaction/ffautocomplete/{foormName}/{viewType}",
         resultType: 'list',
         protocol: 'list'
 
