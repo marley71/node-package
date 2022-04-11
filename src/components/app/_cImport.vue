@@ -8,6 +8,8 @@ export default {
     extends: _cComponent,
     props: ['cProviderName'],
     data() {
+        var that = this;
+        //var conf = that._getConf();
         var d = {
             jobId: null,
             providerName: null,
@@ -15,32 +17,11 @@ export default {
             saveEnabled: false,
             uploadEnabled: true,
             progressEnabled: false,
-            status: 'upload',
+            step: 'upload',
             timerStatus: null,
-            confUpload: {
-                name: 'resource',
-                template: 'tpl-base',
-                type: 'w-upload-ajax',
-                maxFileSize: '2M',
-                modelName: null,
-                extensions: [
-                    'csv'
-                ],
-                ajaxFields: {
-                    field: 'resource',
-                    resource_type: 'attachment'
-                },
-                methods: {
-                    onError () {
-
-                    },
-                    onSuccess () {
-                        var that = this
-                        var viewUpload = that.getComponent('viewUpload')
-                        viewUpload.getAction('action-save').setEnabled(true)
-                    }
-                }
-            },
+            // configurazione widget upload ajax
+            //confUpload : that._defaultUploadConf(conf),
+            // configurazione view-insert upload job
             viewUpload: {
                 cRef: 'viewUpload',
                 routeName: 'datafile_insert',
@@ -52,6 +33,7 @@ export default {
                     }
                 }
             },
+            // configurazione view-save job
             viewSave: {
                 methods: {
                     setRouteValues: function (route) {
@@ -76,6 +58,7 @@ export default {
                     }
                 }
             },
+            // configurazione view-list job
             viewList: {
                 routeName: 'datafile_data',
                 errorClass : 'bg-danger-soft .border-top .border-primary .bw--2',
@@ -212,13 +195,16 @@ export default {
     },
     mounted() {
         var that = this;
-        crud.EventBus.$on('start-import',function (params) {
+        that.emitter.on('start-import',function (params) {
             console.log('event',params);
             that.jobId = params.jobId;
             that.progressEnabled = true;
             that.checkStatus();
         })
-
+        if (that.cProviderName)
+            that.providerName = that.cProviderName;
+        that.confUpload.modelName = that.confUpload.modelName || that.providerName;
+        that.confUpload.type = 'w-upload-ajax';
     },
     unmounted() {
         var that = this;
@@ -228,15 +214,15 @@ export default {
     },
     methods : {
 
-        dynamicData(conf) {
-            var that = this;
-            console.log('cConf ',that.cConf,window[that.cConf]);
-            if (that.cProviderName)
-                conf.providerName = that.cProviderName;
-            conf.confUpload.modelName = conf.confUpload.modelName || conf.providerName;
-            console.log('dynamic data ',conf);
-            return conf;
-        },
+        // dynamicData(conf) {
+        //     var that = this;
+        //     console.log('cConf ',that.cConf,window[that.cConf]);
+        //     if (that.cProviderName)
+        //         conf.providerName = that.cProviderName;
+        //     conf.confUpload.modelName = conf.confUpload.modelName || conf.providerName;
+        //     console.log('dynamic data ',conf);
+        //     return conf;
+        // },
 
         checkStatus : function () {
             var that = this;
@@ -269,23 +255,23 @@ export default {
                 return ;
             }
             if (json.job.end) {
-                console.log('job end',that.status)
+                console.log('job end',that.step)
                 that.progressEnabled = false;
                 clearInterval(that.timerStatus);
                 that.timerStatus = null;
-                if (that.status == 'loading') {
-                    that.status = 'tosave';
+                if (that.step == 'loading') {
+                    that.step = 'tosave';
                     that.saveEnabled = true;
                     that.uploadEnabled = false;
                     //that.datafileConf.jobId = that.jobId;
                     //that.modelName = that.csvProviderName;
                 }
-                if (that.status == 'saving') {
-                    that.status = 'upload';
+                if (that.step == 'saving') {
+                    that.step = 'upload';
                     that.uploadEnabled = true;
                     that.saveEnabled = false;
                 }
-                console.log('job end 2',that.status,that.saveEnabled,that.uploadEnabled)
+                console.log('job end 2',that.step,that.saveEnabled,that.uploadEnabled)
                 return ;
             }
             console.log('check',that.timerStatus);
@@ -312,13 +298,13 @@ export default {
         },
         _listConf() {
             var that = this;
-            var userConf = that.merge({},that.viewList);
+            var userConf = that.viewList; //that.merge({},that.viewList);
             userConf.modelName = that.providerName;
             return userConf;
         },
         _saveConf() {
             var that = this;
-            var userConf = that.merge({},that.viewSave);
+            var userConf = that.viewSave; //that.merge({},that.viewSave);
             userConf.modelName = that.providerName;
             userConf.actionsConfig = that.viewSave.actionsConfig || {};
             userConf.fieldsConfig = that.viewSave.fieldsConfig || {};
@@ -354,16 +340,19 @@ export default {
         },
         _uploadConf() {
             var that = this;
-            var userConf = that.merge({},that.viewUpload);
+            var userConf = that.viewUpload; //that.merge({},that.viewUpload);
             userConf.modelName = that.providerName;
             userConf.actionsConfig = that.viewUpload.actionsConfig || {};
             userConf.fieldsConfig = that.viewUpload.fieldsConfig || {};
-            console.log('aaaa',userConf,'viewUpload',that.viewUpload);
+            var confUpload = that._defaultUploadConf();
 
-            var rsName = that.confUpload.name;
-            userConf.fields.push(rsName);
+            console.log('confUpload',confUpload);
+
+            var rsName = confUpload.name;
+            if (userConf.fields.indexOf(rsName) < 0)
+                userConf.fields.push(rsName);
             //userConf.fields.push('resource');
-            userConf.fieldsConfig[rsName] = that.confUpload;
+            userConf.fieldsConfig[rsName] = confUpload;
             var aS = userConf.actionsConfig['action-save'] || {};
             aS.enabled =  false;
             aS.csvDashboard = that;
@@ -396,13 +385,51 @@ export default {
                         jobId : json.jobId,
                         progressEnabled : true,
                     }
-                    thatAction.$crud.EventBus.$emit('start-import',params);
+                    console.log('evento','start-import',params)
+                    thatAction.emitter.emit('start-import',params);
                 })
             }
             userConf.actionsConfig['action-save'] = aS;
+            console.log('UPLOADCONF',userConf);
             return  userConf;
+        },
+
+        _defaultUploadConf() {
+            var thatImport = this;
+            var conf = thatImport._getConf();
+            var confUpload = {
+                name: 'resource',
+                template: 'tpl-base',
+                type: 'w-upload-ajax',
+                maxFileSize: '2M',
+                modelName: null,
+                extensions: [
+                    'csv'
+                ],
+                ajaxFields: {
+                    field: 'resource',
+                    resource_type: 'attachment'
+                },
+                methods: {
+                    onError() {
+
+                    },
+                    onSuccess() {
+                        var that = this
+                        var viewUpload = thatImport.$refs.viewUpload;
+                        window.pippo = thatImport;
+                        console.log('viewUpload action-save', viewUpload.getAction('action-save'))
+                        viewUpload.getAction('action-save').setEnabled(true)
+                    }
+                }
+            }
+            var tmp = conf.confUpload || {};
+            for (var k in tmp) {
+                confUpload[k] = tmp[k];
+            }
+            return confUpload;
         }
-    }
+    },
 }
 </script>
 

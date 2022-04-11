@@ -28,8 +28,8 @@ const dialogsMixin = {
             //dlg.component(store._app.component(name))
             dlg.mount('#' + id);
             console.log('dlg',dlg);
-            store.cRefs[id].show();
-            return dlg;
+            //store.cRefs[id].show();
+            return store.cRefs[id];
         },
         messageDialog : function (bodyProps,callbacks) {
             return this.__dialog('d-message',bodyProps,callbacks);

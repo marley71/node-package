@@ -16,9 +16,13 @@ export default {
         }
     },
     methods: {
+        setRouteValues: function (route) {
+            // non setto nessuna route.
+            return route
+        },
         getFieldName: function (key) {
             var that = this
-            return that.cModel + '-' + key + '[]'
+            return that.modelName + '-' + key + '[]'
         },
         getValue: function () {
             var that = this

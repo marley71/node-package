@@ -23,6 +23,10 @@ export default {
         return wData;
     },
     methods: {
+
+        getWidget() {
+            return this.$refs[this.widgetConf.cRef];
+        },
         getTemplateName () {
             //console.log('cTemplate',this.templateConf.name)
             return this.templateConf.name;

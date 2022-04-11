@@ -48,6 +48,9 @@ export default {
                     hmConf.fields = Object.keys(value);
                 }
             }
+            if (!('modelNaname' in hmConf)) {
+                hmConf.modelName = that.name;
+            }
             return hmConf;
 
         },
@@ -72,9 +75,9 @@ export default {
                 newConfViews[vId] = that.confViews[vId];
             }
             delete newConfViews[refId];
-            that.store.cRefs[refId].unmount();
+            //that.store.cRefs[refId].unmount();
             console.log('newConfView',newConfViews);
-            that.$set(that, 'confViews', newConfViews);
+            that.confViews = newConfViews;
             this.$forceUpdate();
         },
         showItem: function (refId) {

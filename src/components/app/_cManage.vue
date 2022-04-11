@@ -152,7 +152,7 @@ export default {
 
             var viewComp = this.getComponent('view');
             if (viewComp) {
-                viewComp.unmount();
+                //viewComp.unmount();
             }
             var pk = action.modelData[primaryKey];
 
@@ -160,9 +160,9 @@ export default {
             var dlgView = thisManage.customDialog('<div id="' + id + '"></div>');
             var conf = thisManage._getViewConfiguration();
             conf.pk = action.modelData[primaryKey];
-            conf.cRef = that._uid + '-view'
+            conf.cRef = thisManage._uid + '-view'
             console.log('cManage viewConf',conf,'action caller',action);
-            thisManage.newComponent(thisManage.viewComp,{
+            thisManage.newComponent(thisManage.viewComponentName,{
                 cConf: conf,
             }).mount('#' + id);
 

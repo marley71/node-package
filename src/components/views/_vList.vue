@@ -65,7 +65,7 @@ export default {
                     sel.push(jQuery(this).val())
                 }
             });
-            console.log(that.jQe('[c-row-check]').length,'select3ed',sel);
+            //console.log(that.jQe('[c-row-check]').length,'select3ed',sel);
             return sel;
         },
         setRouteValues: function (route) {

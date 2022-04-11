@@ -288,7 +288,7 @@ const actionConfs = {
                     })
                 }
             });
-            console.log('selected',that.view.selectedRows())
+            //console.log('selected',that.view.selectedRows())
         }
     },
     'action-show-error' : {

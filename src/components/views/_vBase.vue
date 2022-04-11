@@ -100,10 +100,12 @@ export default {
             //var componentName = conf.componentName ? conf.componentName : 'a-base';
             conf = that.merge(that.store.conf[conf.componentName], conf);
             if (that.actionsConfig[name]) {
-                conf = that.merge(conf, that.actionsConfig[name]);
+                for (var k in that.actionsConfig[name])
+                    conf[k] = that.actionsConfig[name][k];
+                //conf = that.merge(conf, that.actionsConfig[name]);
             }
             // console.log('actionconfig',name,conf)
-            conf = that.merge({},conf);
+            //conf = that.merge({},conf);
             return conf;
         },
 

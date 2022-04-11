@@ -21,21 +21,34 @@ export default {
             json:null,
         }
     },
+    mounted() {
+        var that = this;
+        var conf = that._getConf();
+        that.previewConf.cRef = that._uid + 'preview';
+        if (that.value instanceof Object) {
+            that.previewConf.value = conf.value;
+            that.previewConf.iconSize = 'fa fa-2x';
+            that.value = JSON.stringify(conf.value).replace(/\\"/g, '"');
+        }
+        else if (!that.value) {
+            that.value = {};
+        }
+    },
     methods: {
 
-        _dynamicData(conf) {
-            console.log('wUploadAjaxMixin',conf.value);
-            conf.previewConf.cRef = this._uid + 'preview';
-            if (conf.value instanceof Object) {
-                conf.previewConf.value = conf.value;
-                conf.previewConf.iconSize = 'fa fa-2x';
-                conf.value = JSON.stringify(conf.value).replace(/\\"/g, '"');
-            }
-            else if (!this.value) {
-                conf.value = {};
-            }
-            return conf;
-        },
+        // _dynamicData(conf) {
+        //     console.log('wUploadAjaxMixin',conf.value);
+        //     conf.previewConf.cRef = this._uid + 'preview';
+        //     if (conf.value instanceof Object) {
+        //         conf.previewConf.value = conf.value;
+        //         conf.previewConf.iconSize = 'fa fa-2x';
+        //         conf.value = JSON.stringify(conf.value).replace(/\\"/g, '"');
+        //     }
+        //     else if (!this.value) {
+        //         conf.value = {};
+        //     }
+        //     return conf;
+        // },
         getPreviewConf: function () {
             return this.previewConf;
         },
@@ -48,12 +61,11 @@ export default {
         },
         _getFileValue: function () {
             var that = this;
-            console.log('filedesc', jQuery(that.$el).find('[c-file]').prop('files'));
-            var fileDesc = jQuery(that.$el).find('[c-file]').prop('files');
+            console.log('filedesc', that.jQe().find('[c-file]').prop('files'));
+            var fileDesc = that.jQe().find('[c-file]').prop('files');
             if (fileDesc.length) {
                 return fileDesc[0];
             }
-
             return null;
         },
         _validate: function () {
@@ -70,10 +82,10 @@ export default {
 
         },
         onSuccess() {
-
+            console.log('onSuccess _wUploadAjax');
         },
         onError() {
-
+            console.log('onError _wUploadAjax');
         },
         sendAjax: function () {
             var that = this;
@@ -127,13 +139,16 @@ export default {
                 that.$emit('success', that);
                 that.complete = true;
 
-                console.log('data.result', data.result);
+                console.log('done, data.result', data.result);
 
                 that.lastUpload = that.cloneObj(data.result);
 
                 that.value = JSON.stringify(data.result); //.replace(/\\"/g, '"');
-                var refPreview = that._uid + 'preview';
-                that.store.cRefs[refPreview].value = data.result;
+                // console.log('refs',that.$refs.preview)
+                // window.PIPPO = that.$refs.preview;
+                that.$refs.preview.setValue(data.result);
+                // var refPreview = that._uid + 'preview';
+                // that.store.cRefs[refPreview].value = data.result;
                 that.onSuccess();
             }).fail(function (data, error, msg) {
                 console.log("An error occurred, the files couldn't be sent!");

@@ -11,6 +11,11 @@ export default {
             name : ca.name || 'action-none'
         }
         return aData;
+    },
+    methods: {
+        getAction() {
+            return this.$refs[this.cConf.cRef];
+        }
     }
 }
 </script>

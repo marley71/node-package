@@ -117,7 +117,8 @@ export default {
                 //console.warn('attenzione widget non trovato per riga ' + row +  " key " + key);
                 return null;
             }
-            return this.store.cRefs[wConf.cRef];
+            return this.$refs[wConf.cRef];
+            //return this.store.cRefs[wConf.cRef];
         },
 
         getRecordAction: function (row, actionName) {
@@ -126,7 +127,8 @@ export default {
                 //console.warn('attenzione recordAction non trovata per riga ' + row +  " nome " + actionName);
                 return null;
             }
-            return this.store.cRefs[aConf.cRef];
+            return this.$refs[aConf.cRef];
+            //return this.store.cRefs[aConf.cRef];
         },
         getCollectionAction: function (actionName) {
             var aConf = this.collectionActions[actionName];
@@ -134,7 +136,8 @@ export default {
                 //console.warn('attenzione action non trovata nome ' + actionName);
                 return null;
             }
-            return this.store.cRefs[aConf.cRef];
+            return this.$refs[aConf.cRef];
+            //return this.store.cRefs[aConf.cRef];
         },
         /**
          * controlla la validità delle azioni inserite nel vettore actions

@@ -8,7 +8,7 @@ export default {
         return {
             icon: false,
             iconClass: '',
-            iconSize:'',
+            iconSize:'fa fa-2x',
             value: {},
             mimetypes: {
                 // associazione mimetype del file con icona da visualizzare
@@ -48,8 +48,11 @@ export default {
             currentMimetype : null,
         }
     },
+    mounted() {
+        this.setProps();
+    },
     methods: {
-        getType: function () {
+        setProps: function () {
             var that = this
             if (!that.value.mimetype) {
                 console.warn('mimetype not found ' + that.value.mimetype)
@@ -61,17 +64,25 @@ export default {
                 if (that.mimetypes.icons[that.value.mimetype]) {
                     that.iconClass = that.mimetypes.icons[that.value.mimetype]
                 }
+                that.currentMimetype = 'doc';
 
-                return 'doc'
+                //return 'doc'
+            } else if (that.mimetypes.imageType.indexOf(that.value.mimetype) >= 0) {
+                //return 'image'
+                that.currentMimetype = 'image';
+            } else {
+                console.warn('mimetype invalid ' + that.value.mimetype)
+                that.currentMimetype = that.value.mimetype;
             }
-
-            if (that.mimetypes.imageType.indexOf(that.value.mimetype) >= 0) {
-                return 'image'
-            }
-            console.warn('mimetype invalid ' + that.value.mimetype)
-            return null
+            //return null
+        },
+        setValue(value) {
+            //console.log('wPreview.SetValue',value);
+            this.value = value;
+            this.setProps();
         }
-    }
+    },
+
 }
 </script>
 

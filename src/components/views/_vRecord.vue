@@ -151,8 +151,10 @@ export default {
                 //console.warn('attenzione widget non trovato key ' + key);
                 return null;
             }
-            //console.log('getWidget',key,rConf);
-            return this.store.cRefs[rConf.cRef];
+            console.log('getWidget',key,rConf);
+            window.aaa = this.$refs[rConf.cRef];
+            return this.$refs[rConf.cRef][0].getWidget();
+            //return this.store.cRefs[rConf.cRef];
         },
         getAction: function (name) {
             var rConf = this.actionsConf[name];
@@ -160,8 +162,10 @@ export default {
                 //console.warn('attenzione action non trovata nome ' + name);
                 return null;
             }
-            //console.log('getAction',name,rConf);
-            return this.store.cRefs[rConf.cRef];
+            // console.log('getAction',name,rConf);
+            // window.aaa = this.$refs[rConf.cRef];
+            return this.$refs[rConf.cRef][0].getAction();
+            //return this.store.cRefs[rConf.cRef];
         },
         /**
          * aspetta che i widgets o il widgets esista e poi chiama la callback

@@ -3,7 +3,7 @@
 import coreMixin from "../../mixins/coreMixin";
 import dialogsMixin from "../../mixins/dialogsMixin";
 import crudStore from '../../utility/crudStore';
-
+import Server from '../../utility/Server'
 export default {
     name: '_cComponent',
     props: ['cConf'],
@@ -11,12 +11,8 @@ export default {
     created() {
         var that = this;
         //const store = crudStore()
-        var conf = this.cConf || {};
-        if (this.cConf) {
-            if (typeof this.cConf === 'string' || this.cConf instanceof String)
-                conf = that.getDescendantProp(that._getModelConfs(),this.cConf);
-        }
-        //console.log('conf',conf);
+        var conf = that._getConf();
+        console.log('_cComponent conf',conf);
         for (var k in conf) {
             if (['methods','computed'].indexOf(k) >= 0)
                 continue;
@@ -25,10 +21,12 @@ export default {
         var methods = conf.methods || {};
         for (var k in methods) {
             this[k] = methods[k];
+            //console.log('methods',k,methods[k].toString())
         }
         if (conf.cRef) {
             that.store.cRefs[conf.cRef] = this;
         }
+        that.Server = Server;
         // var computed = conf.computed || {};
         // for (var k in computed) {
         //     this[k] = computed[k];
@@ -101,7 +99,18 @@ export default {
         },
 
         _getModelConfs() {
-            return this.store.app.config.globalProperties.$modelConfs;
+            const store = crudStore()
+            return store.app.config.globalProperties.$modelConfs;
+        },
+
+        _getConf() {
+            var that = this;
+            var conf = that.cConf || {};
+            if (that.cConf) {
+                if (typeof that.cConf === 'string' || that.cConf instanceof String)
+                    conf = that.getDescendantProp(that._getModelConfs(),that.cConf);
+            }
+            return conf;
         }
     }
 }
