@@ -70,17 +70,16 @@ const dialogsMixin = {
 
         _alert : function (message,alertComp,time) {
             var that = this;
+            const store = crudStore();
             console.log('_alert',message,alertComp,time);
-            var d = new that.$options.components[alertComp]({
-                propsData: {
-                    cMessage : message,
-                    cTime : time
-                }
+            var d = createApp(store.app.component(alertComp), {
+                cMessage : message,
+                cTime : time
             });
             var id= 'pop' + (new Date().getTime());
             window.jQuery('body').append('<div id="'+id+'"></div>');
-            d.$mount('#'+id);
-            d.show();
+            d.mount('#'+id);
+            //d.show();
             //window.jQuery('#'+id).popover('show');
             return d;
             // var props = {
