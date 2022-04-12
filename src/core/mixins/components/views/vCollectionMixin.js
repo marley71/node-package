@@ -154,6 +154,8 @@ const vCollectionMixin = {
 
                 if (that.$crud.conf[aName]) {
                     aConf = that.$crud.conf[aName];
+                    var actionConf = that.actionsConfig[aName] || {};
+                    aConf = that.merge(aConf,actionConf);
                 } else if (that.actionsConfig[aName]) {
                     aConf = that.mergeConf(that.actionsConfig[aName]);
                 } else {
