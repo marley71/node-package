@@ -77,7 +77,7 @@ export default {
                 listComp.unmount();
             var conf = that.inlineEdit?that._getListEditConfiguration():that._getListConfiguration();
             var cName = that.inlineEdit?that.listEditComponentName:that.listComponentName;
-            conf.cRef = that._uid + '-list'
+            conf.cRef = that.uid + '-list'
             var tId = that.createContainer(that.jQe(that.listSelector),true);
             that.newComponent(cName,{
                 cConf: conf,
@@ -95,7 +95,7 @@ export default {
             if (searchComp)
                 searchComp.unmount();
             var conf = that._getSearchConfiguration();
-            conf.cRef = that._uid + '-search'
+            conf.cRef = that.uid + '-search'
             var tId = that.createContainer(that.jQe(that.searchSelector),true);
 
             that.newComponent(that.searchComponentName,{
@@ -130,7 +130,7 @@ export default {
             var tId = thisManage.createContainer(thisManage.jQe(thisManage.updateSelector),true);
 
             conf.pk = action.modelData[listComp.primaryKey];
-            conf.cRef = thisManage._uid + '-edit'
+            conf.cRef = thisManage.uid + '-edit'
             thisManage.newComponent(thisManage.editComponentName,{
                 cConf: conf,
             }).mount('#' + tId);
@@ -160,7 +160,7 @@ export default {
             var dlgView = thisManage.customDialog('<div id="' + id + '"></div>');
             var conf = thisManage._getViewConfiguration();
             conf.pk = action.modelData[primaryKey];
-            conf.cRef = thisManage._uid + '-view'
+            conf.cRef = thisManage.uid + '-view'
             console.log('cManage viewConf',conf,'action caller',action);
             thisManage.newComponent(thisManage.viewComponentName,{
                 cConf: conf,
@@ -186,7 +186,7 @@ export default {
             if (editComp) {
                 editComp.unmount();
             }
-            this.insertConf.cRef = thisManage._uid + '-insert';
+            this.insertConf.cRef = thisManage.uid + '-insert';
             console.log('_createInsert',thisManage.insertConf);
 
             thisManage.newComponent(thisManage.insertComponentName,{
@@ -357,7 +357,7 @@ export default {
         },
 
         getComponent(type) {
-            return this.store.cRefs[this._uid+'-'+type]
+            return this.store.cRefs[this.uid+'-'+type]
         }
     }
 }

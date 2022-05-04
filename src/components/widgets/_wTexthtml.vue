@@ -16,7 +16,7 @@ export default {
     methods: {
         afterLoadResources () {
             var that = this
-            ClassicEditor
+            window.ClassicEditor
                 .create(document.querySelector('.summernote'))
                 .then(editor => {
                     console.log(editor)

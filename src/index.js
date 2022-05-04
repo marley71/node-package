@@ -6,7 +6,8 @@ import Route from './utility/Routes'
 import ProtocolList from './utility/ProtocolList'
 import ProtocolRecord from './utility/ProtocolRecord'
 
-import crudStore from './utility/crudStore'
+//import { crudStore } from './utility/crudStore.js'
+import crudVars from './utility/crudVars.js'
 import coreMixin from './mixins/coreMixin'
 import dialogsMixin from './mixins/dialogsMixin'
 import choiceMixin from './mixins/choiceMixin'
@@ -70,6 +71,8 @@ import _cManage from './components/app/_cManage.vue'
 import _dBase from './components/dialogs/_dBase.vue'
 import _dAlert from './components/dialogs/_dAlert.vue'
 
+//console.log('aaaaaaaaaaaa',crudStore)
+
 export default {
 
     // nuovi oggetti
@@ -77,7 +80,9 @@ export default {
     Route,
     ProtocolList,
     ProtocolRecord,
-    crudStore, coreMixin, dialogsMixin, choiceMixin,mainMixin,
+    //crudStore,
+    crudVars,
+    coreMixin, dialogsMixin, choiceMixin,mainMixin,
     _cComponent,_cPaginator,_cWait,
     _wBase,_wInput,_wAutocomplete,_wB2Select2,_wB2mSelect2,_wBelongsTo,_wCheckbox,_wCustom,
     _wDatePicker,_wDateSelect,_wDateText,_wHasmany,_wHasmanyListed,_wHidden,_wImage,_wInputHelped,

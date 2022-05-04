@@ -57,7 +57,7 @@ export default {
             for (let k in keys) {
                 let key = keys[k];
                 widgets[key] = that._createWidgetConfig(key,that.value);
-                widgets[key].cRef = that.getRefId(that._uid, 'w', key);
+                widgets[key].cRef = that.getRefId(that.uid, 'w', key);
             }
             that.widgets = widgets;
             var adF = that.advancedFields || [];
@@ -65,7 +65,7 @@ export default {
             for (let k in adF) {
                 let key = adF[k];
                 adW[key] = that._createWidgetConfig(key, that.value);
-                adW[key].cRef = that.getRefId(that._uid, 'w', key);
+                adW[key].cRef = that.getRefId(that.uid, 'w', key);
             }
             that.advancedWidgets = adW;
 

@@ -12,7 +12,7 @@ export default {
                 lat: that.lat,
                 lng: that.lng
             }
-            that.marker = new google.maps.Marker({
+            that.marker = new window.google.maps.Marker({
                 position: pos,
                 map: that.map
             })

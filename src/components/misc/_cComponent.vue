@@ -2,29 +2,33 @@
 
 import coreMixin from "../../mixins/coreMixin";
 import dialogsMixin from "../../mixins/dialogsMixin";
-import crudStore from '../../utility/crudStore';
+import crudVars from '../../utility/crudVars';
 import Server from '../../utility/Server'
+
 export default {
     name: '_cComponent',
     props: ['cConf'],
     mixins: [coreMixin,dialogsMixin],
+    inject: ['store'],
     created() {
         var that = this;
-        //const store = crudStore()
-        var conf = that._getConf();
+        var store = crudVars;
+        console.log('_cComponent store',store);
+        var conf = that._getConf() || {};
         console.log('_cComponent conf',conf);
-        for (var k in conf) {
+
+        for (let k in conf) {
             if (['methods','computed'].indexOf(k) >= 0)
                 continue;
             this[k] = conf[k];
         }
         var methods = conf.methods || {};
-        for (var k in methods) {
+        for (let k in methods) {
             this[k] = methods[k];
             //console.log('methods',k,methods[k].toString())
         }
         if (conf.cRef) {
-            that.store.cRefs[conf.cRef] = this;
+            store.cRefs[conf.cRef] = this;
         }
         that.Server = Server;
         // var computed = conf.computed || {};
@@ -56,12 +60,13 @@ export default {
         }
     },
     data() {
-        const store = crudStore()
+        // TODO si dovrebbe usare lo store dell'app
+        var store = crudVars;
         return {
             resourcesLoaded: false,
-            store : store,
-            _uid : this._getNewUid(),
+            uid : this._getNewUid(),
             resources: [],
+            store : store,
         }
     },
     methods: {
@@ -72,6 +77,7 @@ export default {
          */
         jQe(selector) {
             var that = this;
+            console.log('jQe',that.$refs,that.$refs.el)
             if (selector) {
                 return window.jQuery(that.$refs.el).find(selector).addBack(selector);
             }
@@ -93,22 +99,25 @@ export default {
         },
 
         _getNewUid() {
-            const store = crudStore()
+            var store = crudVars;
             store.uniqueId++;
+            console.log('uniqueId',store.uniqueId);
             return store.uniqueId;
         },
 
         _getModelConfs() {
-            const store = crudStore()
-            return store.app.config.globalProperties.$modelConfs;
+            var store = crudVars;
+            return store.modelConfs;
         },
 
         _getConf() {
             var that = this;
             var conf = that.cConf || {};
             if (that.cConf) {
-                if (typeof that.cConf === 'string' || that.cConf instanceof String)
-                    conf = that.getDescendantProp(that._getModelConfs(),that.cConf);
+                if (typeof that.cConf === 'string' || that.cConf instanceof String) {
+                    console.log('_cComponent',that.cConf,that._getModelConfs())
+                    conf = that.getDescendantProp(that._getModelConfs(), that.cConf);
+                }
             }
             return conf;
         }

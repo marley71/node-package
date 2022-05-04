@@ -1,6 +1,3 @@
-<template>
-
-</template>
 
 <script>
 import _wBase from './_wBase.vue'

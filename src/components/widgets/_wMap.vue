@@ -108,7 +108,7 @@ export default {
     methods: {
         setValue (lat,lng) {
             var that = this;
-            var position = new google.maps.LatLng(lat, lng)
+            var position = new window.google.maps.LatLng(lat, lng)
             that.marker.setPosition(position)
             that.map.setCenter(that.marker.position)
             that._setHiddenValues()
@@ -142,7 +142,7 @@ export default {
                     mapConfig.styles = mapConfig.styles.concat(that.darkStyle)
                 }
                 console.log('mapConfig', mapConfig)
-                that.map = new google.maps.Map(that.jQe('[c-map]')[0], mapConfig)
+                that.map = new window.google.maps.Map(that.jQe('[c-map]')[0], mapConfig)
                 that.createMarker()
             }
 
@@ -160,7 +160,7 @@ export default {
                 lat: that.lat,
                 lng: that.lng
             }
-            that.marker = new google.maps.Marker({
+            that.marker = new window.google.maps.Marker({
                 position: pos,
                 map: that.map,
                 draggable: true
@@ -179,7 +179,7 @@ export default {
         },
         _gSearch (address) {
             var that = this
-            var geocoder = new google.maps.Geocoder()
+            var geocoder = new window.google.maps.Geocoder()
             geocoder.geocode({'address': address}, function (results, status) {
                 if (results) {
                     if (results.length > 1) {
@@ -190,8 +190,8 @@ export default {
                     for (var key in results) {
                         var item = results[key]
                         // console.log('item',item,'status',status);
-                        if (status === google.maps.GeocoderStatus.OK) {
-                            var position = new google.maps.LatLng(item.geometry.location.lat(), item.geometry.location.lng())
+                        if (status === window.google.maps.GeocoderStatus.OK) {
+                            var position = new window.google.maps.LatLng(item.geometry.location.lat(), item.geometry.location.lng())
                             that.marker.setPosition(position)
                             break
                         }

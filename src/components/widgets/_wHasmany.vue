@@ -41,7 +41,7 @@ export default {
                 metadata: relationConf,
                 widgetTemplate: 'tpl-record',
             }, hmConf);
-            hmConf.cRef = that.getRefId(that._uid, 'hm', that.keyCounter++);
+            hmConf.cRef = that.getRefId(that.uid, 'hm', that.keyCounter++);
             //alert(hmConf.cRef)
             if (value && Object.keys(value).length > 0) {
                 if (!hmConf.fields || !hmConf.fields.length) {

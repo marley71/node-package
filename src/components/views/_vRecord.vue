@@ -53,6 +53,24 @@ export default {
         //     }
         //     return route;
         // },
+        getVisibleWidgets() {
+            var that = this;
+            var visible = {};
+            for (let key in that.widgets) {
+                if (!that.isHiddenField(key))
+                    visible[key] = that.widgets[key]
+            }
+            return visible;
+        },
+        getHiddenWidgets() {
+            var that = this;
+            var hidden = {};
+            for (let key in that.widgets) {
+                if (that.isHiddenField(key))
+                    hidden[key] = that.widgets[key]
+            }
+            return hidden;
+        },
         draw: function () {
             var that = this;
             that.checkValidActions();
@@ -80,7 +98,7 @@ export default {
             for (var k in keys) {
                 var key = keys[k];
                 widgets[key] = that._createWidgetConfig(key,that.value);
-                widgets[key].cRef = that.getRefId(that._uid, 'w', key);
+                widgets[key].cRef = that.getRefId(that.uid, 'w', key);
             }
 
             //console.log('v-record.widgets', widgets);
@@ -122,7 +140,7 @@ export default {
                 aConf.modelData = this.cloneObj(v);
                 aConf.modelName = that.cModel;
                 //aConf.rootElement = that.$el;
-                aConf.cRef = that.getRefId(that._uid, 'a', aName);
+                aConf.cRef = that.getRefId(that.uid, 'a', aName);
                 aConf.name = aName;
                 aConf.view = that;
                 actionsConf[aName] = aConf;

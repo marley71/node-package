@@ -69,7 +69,7 @@ export default {
                     // se non c'e' la configurazione in modalità edit lo forzo ad essere un w-input
                     if (!that.fieldsConfigEditMode || !that.fieldsConfigEditMode[key])
                         dconf.type = 'w-input';
-                    dconf.cRef = that.getRefId(that._uid, 'redit', i, key);
+                    dconf.cRef = that.getRefId(that.uid, 'redit', i, key);
                     dconf.modelData = that.value[i];
                     dconf.value = that.value[i][key];
                     dconf.name = that.getFieldName(key);

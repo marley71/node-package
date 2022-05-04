@@ -1,17 +1,17 @@
 import jQuery from 'jquery'
 import Route from '../utility/Routes'
 import { createApp } from 'vue'
-import crudStore from '../utility/crudStore';
+import crudVars from '../utility/crudVars';
 
-//const pinia = createPinia();
-//const store = {}; //crudStore();
 
 const coreMixin = {
     methods : {
 
         newComponent(name,rootProps) {
-            const store = crudStore();
+            //var store = this.store;
+            var store = crudVars;
             var rP = rootProps || {};
+            //console.log('store',store,'app',store.app,store.app.component(name))
             var comp = createApp(store.app.component(name),rP);
             for (var k in store.app._context.components) {
                 comp.component(k,store.app.component(k));
@@ -68,12 +68,12 @@ const coreMixin = {
             return params[name];
         },
         getComponent : function (refId) {
-            const store = crudStore();
+            var store = this.store;
             return store.cRefs[refId];
         },
         waitStart : function (msg,container) {
             var that = this;
-            const store = crudStore();
+            var store = this.store;
             var _c = container?container:'body';
             var id = that.createContainer(_c);
             let comp = that.newComponent('c-wait',{
@@ -99,13 +99,13 @@ const coreMixin = {
         },
         waitEnd : function (component) {
             var that = this;
-            const store = crudStore();
+            var store = this.store;
             if (store._wait_istances.length == 0)
                 return ;
             if (component) {
                 for (var i in store._wait_istances) {
                     let comp =store._wait_istances[i];
-                    if (comp._uid == component._uid) {
+                    if (comp.uid == component._uid) {
                         store._wait_istances.splice(i,1);
                     }
                 }
@@ -232,14 +232,15 @@ const coreMixin = {
          * @returns {string|*}
          */
         hasTranslation : function (key) {
-            const store = crudStore();
+            var store = this.store;
             if (store.lang[key])
                 return true;
             return false;
         },
 
         _translate : function (key,plural,params) {
-            const store = crudStore();
+            var store = this.store;
+            console.log('_translate store',store);
             var testi = store.lang[key];
             if (!testi)
                 return key;
@@ -258,7 +259,7 @@ const coreMixin = {
          * @param routeName : nome della configurazione della route
          */
         createRoute : function(routeName) {
-            const store = crudStore();
+            var store = this.store;
             var routeConf = store.routes[routeName];
             console.log('routeName',routeName,routeConf);
             if (!routeConf)
@@ -277,7 +278,7 @@ const coreMixin = {
          * esempio se passiamo come nome mio_prot cerchera' di istanziare la class ProtocolMioProt.
          */
         createProtocol : function(name) {
-            const store = crudStore();
+            var store = this.store;
             var className = "Protocol" + this.pascalCase(name);
             try {
                 //return new window[className]();
@@ -290,6 +291,7 @@ const coreMixin = {
         },
 
         getDescendantProp : function(obj, desc) {
+            console.log('getDescendantProp',desc,obj);
             var arr = desc.split(".");
             while(arr.length && (obj = obj[arr.shift()]));
             return obj;
@@ -399,7 +401,7 @@ const coreMixin = {
 
         // funzioni trasformazioni standard case
         sentenceCase : function (str) {
-            const store = crudStore();
+            var store = this.store;
             if (str == null) {
                 return '';
             }
@@ -540,7 +542,7 @@ const coreMixin = {
          */
         mergeConf : function(conf,rootData) {
             var that = this;
-            const store = crudStore();
+            var store = this.store;
             //console.log('Merge Conf',conf);
 
             var __getConfObj = function (c,rD) {
@@ -650,6 +652,7 @@ const coreMixin = {
          */
         loadResource : function (fileName, callback) {
             var that = this;
+            var store = crudVars;
             //console.log('App.loadResourece',fileName)
             var _callback = callback?callback:function () {};
             if (!fileName) {
@@ -684,7 +687,7 @@ const coreMixin = {
         },
         _loadHtml  : function (fileName,callback) {
             var that = this;
-            const store = crudStore();
+            var store = this.store;
             var _callback = function () {
                 //that.log.info('loaded... ' + scriptName);
                 store._resources[fileName] = true;
@@ -706,7 +709,7 @@ const coreMixin = {
         },
         _loadScript : function (scriptName, callback) {
             var that = this;
-            const store = crudStore();
+            var store = this.store;
             var _callback = function () {
                 //that.log.info('loaded... ' + scriptName)
                 store._resources[scriptName] = true;
@@ -736,7 +739,8 @@ const coreMixin = {
 
         _loadCss : function (scriptName,callback) {
             var that = this;
-            const store = crudStore();
+
+            var store = this.store;
             var _callback = function () {
                 //that.log.info('loaded... ' + scriptName);
                 store._resources[scriptName] = true;

@@ -22,16 +22,16 @@ export default {
             dataSwitched: false,
             isAjax:true,  // se e' un controllo che deve fare la chiamata di update altrimenti e' un controllo normale in una form
             json : null, // ultimo json caricato dalla chiamata ajax,
-            _currentIndex : 0,  // indice corrente delle chiavi di domainValues
+            currentIndex : 0,  // indice corrente delle chiavi di domainValues
         }
     },
     methods: {
         _ready() {
             var that = this;
             var keys = Object.keys(that.domainValues);
-            that._currentIndex = keys.indexOf(''+that.value);
-            that.toggleActive = that._currentIndex?true:false;
-            //console.log('index e toggle ',that._currentIndex,that.toggleActive,keys,that.value,that.domainValues);
+            that.currentIndex = keys.indexOf(''+that.value);
+            that.toggleActive = that.currentIndex?true:false;
+            //console.log('index e toggle ',that.currentIndex,that.toggleActive,keys,that.value,that.domainValues);
         },
         setRouteValues: function (route) {
             var that = this;
@@ -61,18 +61,18 @@ export default {
 
 
                     var keys = Object.keys(that.domainValues);
-                    that.value = keys[that._currentIndex];
-                    that.slot = that.domainValues[keys[that._currentIndex]];
-                    that.toggleActive = that._currentIndex?true:false;
-                    //console.log('value',that.value,'index',that._currentIndex);
+                    that.value = keys[that.currentIndex];
+                    that.slot = that.domainValues[keys[that.currentIndex]];
+                    that.toggleActive = that.currentIndex?true:false;
+                    //console.log('value',that.value,'index',that.currentIndex);
                     that.change();
                 })
             } else {
                 that.value = that._getNext();
                 var keys = Object.keys(that.domainValues);
-                that.slot = that.domainValues[keys[that._currentIndex]];
-                that.toggleActive = that._currentIndex?true:false;
-                //console.log('value',that.value,'index',that._currentIndex);
+                that.slot = that.domainValues[keys[that.currentIndex]];
+                that.toggleActive = that.currentIndex?true:false;
+                //console.log('value',that.value,'index',that.currentIndex);
                 that.change();
             }
 
@@ -90,9 +90,9 @@ export default {
         _getNext() {
             var that = this;
             var keys = Object.keys(that.domainValues);
-            var newIndex = (that._currentIndex + 1) % keys.length;
+            var newIndex = (that.currentIndex + 1) % keys.length;
             //console.log('_getNext','value',keys[newIndex], 'index', newIndex);
-            that._currentIndex = newIndex;
+            that.currentIndex = newIndex;
             return keys[newIndex];
         },
     }

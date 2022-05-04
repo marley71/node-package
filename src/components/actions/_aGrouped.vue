@@ -43,7 +43,7 @@ export default {
             conf.modelData = this.cloneObj(that.view.value[row]);
             conf.modelName = this.view.modelName;
             conf.index = row;
-            conf.cRef = that.getRefId(that._uid, 'ra', row, aName);
+            conf.cRef = that.getRefId(that.uid, 'ra', row, aName);
             conf.name = aName;
             conf.view = that.view;
             if (!conf.componentName) {

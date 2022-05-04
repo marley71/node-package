@@ -5,6 +5,7 @@ import Server from "../../utility/Server";
 export default {
     name: "_vBase",
     extends: _cComponent,
+    inject: ['store'],
     data() {
         return {
             confParent: 'c-component',
@@ -18,6 +19,7 @@ export default {
     },
     mounted() {
         var that = this;
+        console.log('_vBase mounted',this.store);
         that.route = that._getRoute();
         if (that.autoload) {
             that.load();

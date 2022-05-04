@@ -1,7 +1,3 @@
-<template>
-
-</template>
-
 <script>
 
 import jQuery from "jquery";
@@ -78,7 +74,7 @@ export default {
                 for (var k in that.keys) {
                     var key = that.keys[k];
                     widgets[i][key] = that._createWidgetConfig(key,value[i]);
-                    widgets[i][key].cRef = that.getRefId(that._uid, 'w', i, key);
+                    widgets[i][key].cRef = that.getRefId(that.uid, 'w', i, key);
                 }
             }
             that.widgets = widgets;
@@ -111,6 +107,26 @@ export default {
             }
             return visible;
         },
+        getVisibleWidgets(row) {
+            var that = this;
+            var visible = {};
+            for (let key in row) {
+                if (!that.isHiddenField(key))
+                    visible[key] = row[key]
+            }
+            return visible;
+        },
+
+        getHiddenWidgets(row) {
+            var that = this;
+            var hidden = {};
+            for (let key in row) {
+                if (that.isHiddenField(key))
+                    hidden[key] = row[key]
+            }
+            return hidden;
+        },
+
         getWidget: function (row, key) {
             var wConf = (this.widgets[row] && this.widgets[row][key]) ? this.widgets[row][key]:null;
             if (!wConf) {
@@ -200,10 +216,10 @@ export default {
                 var aConf = that.getActionConfig(aName);
                 //var a = jQuery.extend(true,{},aConf);
                 //a.id = data.value[i].id;
-                aConf.modelData = {...that.value[row]};
+                Object.assign(aConf.modelData, that.value[row]);
                 aConf.modelName = that.cModel;
                 aConf.index = row;
-                aConf.cRef = that.getRefId(that._uid, 'ra', row, aName);
+                aConf.cRef = that.getRefId(that.uid, 'ra', row, aName);
                 aConf.name = aName;
                 aConf.view = that;
                 recordActions[row][aName] = aConf;
@@ -220,7 +236,7 @@ export default {
                 aConf.modelData = jQuery.extend(true, {}, that.value);
                 aConf.modelName = that.cModel;
                 aConf.rootElement = that.$el;
-                aConf.cRef = that.getRefId(that._uid, 'ca', aName);
+                aConf.cRef = that.getRefId(that.uid, 'ca', aName);
                 that.needSelection = that.needSelection || aConf.needSelection;
                 aConf.name = aName;
                 aConf.view = that;

@@ -1,8 +1,5 @@
-<template>
-
-</template>
-
 <script>
+import crudVars from '../../utility/crudVars';
 export default {
     name: "_vWidget",
     props : ['cWidget'],
@@ -39,7 +36,7 @@ export default {
             if (typeof cw === 'string' || cw instanceof String) {
                 conf = this.getDescendantProp(window, cw)
                 if (!conf) {
-                    conf = this.getDescendantProp(crud.conf, cw)
+                    conf = this.getDescendantProp(crudVars.conf, cw)
                 }
             } else {
                 conf = cw
@@ -49,7 +46,7 @@ export default {
         _tplConf2Object(ct) {
             var that = this;
             var tplConf = {};
-            var ct = ct || {};
+            ct = ct || {};
             // check se template e' una stringa o una configurazione
             if (typeof ct === 'string' || ct instanceof String) {
                 //console.log('istanza di una stringa ',conf.template)

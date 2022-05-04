@@ -1,13 +1,15 @@
 
 import {createApp } from 'vue';
-import crudStore from "../utility/crudStore";
+//import crudStore from "../utility/crudStore";
 //const store = crudStore();
 
 const dialogsMixin = {
     methods : {
         __dialog(name,bodyProps,callbacks) {
             var that = this;
-            const store = crudStore();
+            //const store = crudStore();
+            var store = this.store;
+            console.log('_dialogMixin',store);
             var cConf = {};
             console.log('bodyProps',bodyProps,callbacks);
             if (typeof bodyProps === 'string' || bodyProps instanceof String || bodyProps instanceof Array) {
@@ -70,7 +72,8 @@ const dialogsMixin = {
 
         _alert : function (message,alertComp,time) {
             var that = this;
-            const store = crudStore();
+            //const store = crudStore();
+            var store = this.store;
             console.log('_alert',message,alertComp,time);
             var d = createApp(store.app.component(alertComp), {
                 cMessage : message,

@@ -69,7 +69,7 @@ export default {
             hmConf.methods = methods;
 
 
-            that.viewRef = that.getRefId(that._uid, 'hm', 'list');
+            that.viewRef = that.getRefId(that.uid, 'hm', 'list');
             hmConf.cRef = that.viewRef;
             //alert(hmConf.cRef)
             if (that.value && Object.keys(that.value).length > 0) {

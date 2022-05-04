@@ -24,7 +24,7 @@ export default {
     mounted() {
         var that = this;
         var conf = that._getConf();
-        that.previewConf.cRef = that._uid + 'preview';
+        that.previewConf.cRef = that.uid + 'preview';
         if (that.value instanceof Object) {
             that.previewConf.value = conf.value;
             that.previewConf.iconSize = 'fa fa-2x';

@@ -3,10 +3,10 @@
  */
 
 import jQuery from 'jquery';
-import crudStore from './crudStore';
+import crudVars from './crudVars';
 
 const Server = {
-    useApi : true
+    useApi : false
 };
 
 
@@ -22,7 +22,7 @@ Server.getUrl = function (url) {
 };
 
 Server.getHearders = function() {
-    const store = crudStore();
+    var store = crudVars;
     console.log('Server thissssssss',store.app);
     var headers = {};
     if (Server.useApi) {
