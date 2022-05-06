@@ -9,7 +9,7 @@ export default {
     name: '_cComponent',
     props: ['cConf'],
     mixins: [coreMixin,dialogsMixin],
-    inject: ['store'],
+    //inject: ['store'],
     created() {
         var that = this;
         var store = crudVars;
@@ -77,11 +77,19 @@ export default {
          */
         jQe(selector) {
             var that = this;
-            console.log('jQe',that.$refs,that.$refs.el)
+            console.log('jQe',that.$el)
             if (selector) {
-                return window.jQuery(that.$refs.el).find(selector).addBack(selector);
+                return window.jQuery(that.$el).find(selector).addBack(selector);
             }
-            return window.jQuery(that.$refs.el);
+            return window.jQuery(that.$el);
+
+
+
+            // console.log('jQe',that.$refs,that.$refs.el)
+            // if (selector) {
+            //     return window.jQuery(that.$refs.el).find(selector).addBack(selector);
+            // }
+            // return window.jQuery(that.$refs.el);
         },
         beforeLoadResources : function () {
             //console.log('cComponent.beforeLoadResources')

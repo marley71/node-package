@@ -9,12 +9,19 @@ const coreMixin = {
 
         newComponent(name,rootProps) {
             //var store = this.store;
-            var store = crudVars;
+            let store = crudVars;
             var rP = rootProps || {};
             //console.log('store',store,'app',store.app,store.app.component(name))
             var comp = createApp(store.app.component(name),rP);
-            for (var k in store.app._context.components) {
+            for (let k in store.app._context.components) {
                 comp.component(k,store.app.component(k));
+            }
+            for (let k in store.app._context.directives) {
+                comp.directive(k,store.app._context.directives[k]);
+            }
+            console.log('newComponent use',store.use);
+            for (let i in store.use) {
+                comp.use.apply(this,store.use[i]);
             }
             return comp;
         },
@@ -105,7 +112,7 @@ const coreMixin = {
             if (component) {
                 for (var i in store._wait_istances) {
                     let comp =store._wait_istances[i];
-                    if (comp.uid == component._uid) {
+                    if (comp.uid == component.uid) {
                         store._wait_istances.splice(i,1);
                     }
                 }
@@ -232,15 +239,15 @@ const coreMixin = {
          * @returns {string|*}
          */
         hasTranslation : function (key) {
-            var store = this.store;
+            let store = crudVars;
             if (store.lang[key])
                 return true;
             return false;
         },
 
         _translate : function (key,plural,params) {
-            var store = this.store;
-            console.log('_translate store',store);
+            let store = crudVars;
+            //console.log('_translate store',store);
             var testi = store.lang[key];
             if (!testi)
                 return key;
@@ -259,8 +266,8 @@ const coreMixin = {
          * @param routeName : nome della configurazione della route
          */
         createRoute : function(routeName) {
-            var store = this.store;
-            var routeConf = store.routes[routeName];
+            let store = crudVars;
+            let routeConf = store.routes[routeName];
             console.log('routeName',routeName,routeConf);
             if (!routeConf)
                 throw "Impossibile trovare la route " + routeName;
@@ -278,8 +285,8 @@ const coreMixin = {
          * esempio se passiamo come nome mio_prot cerchera' di istanziare la class ProtocolMioProt.
          */
         createProtocol : function(name) {
-            var store = this.store;
-            var className = "Protocol" + this.pascalCase(name);
+            let store = crudVars;
+            let className = "Protocol" + this.pascalCase(name);
             try {
                 //return new window[className]();
                 //return eval('new ' + className + '()');
@@ -401,7 +408,7 @@ const coreMixin = {
 
         // funzioni trasformazioni standard case
         sentenceCase : function (str) {
-            var store = this.store;
+            let store = crudVars;
             if (str == null) {
                 return '';
             }
@@ -541,8 +548,8 @@ const coreMixin = {
          * @return {*}
          */
         mergeConf : function(conf,rootData) {
-            var that = this;
-            var store = this.store;
+            let that = this;
+            let store = crudVars;
             //console.log('Merge Conf',conf);
 
             var __getConfObj = function (c,rD) {
@@ -651,7 +658,6 @@ const coreMixin = {
          * @param callback
          */
         loadResource : function (fileName, callback) {
-            var that = this;
             var store = crudVars;
             //console.log('App.loadResourece',fileName)
             var _callback = callback?callback:function () {};
@@ -686,9 +692,8 @@ const coreMixin = {
             return id;
         },
         _loadHtml  : function (fileName,callback) {
-            var that = this;
-            var store = this.store;
-            var _callback = function () {
+            let store = crudVars;
+            let _callback = function () {
                 //that.log.info('loaded... ' + scriptName);
                 store._resources[fileName] = true;
                 store._resources_loaded[fileName] = true;
@@ -708,8 +713,7 @@ const coreMixin = {
             }
         },
         _loadScript : function (scriptName, callback) {
-            var that = this;
-            var store = this.store;
+            let store = crudVars;
             var _callback = function () {
                 //that.log.info('loaded... ' + scriptName)
                 store._resources[scriptName] = true;
@@ -738,10 +742,8 @@ const coreMixin = {
         },
 
         _loadCss : function (scriptName,callback) {
-            var that = this;
-
-            var store = this.store;
-            var _callback = function () {
+            let store = crudVars;
+            let _callback = function () {
                 //that.log.info('loaded... ' + scriptName);
                 store._resources[scriptName] = true;
                 store._resources_loaded[scriptName] = true;

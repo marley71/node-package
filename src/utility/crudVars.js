@@ -15,7 +15,6 @@ const crudVars = {
     _wait_istances: [],
     pluginsPath: '',
     app: null, // istanza app crud
-    lang: {},
     cRefs: {},
     conf: actionConfs,
     routes: routeConfs,
@@ -25,5 +24,9 @@ const crudVars = {
     },
     env: {},
     uniqueId: 1,
+    lang: {
+        'app.seleziona' : 'Seleziona'
+    },
+    use : [],
 }
 export default crudVars

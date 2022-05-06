@@ -7,7 +7,6 @@ export default {
     name: "_wAutocomplete",
     extends: _wBase,
     data() {
-        window.AA = this;
         return {
             resources: [
                 'https://cdnjs.cloudflare.com/ajax/libs/jquery-autocomplete/1.0.7/jquery.auto-complete.min.css',
@@ -102,7 +101,7 @@ export default {
             that.value = '';
             that.label = '';
             that.suggestValues = {};
-            jQuery(that.$el).find('[c-autocomplete]').val('');
+            that.jQe().find('[c-autocomplete]').val('');
             that.change();
         },
         getLabel: function () {

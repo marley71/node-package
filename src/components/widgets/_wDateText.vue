@@ -7,6 +7,7 @@ export default {
     extends: _wBase,
     data() {
         return {
+            resources : ['https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment-with-locales.min.js'],
             displayFormat: 'DD/MM/YYYY',
             dateFormat: 'yyyy-mm-dd',
             formattedValue: null,

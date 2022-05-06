@@ -216,6 +216,7 @@ export default {
                 var aConf = that.getActionConfig(aName);
                 //var a = jQuery.extend(true,{},aConf);
                 //a.id = data.value[i].id;
+                aConf.modelData = {};
                 Object.assign(aConf.modelData, that.value[row]);
                 aConf.modelName = that.cModel;
                 aConf.index = row;

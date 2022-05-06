@@ -5,7 +5,7 @@ import Server from "../../utility/Server";
 export default {
     name: "_vBase",
     extends: _cComponent,
-    inject: ['store'],
+    //inject: ['store'],
     data() {
         return {
             confParent: 'c-component',

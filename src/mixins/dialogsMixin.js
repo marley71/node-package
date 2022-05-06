@@ -23,12 +23,14 @@ const dialogsMixin = {
             cConf.cRef = id;
             window.jQuery('body').append('<div id="'+id+'"></div>');
             //console.log('component',name,store._app.component(name))
-            var dlg = createApp(store.app.component(name),{
-                cConf:cConf
-            });
+            // var dlg = createApp(store.app.component(name),{
+            //     cConf:cConf
+            // });
+            var dlg = that.newComponent(name,{ cConf : cConf});
             dlg.store = store;
             //dlg.component(store._app.component(name))
             dlg.mount('#' + id);
+            window.DD = dlg;
             console.log('dlg',dlg);
             //store.cRefs[id].show();
             return store.cRefs[id];
@@ -75,10 +77,16 @@ const dialogsMixin = {
             //const store = crudStore();
             var store = this.store;
             console.log('_alert',message,alertComp,time);
-            var d = createApp(store.app.component(alertComp), {
+            // var d = createApp(store.app.component(alertComp), {
+            //     cMessage : message,
+            //     cTime : time
+            // });
+            var d = that.newComponent(store.app.component(alertComp),{
                 cMessage : message,
                 cTime : time
             });
+
+
             var id= 'pop' + (new Date().getTime());
             window.jQuery('body').append('<div id="'+id+'"></div>');
             d.mount('#'+id);

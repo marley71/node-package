@@ -8,6 +8,7 @@ export default {
     extends: _wBase,
     data() {
         return {
+            resources : ['https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment-with-locales.min.js'],
             minYear: null,
             maxYear: null
         }
@@ -15,7 +16,7 @@ export default {
     methods: {
         cDay: function () {
             var that = this;
-            var d = moment(that.value);
+            var d = window.moment(that.value);
             var days = that._dayValues();
             var cd = {
                 value: d.date() > d.daysInMonth() ? 1 : d.date(),
@@ -30,7 +31,7 @@ export default {
         },
         cMonth: function () {
             var that = this;
-            var d = moment(that.value);
+            var d = window.moment(that.value);
             var months = that._monthValues();
             var cm = {
                 value: d.month() + 1,
@@ -45,7 +46,7 @@ export default {
         },
         cYear: function () {
             var that = this;
-            var d = moment(that.value);
+            var d = window.moment(that.value);
             var years = that._yearValues();
             var cy = {
                 value: d.year(),
@@ -65,7 +66,7 @@ export default {
                 return;
             }
             var _cday = that.$refs.day;
-            var d = moment(that.value);
+            var d = window.moment(that.value);
             _cday.domainValues = this._dayValues();
             _cday.domainValuesOrder = Object.keys(this._dayValues());
             _cday.value = d.date() > d.daysInMonth() ? 1 : d.date();
@@ -80,11 +81,11 @@ export default {
             var sdate = _cyear.getValue() + "-" + _cmonth.getValue().toString().padStart(2, '0') + "-" + _cday.getValue().toString().padStart(2, '0');
 
             //console.log('validate Date',_cday,_cmonth,_cyear,sdate);
-            var dds = moment(sdate);
+            var dds = window.moment(sdate);
             if (!dds.isValid()) {
                 _cday.setValue(1);
                 sdate = _cyear.getValue() + "-" + _cmonth.getValue().toString().padStart(2, '0') + "-" + _cday.getValue().toString().padStart(2, '0');
-                dds = moment(sdate);
+                dds = window.moment(sdate);
                 if (!dds.isValid())
                     return false;
             }
@@ -95,7 +96,7 @@ export default {
         },
         _dayValues: function () {
             var that = this;
-            var d = moment(that.value);
+            var d = window.moment(that.value);
             var days = {};
             for (let i = 1; i <= d.daysInMonth(); i++) {
                 days[i] = i;
@@ -113,7 +114,7 @@ export default {
         _yearValues: function () {
             var that = this;
             var years = {};
-            var d = moment(that.value ? that.value : that.conf.value);
+            var d = window.moment(that.value ? that.value : that.conf.value);
             var minY = that.minYear ? that.minYear : d.year() - 5;
             var maxY = that.maxYear ? that.maxYear : d.year() + 5;
             for (let i = minY; i <= maxY; i++) {

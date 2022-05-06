@@ -12,7 +12,7 @@ export default {
             dateField: 'data',
             dateEndField: 'data_fine',
             resources: [
-                //'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js',
+                'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment-with-locales.min.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css',
                 'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js',
                 'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/locale/it.min.js'
@@ -112,8 +112,8 @@ export default {
             var that = this
             // that.loading = false
 
-            that.startDate = that.startDate ? that.startDate : moment().format('YYYY-MM') + '-01 00:00'
-            that.endDate = that.endDate ? that.endDate : moment().format('YYYY-MM') + '-' + moment().daysInMonth()
+            that.startDate = that.startDate ? that.startDate : window.moment().format('YYYY-MM') + '-01 00:00'
+            that.endDate = that.endDate ? that.endDate : window.moment().format('YYYY-MM') + '-' + window.moment().daysInMonth()
 
             console.log('start,end', that.startDate, that.endDate)
             that.calendarOptions.dayClick = function (date, jsEvent, view) {
@@ -133,14 +133,14 @@ export default {
             that.calendarContainer.find('.fc-next-button').click(function () {
                 var d = that.jQe().find('[crud-calendar]').fullCalendar('getView').intervalStart
                 that.startDate = d.format('YYYY-MM') + '-01'
-                that.endDate = d.format('YYYY-MM') + '-' + moment().daysInMonth()
+                that.endDate = d.format('YYYY-MM') + '-' + window.moment().daysInMonth()
                 that.reload()
             })
 
             that.calendarContainer.find('.fc-prev-button').click(function () {
                 var d = that.jQe().find('[crud-calendar]').fullCalendar('getView').intervalStart
                 that.startDate = d.format('YYYY-MM') + '-01'
-                that.endDate = d.format('YYYY-MM') + '-' + moment().daysInMonth()
+                that.endDate = d.format('YYYY-MM') + '-' + window.moment().daysInMonth()
                 that.reload()
             })
             that.load()
