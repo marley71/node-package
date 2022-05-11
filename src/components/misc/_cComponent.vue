@@ -11,18 +11,18 @@ export default {
     mixins: [coreMixin,dialogsMixin],
     //inject: ['store'],
     created() {
-        var that = this;
-        var store = crudVars;
-        console.log('_cComponent store',store);
-        var conf = that._getConf() || {};
-        console.log('_cComponent conf',conf);
+        let that = this;
+        let store = crudVars;
+        //console.log('_cComponent store',store);
+        let conf = that._getConf() || {};
+        //console.log('_cComponent conf',conf);
 
         for (let k in conf) {
             if (['methods','computed'].indexOf(k) >= 0)
                 continue;
             this[k] = conf[k];
         }
-        var methods = conf.methods || {};
+        let methods = conf.methods || {};
         for (let k in methods) {
             this[k] = methods[k];
             //console.log('methods',k,methods[k].toString())
@@ -77,7 +77,7 @@ export default {
          */
         jQe(selector) {
             var that = this;
-            console.log('jQe',that.$el)
+            //console.log('jQe',that.$el)
             if (selector) {
                 return window.jQuery(that.$el).find(selector).addBack(selector);
             }
@@ -109,7 +109,6 @@ export default {
         _getNewUid() {
             var store = crudVars;
             store.uniqueId++;
-            console.log('uniqueId',store.uniqueId);
             return store.uniqueId;
         },
 
@@ -123,7 +122,7 @@ export default {
             var conf = that.cConf || {};
             if (that.cConf) {
                 if (typeof that.cConf === 'string' || that.cConf instanceof String) {
-                    console.log('_cComponent',that.cConf,that._getModelConfs())
+                    //console.log('_cComponent',that.cConf,that._getModelConfs())
                     conf = that.getDescendantProp(that._getModelConfs(), that.cConf);
                 }
             }

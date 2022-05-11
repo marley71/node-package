@@ -63,7 +63,7 @@ export default {
             that.value.push(value);
             var _conf = that.getHasmanyConf(value);
             that.confViews[_conf.cRef] = _conf;
-            this.$forceUpdate();
+            //this.$forceUpdate();
         },
 
         deleteItem: function (refId) {

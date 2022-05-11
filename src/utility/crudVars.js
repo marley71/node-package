@@ -3,6 +3,7 @@ import routeConfs from "../confs/routeConfs"
 import actionConfs from "../confs/actionConfs"
 import ProtocolList from '../utility/ProtocolList'
 import ProtocolRecord from "../utility/ProtocolRecord";
+import lang from './lang.js';
 
 const crudVars = {
 
@@ -24,9 +25,7 @@ const crudVars = {
     },
     env: {},
     uniqueId: 1,
-    lang: {
-        'app.seleziona' : 'Seleziona'
-    },
+    lang: lang,
     use : [],
 }
 export default crudVars

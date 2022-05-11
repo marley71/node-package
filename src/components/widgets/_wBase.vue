@@ -12,7 +12,8 @@ export default {
             defaultValue: null,
             label: null,
             view: null,         // riferimento alla view,
-            required: false
+            required: false,
+            placeholder : '',
         }
     },
     methods : {

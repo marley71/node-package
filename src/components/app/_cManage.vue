@@ -179,13 +179,13 @@ export default {
             // var id = 'd' + (new Date().getTime());
             // thisManage.jQe('[c-edit-container]').html('<div id="' + id + '"></div>');
             var insertComp = this.getComponent('insert');
-            if (insertComp)
-                insertComp.unmount();
+            // if (insertComp)
+            //     insertComp.unmount();
 
             var editComp = this.getComponent('edit');
-            if (editComp) {
+   /*         if (editComp) {
                 editComp.unmount();
-            }
+            }*/
             this.insertConf.cRef = thisManage.uid + '-insert';
             console.log('_createInsert',thisManage.insertConf);
 

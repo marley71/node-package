@@ -26,9 +26,9 @@ export default {
         var conf = that._getConf();
         that.previewConf.cRef = that.uid + 'preview';
         if (that.value instanceof Object) {
-            that.previewConf.value = conf.value;
+            that.previewConf.value = that.value;
             that.previewConf.iconSize = 'fa fa-2x';
-            that.value = JSON.stringify(conf.value).replace(/\\"/g, '"');
+            that.value = JSON.stringify(that.value).replace(/\\"/g, '"');
         }
         else if (!that.value) {
             that.value = {};

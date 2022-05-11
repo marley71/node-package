@@ -19,7 +19,7 @@ export default {
     },
     mounted() {
         var that = this;
-        console.log('_vBase mounted',this.store);
+        //console.log('_vBase mounted',this.store);
         that.route = that._getRoute();
         if (that.autoload) {
             that.load();

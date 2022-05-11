@@ -79,8 +79,8 @@ export default {
         },
         swap(event) {
             var that = this;
-            console.log('event',event)
-            event.preventDefault();
+            // console.log('event',event)
+            // event.preventDefault();
             that._swap();
         },
         /**

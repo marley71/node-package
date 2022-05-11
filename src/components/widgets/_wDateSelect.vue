@@ -62,7 +62,7 @@ export default {
         _updateSelect: function () {
             var that = this;
             if (!that._getValidDate()) {
-                that.errorDialog('invalid Date');
+                //that.errorDialog('invalid Date');
                 return;
             }
             var _cday = that.$refs.day;
@@ -78,18 +78,19 @@ export default {
             var _cmonth = that.$refs.month
             var _cyear = that.$refs.year;
 
-            var sdate = _cyear.getValue() + "-" + _cmonth.getValue().toString().padStart(2, '0') + "-" + _cday.getValue().toString().padStart(2, '0');
+            var sdate = _cyear.getValue() + "-" + (new String(_cmonth.getValue())).padStart(2, '0') + "-" + (new String(_cday.getValue())).padStart(2, '0');
 
             //console.log('validate Date',_cday,_cmonth,_cyear,sdate);
-            var dds = window.moment(sdate);
+            var dds = window.moment(sdate,'YYYY-MM-DD',true);
             if (!dds.isValid()) {
-                _cday.setValue(1);
-                sdate = _cyear.getValue() + "-" + _cmonth.getValue().toString().padStart(2, '0') + "-" + _cday.getValue().toString().padStart(2, '0');
-                dds = window.moment(sdate);
-                if (!dds.isValid())
+                // -- perche' veniva fatto?
+                // _cday.setValue(1);
+                // sdate = _cyear.getValue() + "-" +  (new String(_cmonth.getValue())).padStart(2, '0') + "-" + (new String(_cday.getValue())).padStart(2, '0');
+                // dds = window.moment(sdate);
+                // if (!dds.isValid())
                     return false;
             }
-            //console.log('value',sdate);
+            console.log(' valid date value',sdate);
             that.value = sdate;
             that.change();
             return true;
