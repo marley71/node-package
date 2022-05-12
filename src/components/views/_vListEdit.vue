@@ -49,6 +49,7 @@ export default {
             that.checkValidActions();
             that.createActionsConf();
             that.loading = false;
+            //window.COLLECTION = this;
             setTimeout(function () {
                 that.completed();
             }, 10);

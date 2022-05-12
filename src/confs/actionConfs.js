@@ -152,7 +152,7 @@ const actionConfs = {
                     that.setRouteValues(r);
                     Server.route(r,function (json) {
                         if (json.error) {
-                            that.errorDialog(json.msg);
+                            that.errorDialog(json.msg).show();
                             return ;
                         }
                         var msg = json.msg?json.msg:that.translate('app.cancellazione-successo');
@@ -162,6 +162,7 @@ const actionConfs = {
                     });
                 }
             });
+            dlg.show();
         }
     },
     'action-save-row' : {

@@ -43,7 +43,6 @@ export default {
             that.checkValidActions();
             that.createActionsConf();
             that.loading = false;
-
             // console.log('draw',that.loading,that);
             // that.completed();
             // console.log('draw1',that.loading,that);
@@ -133,7 +132,7 @@ export default {
                 //console.warn('attenzione widget non trovato per riga ' + row +  " key " + key);
                 return null;
             }
-            return this.$refs[wConf.cRef];
+            return this.$refs[wConf.cRef].getWidget();
             //return this.store.cRefs[wConf.cRef];
         },
 
@@ -143,7 +142,9 @@ export default {
                 //console.warn('attenzione recordAction non trovata per riga ' + row +  " nome " + actionName);
                 return null;
             }
-            return this.$refs[aConf.cRef];
+            //window.DD = this.$refs;
+            //console.log('ref ',aConf.cRef,this.$refs[aConf.cRef])
+            return this.$refs[aConf.cRef].getAction();
             //return this.store.cRefs[aConf.cRef];
         },
         getCollectionAction: function (actionName) {
@@ -152,7 +153,7 @@ export default {
                 //console.warn('attenzione action non trovata nome ' + actionName);
                 return null;
             }
-            return this.$refs[aConf.cRef];
+            return this.$refs[aConf.cRef].getAction();
             //return this.store.cRefs[aConf.cRef];
         },
         /**

@@ -77,22 +77,19 @@ const dialogsMixin = {
             //const store = crudStore();
             var store = this.store;
             console.log('_alert',message,alertComp,time);
-            // var d = createApp(store.app.component(alertComp), {
-            //     cMessage : message,
-            //     cTime : time
-            // });
-            var d = that.newComponent(store.app.component(alertComp),{
-                cMessage : message,
-                cTime : time
-            });
-
-
             var id= 'pop' + (new Date().getTime());
+            var d = that.newComponent(alertComp,{
+                cMessage : message,
+                cTime : time,
+                cConf : {
+                    cRef : id,
+                }
+            });
             window.jQuery('body').append('<div id="'+id+'"></div>');
             d.mount('#'+id);
             //d.show();
             //window.jQuery('#'+id).popover('show');
-            return d;
+            return store.cRefs[id];
             // var props = {
             //     cMessage : message,
             //     cClasses : classes,

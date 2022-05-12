@@ -171,7 +171,7 @@ export default {
             }
             console.log('getWidget',key,rConf);
             window.aaa = this.$refs[rConf.cRef];
-            return this.$refs[rConf.cRef][0].getWidget().getWidget();
+            return this.$refs[rConf.cRef][0].getWidget();
             //return this.store.cRefs[rConf.cRef];
         },
         getAction: function (name) {
