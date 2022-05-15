@@ -6,11 +6,12 @@ export default {
     name: "_wHasmanyListed",
     extends: _wBase,
     data() {
+        let viewRef = this.getRefId((new Date().getTime()), 'hm', 'list');
         return {
             limit: 100,
             value: [],
             bgClass: 'bg-warning-soft',
-            viewRef : null,
+            viewRef : viewRef,
             hasmanyConf: {},
         }
     },
@@ -69,7 +70,7 @@ export default {
             hmConf.methods = methods;
 
 
-            that.viewRef = that.getRefId(that.uid, 'hm', 'list');
+
             hmConf.cRef = that.viewRef;
             //alert(hmConf.cRef)
             if (that.value && Object.keys(that.value).length > 0) {
@@ -83,6 +84,7 @@ export default {
         addItem: function () {
             var that = this;
             var istanceView = that.getComponent(that.viewRef);
+            console.log('viewRef',that.viewRef,that.$refs,istanceView)
             var values = istanceView.getViewData();
             var value = {
                 status: 'new'

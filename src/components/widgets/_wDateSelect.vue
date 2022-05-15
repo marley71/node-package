@@ -23,7 +23,7 @@ export default {
                 domainValues: days,
                 methods: {
                     change: function () {
-                        that._updateSelect();
+                        that._updateSelect('day');
                     }
                 }
             };
@@ -38,7 +38,7 @@ export default {
                 domainValues: months,
                 methods: {
                     change: function () {
-                        that._updateSelect();
+                        that._updateSelect('month');
                     }
                 }
             };
@@ -53,16 +53,17 @@ export default {
                 domainValues: years,
                 methods: {
                     change: function () {
-                        that._updateSelect();
+                        that._updateSelect('year');
                     }
                 }
             };
             return cy;
         },
-        _updateSelect: function () {
+        _updateSelect: function (controlChanged) {
             var that = this;
             if (!that._getValidDate()) {
                 //that.errorDialog('invalid Date');
+
                 return;
             }
             var _cday = that.$refs.day;

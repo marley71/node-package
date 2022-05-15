@@ -128,10 +128,12 @@ export default {
 
         getWidget: function (row, key) {
             var wConf = (this.widgets[row] && this.widgets[row][key]) ? this.widgets[row][key]:null;
+            console.log('wConf dalla view',row,key,wConf);
             if (!wConf) {
                 //console.warn('attenzione widget non trovato per riga ' + row +  " key " + key);
                 return null;
             }
+            console.log('getWidget dalla view',wConf.cRef,this.$refs[wConf.cRef])
             return this.$refs[wConf.cRef].getWidget();
             //return this.store.cRefs[wConf.cRef];
         },

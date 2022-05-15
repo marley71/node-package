@@ -22,7 +22,7 @@ export default {
     methods: {
 
         getWidget() {
-            return this.$refs[this.widgetConf.cRef];
+            return this.$refs[this.widgetConf.cRef].getWidget();
         },
         getTemplateName () {
             //console.log('cTemplate',this.templateConf.name)

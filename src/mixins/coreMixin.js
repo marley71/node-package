@@ -75,8 +75,9 @@ const coreMixin = {
             return params[name];
         },
         getComponent : function (refId) {
-            var store = this.store;
-            return store.cRefs[refId];
+            return this.$refs[refId];
+            // var store = this.store;
+            // return store.cRefs[refId];
         },
         waitStart : function (msg,container) {
             var that = this;
