@@ -64,12 +64,12 @@ const actionConfs = {
                 that.view.save(function (json) {
                     that.waitEnd();
                     if (json.error) {
-                        that.errorDialog(json.msg)
+                        that.errorDialog(json.msg).show()
                         return ;
                     }
                     that.json = json;
                     var msg = json.msg?json.msg:that.translate('app.salvataggio-ok');
-                    that.alertSuccess(msg,that.alertTime);
+                    that.alertSuccess(msg,that.alertTime).show()
                     callback();
                 })
             }
@@ -92,12 +92,12 @@ const actionConfs = {
                 that.view.save(function (json) {
                     that.waitEnd();
                     if (json.error) {
-                        that.errorDialog(json.msg)
+                        that.errorDialog(json.msg).show()
                         return ;
                     }
                     that.json = json;
                     var msg = json.msg?json.msg:that.translate('app.salvataggio-ok');
-                    that.alertSuccess(msg,that.alertTime);
+                    that.alertSuccess(msg,that.alertTime).show();
                     callback();
                 })
             }
@@ -156,7 +156,7 @@ const actionConfs = {
                             return ;
                         }
                         var msg = json.msg?json.msg:that.translate('app.cancellazione-successo');
-                        that.alertSuccess(msg);
+                        that.alertSuccess(msg).show();
                         that.view.reload();
                         dlg.hide();
                     });
@@ -191,11 +191,11 @@ const actionConfs = {
             r.setParams(values);
             Server.route(r, function (json) {
                 if (json.error) {
-                    that.errorDialog(json.msg);
+                    that.errorDialog(json.msg).show();
                     return;
                 }
                 var msg = json.msg?json.msg:that.translate('app.salvataggio-ok');
-                that.alertSuccess(msg,that.alertTime);
+                that.alertSuccess(msg,that.alertTime).show();
                 var values = json.result;
                 that.view.setRowData(that.index,values);
                 that.view.setViewMode(that.index);
@@ -281,7 +281,7 @@ const actionConfs = {
                     Server.route(r,function (json) {
                         that.waitEnd();
                         if (json.error) {
-                            that.errorDialog(json.msg);
+                            that.errorDialog(json.msg).show();
                             return ;
                         }
                         that.view.reload();

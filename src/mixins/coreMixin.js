@@ -19,6 +19,9 @@ const coreMixin = {
             for (let k in store.app._context.directives) {
                 comp.directive(k,store.app._context.directives[k]);
             }
+            for (let k in store.app._context.provides) {
+                comp.directive(k,store.app._context.provides[k]);
+            }
             console.log('newComponent use',store.use);
             for (let i in store.use) {
                 comp.use.apply(this,store.use[i]);

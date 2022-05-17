@@ -169,9 +169,10 @@ export default {
                 //console.warn('attenzione widget non trovato key ' + key);
                 return null;
             }
-            console.log('getWidget',key,rConf);
-            window.aaa = this.$refs[rConf.cRef];
-            return this.$refs[rConf.cRef][0].getWidget();
+            return this.$refs[rConf.cRef].getWidget();
+            // console.log('getWidget',key,rConf);
+            // window.aaa = this.$refs[rConf.cRef];
+            // return this.$refs[rConf.cRef][0].getWidget();
             //return this.store.cRefs[rConf.cRef];
         },
         getAction: function (name) {
