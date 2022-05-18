@@ -169,14 +169,17 @@ export default {
             var recordActionsName = [];
             for (var i in that.actions) {
                 var aName = that.actions[i];
-                var aConf = {};
+                var aConf = that.store.conf[aName] || {};
                 var valid = true;
 
-                if (that.store.conf[aName]) {
-                    aConf = that.store.conf[aName];
-                } else if (that.actionsConfig[aName]) {
-                    aConf = that.mergeConf(that.actionsConfig[aName]);
-                } else {
+                // if (that.store.conf[aName]) {
+                //     aConf = that.store.conf[aName];
+                // } else
+
+                if (that.actionsConfig[aName]) {
+                    aConf = that.merge(aConf,that.actionsConfig[aName]);
+                }
+                if (Object.keys(aConf) == 0) {
                     valid = false;
                     console.warn("Impossibile trovare la configurazione di " + aName);
                 }

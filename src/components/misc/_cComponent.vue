@@ -16,7 +16,7 @@ export default {
         //console.log('_cComponent store',store);
         let conf = that._getConf() || {};
         //console.log('_cComponent conf',conf);
-
+        that.conf = conf;
         for (let k in conf) {
             if (['methods','computed'].indexOf(k) >= 0)
                 continue;
@@ -40,6 +40,10 @@ export default {
     mounted() {
         var that = this;
         //console.log('LOADRESOURCES',that.resources)
+        if (that.conf.mounted) {
+            that.conf.mounted.apply(that);
+            //that.apply(that,that.conf.mounted);
+        }
         if (that.resources && that.resources.length) {
             that.beforeLoadResources();
             that.loadResources(that.resources,function () {
