@@ -26,6 +26,7 @@ export default {
             hmConf.actionsConfig = hmConf.actionsConfig || {};
             hmConf.fields = hmConf.fields || [];
             hmConf.fieldsConfig = hmConf.fieldsConfig || {};
+            hmConf.paginator = false;
             // aggiungo lo status in automatico
             if (that.value && that.value.length > 0) {
                 for (var i in that.value) {
