@@ -546,6 +546,27 @@ const coreMixin = {
             return c1;
         },
 
+        mergeConf2(dest,source) {
+            let specialsKey = ['methods'];
+            let c1 = this.cloneObj(dest);
+            let c2 = this.cloneObj(source);
+            console.log('c1',c1,'c2',c2);
+            if (c2.methods) {
+                c1.methods = c1.methods || {};
+                for (let k in c2.methods) {
+                    c1.methods[k] = c2.methods[k];
+                }
+            }
+
+            for (let k in c2) {
+                if (specialsKey.indexOf(k) >= 0)
+                    continue;
+                //console.log('sovrascrivo',k);
+                c1[k] = c2[k];
+            }
+            return c1;
+        },
+
         /**
          * esegue il merge di una configurazione risalendo la property confParent.
          * @param conf

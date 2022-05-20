@@ -18,6 +18,7 @@ export default {
             uploadEnabled: true,
             progressEnabled: false,
             step: 'upload',
+            importStatus : 'load',
             timerStatus: null,
             // configurazione widget upload ajax
             //confUpload : that._defaultUploadConf(conf),
@@ -193,14 +194,22 @@ export default {
         }
         return d;
     },
-    mounted() {
-        var that = this;
-        that.emitter.on('start-import',function (params) {
-            console.log('event',params);
-            that.jobId = params.jobId;
+    emits: {
+        startImport : ({jobId}) => {
+            let that = this;
+            that.jobId = jobId;
             that.progressEnabled = true;
             that.checkStatus();
-        })
+        }
+    },
+    mounted() {
+        var that = this;
+        // that.$on('start-import',function (params) {
+        //     console.log('event',params);
+        //     that.jobId = params.jobId;
+        //     that.progressEnabled = true;
+        //     that.checkStatus();
+        // })
         if (that.cProviderName)
             that.providerName = that.cProviderName;
         that.confUpload.modelName = that.confUpload.modelName || that.providerName;

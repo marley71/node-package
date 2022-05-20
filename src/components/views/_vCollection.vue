@@ -169,16 +169,22 @@ export default {
             var recordActionsName = [];
             for (var i in that.actions) {
                 var aName = that.actions[i];
-                var aConf = that.store.conf[aName] || {};
-                var valid = true;
+                let aConf = that.getActionConfig(aName);
+                let valid = true;
 
-                // if (that.store.conf[aName]) {
-                //     aConf = that.store.conf[aName];
-                // } else
-
-                if (that.actionsConfig[aName]) {
-                    aConf = that.merge(aConf,that.actionsConfig[aName]);
-                }
+                // var aConf = that.mergeConf2({}, that.store.conf[aName]);
+                // var valid = true;
+                //
+                // // if (that.store.conf[aName]) {
+                // //     aConf = that.store.conf[aName];
+                // // } else
+                // //console.log('conf  name',aName,that.store.conf[aName])
+                // if (that.actionsConfig[aName]) {
+                //     //window.STORE = that.store;
+                //     //Object.assign(aConf,that.actionsConfig[aName]); //that.merge(aConf,that.actionsConfig[aName]);
+                //     aConf = that.mergeConf2(aConf,that.actionsConfig[aName]);
+                //     //console.log(aName,'AAAAA ',aConf)
+                // }
                 if (Object.keys(aConf) == 0) {
                     valid = false;
                     console.warn("Impossibile trovare la configurazione di " + aName);

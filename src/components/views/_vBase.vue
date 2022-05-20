@@ -95,20 +95,27 @@ export default {
          * @return {*|{}}
          */
         getActionConfig: function (name) {
-            var that = this;
-            var conf = that.store.conf[name] || {};
-            if (!conf.componentName)
-                conf.componentName = 'a-base';
-            //var componentName = conf.componentName ? conf.componentName : 'a-base';
-            conf = that.merge(that.store.conf[conf.componentName], conf);
+            let that = this;
+            let aConf = that.mergeConf2({}, that.store.conf[name]);
             if (that.actionsConfig[name]) {
-                for (var k in that.actionsConfig[name])
-                    conf[k] = that.actionsConfig[name][k];
-                //conf = that.merge(conf, that.actionsConfig[name]);
+                aConf = that.mergeConf2(aConf,that.actionsConfig[name]);
             }
-            // console.log('actionconfig',name,conf)
-            //conf = that.merge({},conf);
-            return conf;
+            return aConf;
+
+
+            // var conf = that.store.conf[name] || {};
+            // if (!conf.componentName)
+            //     conf.componentName = 'a-base';
+            // //var componentName = conf.componentName ? conf.componentName : 'a-base';
+            // conf = that.merge(that.store.conf[conf.componentName], conf);
+            // if (that.actionsConfig[name]) {
+            //     for (var k in that.actionsConfig[name])
+            //         conf[k] = that.actionsConfig[name][k];
+            //     //conf = that.merge(conf, that.actionsConfig[name]);
+            // }
+            // // console.log('actionconfig',name,conf)
+            // //conf = that.merge({},conf);
+            // return conf;
         },
 
 
