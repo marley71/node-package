@@ -183,7 +183,7 @@ export default {
             }
             // console.log('getAction',name,rConf);
             // window.aaa = this.$refs[rConf.cRef];
-            return this.$refs[rConf.cRef][0].getAction();
+            return this.$refs[rConf.cRef].getAction();
             //return this.store.cRefs[rConf.cRef];
         },
         /**

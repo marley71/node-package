@@ -348,21 +348,21 @@ export default {
             return  userConf;
         },
         _uploadConf() {
-            var that = this;
-            var userConf = that.viewUpload; //that.merge({},that.viewUpload);
+            let that = this;
+            let userConf = that.viewUpload; //that.merge({},that.viewUpload);
             userConf.modelName = that.providerName;
             userConf.actionsConfig = that.viewUpload.actionsConfig || {};
             userConf.fieldsConfig = that.viewUpload.fieldsConfig || {};
-            var confUpload = that._defaultUploadConf();
+            let confUpload = that._defaultUploadConf();
 
             console.log('confUpload',confUpload);
 
-            var rsName = confUpload.name;
+            let rsName = confUpload.name;
             if (userConf.fields.indexOf(rsName) < 0)
                 userConf.fields.push(rsName);
-            //userConf.fields.push('resource');
+            // //userConf.fields.push('resource');
             userConf.fieldsConfig[rsName] = confUpload;
-            var aS = userConf.actionsConfig['action-save'] || {};
+            let aS = userConf.actionsConfig['action-save'] || {};
             aS.enabled =  false;
             aS.csvDashboard = that;
             aS.execute = function () {
@@ -398,8 +398,8 @@ export default {
                     thatAction.emitter.emit('start-import',params);
                 })
             }
-            userConf.actionsConfig['action-save'] = aS;
-            console.log('UPLOADCONF',userConf);
+            // userConf.actionsConfig['action-save'] = aS;
+            // console.log('UPLOADCONF',userConf);
             return  userConf;
         },
 

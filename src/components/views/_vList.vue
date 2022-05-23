@@ -19,7 +19,12 @@ export default {
             primaryKey: 'id',
             routeName: 'list',
             actionsConfig: {},
-            fieldsConfig: {},
+            fieldsConfig: {
+                id : {
+                    type : 'w-input',
+                    inputType : 'hidden'
+                }
+            },
             orderFields: {},
             widgetTemplate: 'tpl-list',
             actions: ['action-insert', 'action-delete-selected', 'action-view', 'action-edit', 'action-delete'],
