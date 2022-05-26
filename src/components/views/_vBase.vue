@@ -65,7 +65,7 @@ export default {
             //console.log('fetchData',route.getConf());
             Server.route(route, function (json) {
                 if (json.error) {
-                    that.errorDialog(json.msg);
+                    that.errorDialog(json.msg).show();
                     that.errorMsg = json.msg;
                     return
                 }

@@ -549,21 +549,24 @@ const coreMixin = {
         mergeConf2(dest,source) {
             let specialsKey = ['methods'];
             let c1 = this.cloneObj(dest);
-            let c2 = this.cloneObj(source);
+            let c2 = source || {}; //this.cloneObj(source);
             //console.log('c1',c1,'c2',c2);
-            if (c2.methods) {
+            let methods = c2.methods || {};
+            if (methods) {
                 c1.methods = c1.methods || {};
-                for (let k in c2.methods) {
-                    c1.methods[k] = c2.methods[k];
+                for (let k in methods) {
+                    c1.methods[k] = methods[k];
                 }
             }
 
             for (let k in c2) {
+                //console.log('merge2',k);
                 if (specialsKey.indexOf(k) >= 0)
                     continue;
                 //console.log('sovrascrivo',k);
                 c1[k] = c2[k];
             }
+            //console.log('c1',c1);
             return c1;
         },
 
