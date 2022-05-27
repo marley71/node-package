@@ -20,6 +20,16 @@ export default {
             step: 'upload',
             importStatus : 'load',
             timerStatus: null,
+            multiSheets : true,
+            selectSheetConf : {
+                cRef : 'sheetSelect',
+                methods : {
+                    change() {
+                        var sheetName = this.domainValues[this.getValue()];
+                        this.setSheet(sheetName);
+                    }
+                }
+            },
             // configurazione widget upload ajax
             //confUpload : that._defaultUploadConf(conf),
             // configurazione view-insert upload job
@@ -27,7 +37,7 @@ export default {
                 cRef: 'viewUpload',
                 routeName: 'datafile_insert',
                 fields: [],
-                actions: ['action-save', 'action-cancel'],
+                actions: ['action-save', 'action-back'],
                 actionsConfig: {
                     'action-save': {
                         text: 'app.importa-csv'
@@ -66,17 +76,7 @@ export default {
                 actions : ['action-mostra-tutti','action-show-error'],
                 showError : false,
                 canEdit : false,
-                multiSheets : false,
                 // configurazione select
-                selectSheetConf : {
-                    cRef : 'sheetSelect',
-                    methods : {
-                        change() {
-                            var sheetName = this.domainValues[this.getValue()];
-                            this.$parent.setSheet(sheetName);
-                        }
-                    }
-                },
                 editError : {
                     title : 'app.modifica',
                     icon : 'fa fa-edit',
@@ -204,12 +204,12 @@ export default {
     },
     mounted() {
         var that = this;
-        // that.$on('start-import',function (params) {
-        //     console.log('event',params);
-        //     that.jobId = params.jobId;
-        //     that.progressEnabled = true;
-        //     that.checkStatus();
-        // })
+        that.emitter.on('start-import',function (params) {
+            console.log('event',params);
+            that.jobId = params.jobId;
+            that.progressEnabled = true;
+            that.checkStatus();
+        })
         if (that.cProviderName)
             that.providerName = that.cProviderName;
         that.confUpload.modelName = that.confUpload.modelName || that.providerName;
@@ -247,9 +247,11 @@ export default {
                 var checkError = that.checkJobError(json);
                 if (checkError.error) {
                     that.importStatus = 'upload';
+                    that.step = 'upload'
                     that.errorDialog(checkError.msg).show();
                     return ;
                 }
+                that.step = 'loading';
                 var params = {
                     jobId : json.jobId,
                     progressEnabled : true,
@@ -334,6 +336,7 @@ export default {
             var that = this;
             var userConf = that.viewList; //that.merge({},that.viewList);
             userConf.modelName = that.providerName;
+            userConf.actions = [];
             return userConf;
         },
         _saveConf() {
@@ -363,7 +366,7 @@ export default {
                         return ;
                     }
                     thatAction.csvDashboard.jobId = json.jobId;
-                    thatAction.csvDashboard.status = 'saving';
+                    thatAction.csvDashboard.importStatus = 'saving';
                     thatAction.csvDashboard.progressEnabled = true;
                     thatAction.csvDashboard.checkStatus();
                 })
