@@ -65,7 +65,8 @@ export default {
             //console.log('fetchData',route.getConf());
             Server.route(route, function (json) {
                 if (json.error) {
-                    that.errorDialog(json.msg).show();
+                    //that.errorDialog(json.msg).show();
+                    that.alertError(json.msg,3000).show();
                     that.errorMsg = json.msg;
                     return
                 }
@@ -79,14 +80,15 @@ export default {
         afterLoadData () {
 
         },
-        _loadConf: function () {
-            var that = this;
-            var defaultConf = that._getDefaultConf();
-            var currentConf = that._getConf();
-            var mergedConf = that.mergeConfView(defaultConf, currentConf);
-            //console.log('v-base _loadConf', mergedConf);
-            return mergedConf;
-        },
+        // _loadConf: function () {
+        //     var that = this;
+        //     var defaultConf = that._getDefaultConf();
+        //     var currentConf = that._getConf();
+        //     var mergedConf = that.mergeConfView(defaultConf, currentConf);
+        //     //console.log('v-base _loadConf', mergedConf);
+        //     return mergedConf;
+        // },
+
 
         /**
          * crea la configurazione base per ogni singola azione della view, se incontra un'azione
@@ -147,7 +149,9 @@ export default {
 
             }
             //console.log('v-base _getConf', conf);
-            return conf;
+            var defaultConf = that._getDefaultConf();
+            var mergedConf = that.mergeConfView(defaultConf, conf);
+            return mergedConf
         },
 
 
@@ -209,15 +213,22 @@ export default {
             return key;
         },
         isHiddenField: function (key) {
-            var type = this.defaultWidgetType;
+            let type = this.defaultWidgetType;
+            let inputType = null;
             if (this.fieldsConfig[key]) {
-                if (typeof this.fieldsConfig[key] === 'string' || this.fieldsConfig[key] instanceof String)
+                if (typeof this.fieldsConfig[key] === 'string' || this.fieldsConfig[key] instanceof String) {
                     type = this.fieldsConfig[key];
-                else
+                }
+                else {
                     type = this.fieldsConfig[key].type ? this.fieldsConfig[key].type : type;
-
-                if (type === 'w-hidden')
+                    inputType = this.fieldsConfig[key].inputType ? this.fieldsConfig[key].inputType : inputType;
+                }
+                if (inputType == 'hidden')
                     return true;
+                //console.log('isHiddenField',key,type);
+
+                // if (type === 'w-hidden')
+                //     return true;
             }
             return false;
         },

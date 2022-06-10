@@ -18,7 +18,6 @@ export default {
             uploadEnabled: true,
             progressEnabled: false,
             step: 'upload',
-            importStatus : 'load',
             timerStatus: null,
             multiSheets : true,
             selectSheetConf : {
@@ -226,7 +225,6 @@ export default {
             let that = this;
             let importView = that.$refs.viewUpload;
             let viewParams = importView.getViewData();
-            that.importStatus = 'loading';
 
             var w = importView.getWidget('resource');
             var value = JSON.parse(w.getValue());
@@ -246,7 +244,6 @@ export default {
                 console.log('json',json);
                 var checkError = that.checkJobError(json);
                 if (checkError.error) {
-                    that.importStatus = 'upload';
                     that.step = 'upload'
                     that.errorDialog(checkError.msg).show();
                     return ;
@@ -306,6 +303,7 @@ export default {
                     that.step = 'upload';
                     that.uploadEnabled = true;
                     that.saveEnabled = false;
+                    that.alertSuccess('Dati salvati',3000).show();
                 }
                 console.log('job end 2',that.step,that.saveEnabled,that.uploadEnabled)
                 return ;
@@ -366,7 +364,7 @@ export default {
                         return ;
                     }
                     thatAction.csvDashboard.jobId = json.jobId;
-                    thatAction.csvDashboard.importStatus = 'saving';
+                    thatAction.csvDashboard.step='saving';
                     thatAction.csvDashboard.progressEnabled = true;
                     thatAction.csvDashboard.checkStatus();
                 })

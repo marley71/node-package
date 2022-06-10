@@ -154,23 +154,21 @@ export default {
             if (viewComp) {
                 //viewComp.unmount();
             }
-            var pk = action.modelData[primaryKey];
 
-            var id = 'd' + (new Date().getTime());
-            var dlgView = thisManage.customDialog('<div id="' + id + '"></div>');
             var conf = thisManage._getViewConfiguration();
             conf.pk = action.modelData[primaryKey];
             conf.cRef = thisManage.uid + '-view'
             console.log('cManage viewConf',conf,'action caller',action);
-            thisManage.newComponent(thisManage.viewComponentName,{
+            var comp = thisManage.newComponent(thisManage.viewComponentName,{
                 cConf: conf,
-            }).mount('#' + id);
-
-            dlgView.show();
+            })
+            return comp;
         },
-        showView() {
+
+        showView(comp) {
 
         },
+
         _createInsert: function (action) {
             var thisManage = this;
             thisManage.updateTitle = 'Inserimento ' + thisManage.translate(thisManage.modelName+'.label');
@@ -239,8 +237,8 @@ export default {
                 if (listConf.actions.indexOf('action-view') >= 0) {
                     var aView = listConf.actionsConfig['action-view'] || {};
                     aView.execute = function () {
-                        thisManage._createView(this);
-                        thisManage.showView();
+                        let comp = thisManage._createView(this);
+                        thisManage.showView(comp);
                     }
                     listConf.actionsConfig['action-view'] = aView;
                 }
