@@ -19,7 +19,7 @@ export default {
             progressEnabled: false,
             step: 'upload',
             timerStatus: null,
-            multiSheets : true,
+            multiSheets : false,
             selectSheetConf : {
                 cRef : 'sheetSelect',
                 methods : {

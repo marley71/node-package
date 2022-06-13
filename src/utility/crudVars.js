@@ -31,5 +31,8 @@ const crudVars = {
 crudVars.conf['v-list'] = {};
 crudVars.conf['v-view'] = {};
 crudVars.conf['v-insert'] = {};
-crudVars.conf['v-edit'] = {};
+crudVars.conf['v-edit'] = {
+
+};
+crudVars.conf['v-search'] = {};
 export default crudVars

@@ -16,7 +16,10 @@ export default {
             actions: ['action-save', 'action-back'],
             actionsConfig: {},
             fieldsConfig: {
-                id: 'w-hidden'
+                id : {
+                    type : 'w-input',
+                    inputType : 'hidden'
+                }
             },
             fields: []
         }

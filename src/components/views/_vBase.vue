@@ -1,6 +1,7 @@
 <script>
 import _cComponent from "../misc/_cComponent.vue";
 import Server from "../../utility/Server";
+import crudVars from "../../utility/crudVars";
 
 export default {
     name: "_vBase",
@@ -151,22 +152,34 @@ export default {
             //console.log('v-base _getConf', conf);
             var defaultConf = that._getDefaultConf();
             var mergedConf = that.mergeConfView(defaultConf, conf);
+            console.log('_vBase._getConf',mergedConf);
             return mergedConf
         },
 
 
         _getDefaultConf: function () {
             var that = this;
-            //var _compName = this.$options.name;
-            console.log('confDefaultName', that.cConfDefaultName, 'componentName', that.$options.name, 'viewConf', that.cType)
-            var defaultConf = that.mergeConf(that.store.conf[that.cConfDefaultName]);
-            var componentNameConf = that.mergeConf(that.store.conf[that.$options.name]);
-            //var typeConf = that.mergeConf(store.conf[that.cType]);
+            let store = crudVars;
+            let conf = that.cloneObj(store.conf[that.$options.name] || {});
+            return conf;
+            // console.log(that.$options.name,'name conf',store,store.conf[that.$options.name])
+            // return {};
 
-            var mergedConf = that.merge(defaultConf, componentNameConf);
-            //mergedConf = that.merge(mergedConf, typeConf);
-            console.log('v-base _getDefaultConf', mergedConf);
-            return mergedConf;
+
+
+            // //var _compName = this.$options.name;
+            // console.log('confDefaultName', that.cConfDefaultName, 'componentName', that.$options.name, 'viewConf', that.cType)
+            //
+            //
+            //
+            // var defaultConf = that.mergeConf(store.conf[that.cConfDefaultName]);
+            // var componentNameConf = that.mergeConf(store.conf[that.$options.name]);
+            // //var typeConf = that.mergeConf(store.conf[that.cType]);
+            //
+            // var mergedConf = that.merge(defaultConf, componentNameConf);
+            // //mergedConf = that.merge(mergedConf, typeConf);
+            // console.log('v-base _getDefaultConf', mergedConf);
+            // return mergedConf;
         },
 
         _loadRouteConf: function () {

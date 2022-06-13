@@ -11,7 +11,12 @@ export default {
             beforeActions: null,
             primaryKey: 'id',
             routeName: 'view',
-            fieldsConfig: {},
+            fieldsConfig: {
+                id : {
+                    type : 'w-input',
+                    inputType : 'hidden'
+                }
+            },
             actions: [],
             actionsConfig: {},
 

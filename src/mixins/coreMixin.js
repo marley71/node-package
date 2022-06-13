@@ -509,13 +509,14 @@ const coreMixin = {
         mergeConfView : function(obj1,obj2) {
             var specialsKey = ['fields','fieldsConfig','actionsConfig','methods'];
             var c1 = this.cloneObj(obj1);
-            var c2 = this.cloneObj(obj2);
+            //var c2 = this.cloneObj(obj2);
+            let c2 = obj2;
             //console.log('c1',c1,'c2',c2);
 
             c1.fields = c1.fields?c1.fields:[];
             c1.fieldsConfig = c1.fieldsConfig?c1.fieldsConfig:{};
             c1.actionsConfig = c1.actionsConfig?c1.actionsConfig:{};
-            c1.actions = c1.actions?c1.actions:[];
+            //c1.actions = c1.actions?c1.actions:[];
             c1.methods = c1.methods?c1.methods:{};
 
             if (c2.fields)

@@ -16,8 +16,18 @@ export default {
             routeName: 'list',
             primaryKey: 'id',
             actionsConfig: {},
-            fieldsConfig: {},
-            fieldsConfigEditMode:{}, // configurazione campi in modalità edit
+            fieldsConfig: {
+                id : {
+                    type : 'w-input',
+                    inputType : 'hidden'
+                }
+            },
+            fieldsConfigEditMode:{
+                id : {
+                    type : 'w-input',
+                    inputType : 'hidden'
+                }
+            }, // configurazione campi in modalità edit
             orderFields: {},
             widgetTemplate: 'tpl-list',
             actions: [
