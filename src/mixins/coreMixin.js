@@ -522,6 +522,9 @@ const coreMixin = {
             if (c2.fields)
                 c1.fields = c2.fields;
 
+            if (c2.actions) {
+                c1.actions = c2.actions;
+            }
             if (c2.fieldsConfig) {
                 for (var k in c2.fieldsConfig) {
                     c1.fieldsConfig[k] = c2.fieldsConfig[k];

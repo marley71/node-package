@@ -316,10 +316,12 @@ export default {
                     //'action-save' : thisManage.merge(_as,)
                 }
             });
-            if (editConf.actions.indexOf('action-save-back') < 0)
-                editConf.actions.push('action-save-back');
-            if (editConf.actions.indexOf('action-back') < 0)
-                editConf.actions.push('action-back');
+            let actions = editConf.actions || [];
+            if (actions.indexOf('action-save-back') < 0)
+                actions.push('action-save-back');
+            if (actions.indexOf('action-back') < 0)
+                actions.push('action-back');
+            editConf.actions = actions;
             return editConf;
         },
         _getInsertConfiguration: function () {
@@ -336,14 +338,16 @@ export default {
                     'action-back': thisManage.merge(thisManage._actionBack(),_ab)
                 }
             });
-            if (insertConf.actions.indexOf('action-save-back') < 0)
-                insertConf.actions.push('action-save-back');
-            if (insertConf.actions.indexOf('action-back') < 0)
-                insertConf.actions.push('action-back');
-            var actionSaveIndex = insertConf.actions.indexOf('action-save');
+            let actions = insertConf.actions || [];
+            if (actions.indexOf('action-save-back') < 0)
+                actions.push('action-save-back');
+            if (actions.indexOf('action-back') < 0)
+                actions.push('action-back');
+            var actionSaveIndex = actions.indexOf('action-save');
             if (actionSaveIndex >= 0) {
-                delete insertConf.actions[actionSaveIndex];
+                delete actions[actionSaveIndex];
             }
+            insertConf.actions = actions;
             return insertConf;
         },
 
