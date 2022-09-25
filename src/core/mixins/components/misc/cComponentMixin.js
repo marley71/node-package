@@ -186,6 +186,13 @@ const cComponentMixin = {
             var that = this;
             if (that.route)
                 return that.route;
+
+
+            if (that.routeConf) {
+                let rC = that._loadRouteConf();
+                return that.createRouteFromConf(rC);
+            }
+
             var rn = routeName?routeName:that.routeName;
             if (!rn)
                 return null;
@@ -194,6 +201,19 @@ const cComponentMixin = {
             //     throw "Impossibile trovare la route " + rn;
             // //console.log('routeName',rn,that.$crud.routes[rn])
             // return new Route(that.$crud.routes[rn]);
+        },
+
+        _loadRouteConf: function () {
+            var that = this;
+            var conf = null;
+            console.log('_load routeConf', that.routeConf, 'cConf', this.cConf);
+            if (that.routeConf) {
+                if (typeof that.routeConf === 'string' || that.routeConf instanceof String) {
+                    conf = this.getDescendantProp(that.$crud, that.routeConf);
+                } else
+                    conf = that.routeConf;
+            }
+            return conf;
         },
 
         beforeLoadResources : function () {

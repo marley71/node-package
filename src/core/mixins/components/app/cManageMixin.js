@@ -123,13 +123,20 @@ const cManageMixin = {
             var tId = thisManage.createContainer(thisManage.jQe(thisManage.updateSelector),true);
 
             conf.pk = action.modelData[thisManage.listComp.primaryKey];
-            var cDef = thisManage.dynamicComponent(thisManage.editComponentName);
-            thisManage.editComp = new cDef({
-                propsData: {
-                    cConf: conf
-                }
-            });
-            thisManage.editComp.$mount('#' + tId);
+
+            thisManage.editComp = thisManage.showComponent('#' + tId,thisManage.editComponentName,{
+                cConf : conf,
+            })
+
+
+            // var cDef = thisManage.dynamicComponent(thisManage.editComponentName);
+            // thisManage.editComp = new cDef({
+            //     propsData: {
+            //         cConf: conf
+            //     }
+            // });
+            // console.log('Manage._createEdit mount ',thisManage.editComponentName);
+            // thisManage.editComp.$mount('#' + tId);
         },
         showEdit() {
 
@@ -235,7 +242,9 @@ const cManageMixin = {
                 if (listConf.actions.indexOf('action-edit') >= 0) {
                     var aEdit = listConf.actionsConfig['action-edit'] || {};
                     aEdit.execute = function () {
+                        console.log('action-edit da manage - call _createEdit')
                         thisManage._createEdit(this);
+                        console.log('action-edit da manage - call showEdit')
                         thisManage.showEdit();
                     }
                     listConf.actionsConfig['action-edit'] = aEdit;

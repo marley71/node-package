@@ -1,5 +1,6 @@
 import Server from "../../../Server";
 import crud from "../../../crud";
+import jQuery from "jquery";
 
 crud.conf['v-base'] = {
     confParent: 'c-component',
@@ -31,6 +32,38 @@ const vBaseMixin = {
         }
     },
     methods: {
+        setRouteValues: function (route) {
+            var that = this;
+            if (route) {
+                // di default prendo i parametri dentro l'url e provo a settarli con i valori della vie.
+                let keys = route.getKeys();
+                let values = {};
+                for (let k in keys) {
+                    if (jQuery.isFunction(that[k]))
+                        values[k] = that[k].apply(this);
+                    else
+                        values[k] = that[k];
+                }
+                route.setValues(values);
+
+                // route.setValues({
+                //     modelName: that.modelName
+                // });
+                // console.log('setRouteValues', that);
+                // if (that.routeConf) {
+                //     var _conf = that._loadRouteConf() || {};
+                //     console.log('routeConf params', _conf);
+                //     var params = route.getParams();
+                //     var p2 = _conf.params || {};
+                //     for (var k in p2) {
+                //         params[k] = p2[k];
+                //     }
+                //     route.setParams(params);
+                // }
+            }
+            return route;
+        },
+
         load() {
             var that = this;
             that.beforeLoadData();
@@ -165,18 +198,7 @@ const vBaseMixin = {
             return mergedConf;
         },
 
-        _loadRouteConf: function () {
-            var that = this;
-            var conf = null;
-            console.log('_load routeConf', that.routeConf, 'cConf', this.cConf);
-            if (that.routeConf) {
-                if (typeof that.routeConf === 'string' || that.routeConf instanceof String) {
-                    conf = this.getDescendantProp(that.$crud, that.routeConf);
-                } else
-                    conf = that.routeConf;
-            }
-            return conf;
-        },
+
         /**
          * ritorna la configurazione minimale di base di un widget rispettando le priorita' tra le configurazioni
          * @param key : nome del campo di cui vogliamo la configurazione
