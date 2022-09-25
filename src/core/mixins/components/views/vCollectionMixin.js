@@ -80,6 +80,7 @@ const vCollectionMixin = {
                 for (var k in that.keys) {
                     var key = that.keys[k];
                     widgets[i][key] = that._createWidgetConfig(key,value[i]);
+                    widgets[i][key].index = parseInt(i);
                     widgets[i][key].cRef = that.getRefId(that._uid, 'w', i, key);
                 }
             }
@@ -252,7 +253,7 @@ const vCollectionMixin = {
         staticOrder: function (orderField, orderDirection) {
             var that = this;
             that.loading = true;
-            var value = that.cloneObj(that.value);
+            var value = that.value; //that.cloneObj(that.value);
             that.value = new Array();
             that.$forceUpdate();
             var __sortOn = function (arr, prop, direction) {
@@ -271,12 +272,17 @@ const vCollectionMixin = {
                 );
             }
             __sortOn(value, orderField, orderDirection);
-            that.metadata.order = {
-                field: orderField,
-                direction: orderDirection
-            };
+            // workaround se c'e' un field di nome order viene razzato
+            let order = that.metadata.order?that.metadata.order:{};
+            order.field = orderField;
+            order.direction = orderDirection;
+            that.metadata.order = order;
+            // that.metadata.order = {
+            //     field: orderField,
+            //     direction: orderDirection
+            // };
             that.loading = true;
-            console.log('nuovi valori ordinati', value);
+            console.log('nuovi valori ordinati', value, that.metadata);
             that.$set(that, 'value', value);
             //that.orderDirection = order_direction;
 

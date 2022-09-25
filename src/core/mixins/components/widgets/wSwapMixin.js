@@ -25,8 +25,12 @@ const wSwapMixin = {
         _ready() {
             var that = this;
             var keys = Object.keys(that.domainValues);
+
+            if (keys.indexOf(''+that.value) < 0)
+                that.value = keys[0];
             that._currentIndex = keys.indexOf(''+that.value);
             that.toggleActive = that._currentIndex?true:false;
+
             //console.log('index e toggle ',that._currentIndex,that.toggleActive,keys,that.value,that.domainValues);
         },
         setRouteValues: function (route) {
