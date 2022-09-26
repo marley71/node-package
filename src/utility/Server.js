@@ -27,7 +27,7 @@ Server.getHearders = function() {
     var headers = {};
     if (Server.useApi) {
        headers = {
-           'Authorization': 'Bearer ' + store.token
+           'Authorization': 'Bearer ' +  jQuery('meta[name="bearer-token"]').attr('content')
        }
     } else {
         headers = {
