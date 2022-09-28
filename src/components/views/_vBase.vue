@@ -240,9 +240,10 @@ export default {
                     return true;
                 //console.log('isHiddenField',key,type);
 
-                // if (type === 'w-hidden')
-                //     return true;
+                if (type === 'w-hidden')
+                    return true;
             }
+            //console.log('campo non hidden',key,this.fieldsConfig)
             return false;
         },
 

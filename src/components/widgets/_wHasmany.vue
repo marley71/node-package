@@ -62,6 +62,7 @@ export default {
             }
             that.value.push(value);
             var _conf = that.getHasmanyConf(value);
+            _conf.indexValue = that.value.length - 1; // puntatore al vettore di valori dell'hasmany
             that.confViews[_conf.cRef] = _conf;
             //this.$forceUpdate();
         },
@@ -71,8 +72,15 @@ export default {
             console.log('delete', refId, that.store.cRefs[refId].value)
             var newConfViews = {};
             // per questioni di aggiornamento assegno ad un'altra variabile, altrimenti vue non renderizza come dovuto
-            for (var vId in that.confViews) {
+            for (let vId in that.confViews) {
                 newConfViews[vId] = that.confViews[vId];
+            }
+            // cancello il valore da value e aggiorno gli indici di quelli maggiori perche' variata lunghezza vettore
+            that.value.splice(newConfViews[refId].indexValue,1);
+            for (let vId in newConfViews) {
+                if (newConfViews[vId].indexValue > newConfViews[refId].indexValue) {
+                    newConfViews[vId].indexValue--;
+                }
             }
             delete newConfViews[refId];
             //that.store.cRefs[refId].unmount();
