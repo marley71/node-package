@@ -1,140 +1,98 @@
 
-import crud from './core/crud'
 
-import coreMixin from './core/mixins/coreMixin'
-import dialogsMixin from './core/mixins/dialogsMixin'
-import mainMixin from './core/mixins/mainMixin'
-import choiceMixin from './core/mixins/choiceMixin'
+// ---- nuovi oggetti
+import Server from './utility/Server'
+import Route from './utility/Routes'
+import ProtocolList from './utility/ProtocolList'
+import ProtocolRecord from './utility/ProtocolRecord'
 
-import aBaseMixin from './core/mixins/components/actions/aBaseMixin'
-import aGroupedMixin from './core/mixins/components/actions/aGroupedMixin'
-import aOrderMixin from './core/mixins/components/actions/aOrderMixin'
+//import { crudStore } from './utility/crudStore.js'
+import crudVars from './utility/crudVars.js'
+import coreMixin from './mixins/coreMixin'
+import dialogsMixin from './mixins/dialogsMixin'
+import choiceMixin from './mixins/choiceMixin'
+import mainMixin from './mixins/choiceMixin'
 
-import cCalendarMixin from './core/mixins/components/app/cCalendarMixin'
-import cImportMixin from './core/mixins/components/app/cImportMixin'
-import cManageMixin from './core/mixins/components/app/cManageMixin'
-import cPageMixin from './core/mixins/components/app/cPageMixin'
+// -- misc --
+import _cComponent from './components/misc/_cComponent.vue'
+import _cPaginator from './components/misc/_cPaginator.vue'
+import _cWait from './components/misc/_cWait.vue'
+// --widgets --
+import _wAutocomplete from './components/widgets/_wAutocomplete.vue'
+import _wB2Select2 from './components/widgets/_wB2Select2.vue'
+import _wB2mSelect2 from './components/widgets/_wB2mSelect2.vue'
+import _wBase from './components/widgets/_wBase.vue'
+import _wBelongsTo from './components/widgets/_wBelongsTo.vue'
+import _wCheckbox from './components/widgets/_wCheckbox.vue'
+import _wCustom from './components/widgets/_wCustom.vue'
+import _wDatePicker from './components/widgets/_wDatePicker.vue'
+import _wDateSelect from './components/widgets/_wDateSelect.vue'
+import _wDateText from './components/widgets/_wDateText.vue'
+import _wHasmany from './components/widgets/_wHasmany.vue'
+import _wHasmanyListed from './components/widgets/_wHasmanyListed.vue'
+import _wHidden from './components/widgets/_wHidden.vue'
+import _wImage from './components/widgets/_wImage.vue'
+import _wInput from './components/widgets/_wInput.vue'
+import _wInputHelped from './components/widgets/_wInputHelped.vue'
+import _wMap from './components/widgets/_wMap.vue'
+import _wMapView from './components/widgets/_wMapView.vue'
+import _wPreview from './components/widgets/_wPreview.vue'
+import _wRadio from './components/widgets/_wRadio.vue'
+import _wSelect from './components/widgets/_wSelect.vue'
+import _wStatus from './components/widgets/_wStatus.vue'
+import _wSwap from './components/widgets/_wSwap.vue'
+import _wText from './components/widgets/_wText.vue'
+import _wTextarea from './components/widgets/_wTextarea.vue'
+import _wTexthtml from './components/widgets/_wTexthtml.vue'
+import _wUpload from './components/widgets/_wUpload.vue'
+import _wUploadAjax from './components/widgets/_wUploadAjax.vue'
+// --- actions
+import _aBase from './components/actions/_aBase.vue'
+import _aOrder from './components/actions/_aOrder.vue'
+import _aGrouped from './components/actions/_aGrouped.vue'
+// --- views --
+import _vBase from './components/views/_vBase.vue'
+import _vRecord from './components/views/_vRecord.vue'
+import _vCollection from './components/views/_vCollection.vue'
+import _vList from './components/views/_vList.vue'
+import _vListEdit from './components/views/_vListEdit.vue'
+import _vEdit from './components/views/_vEdit.vue'
+import _vInsert from './components/views/_vInsert.vue'
+import _vSearch from './components/views/_vSearch.vue'
+import _vView from './components/views/_vView.vue'
+import _vHasmany from './components/views/_vHasmany.vue'
+import _vAction from './components/views/_vAction.vue'
+import _vWidget from './components/views/_vWidget.vue'
+// --- app ---
+import _cCalendar from './components/app/_cCalendar.vue'
+import _cImport from './components/app/_cImport.vue'
+import _cManage from './components/app/_cManage.vue'
+// --- dialogs -----
+import _dBase from './components/dialogs/_dBase.vue'
+import _dAlert from './components/dialogs/_dAlert.vue'
 
-import dAlertMixin from './core/mixins/components/dialogs/dAlertMixin'
-import dBaseMixin from './core/mixins/components/dialogs/dBaseMixin'
+//console.log('aaaaaaaaaaaa',crudStore)
 
-import cComponentMixin from './core/mixins/components/misc/cComponentMixin'
-import cPaginatorMixin from './core/mixins/components/misc/cPaginatorMixin'
-import cWaitMixin from './core/mixins/components/misc/cWaitMixin'
+export default {
 
-// --- views ---
-import vActionMixin from './core/mixins/components/views/vActionMixin'
-import vWidgetMixin from './core/mixins/components/views/vWidgetMixin'
-import vBaseMixin from './core/mixins/components/views/vBaseMixin'
-import vCollectionMixin from './core/mixins/components/views/vCollectionMixin'
-import vRecordMixin from './core/mixins/components/views/vRecordMixin'
-import vListMixin from './core/mixins/components/views/vListMixin'
-import vListEditMixin from './core/mixins/components/views/vListEditMixin'
-import vEditMixin from './core/mixins/components/views/vEditMixin'
-import vInsertMixin from './core/mixins/components/views/vInsertMixin'
-import vViewMixin from './core/mixins/components/views/vViewMixin'
-import vSearchMixin from './core/mixins/components/views/vSearchMixin'
-import vHasmanyMixin from './core/mixins/components/views/vHasmanyMixin'
-
-
-// --- widgets ---
-import wBaseMixin from './core/mixins/components/widgets/wBaseMixin'
-import wAutocompleteMixin from './core/mixins/components/widgets/wAutocompleteMixin'
-import wB2Select2Mixin from './core/mixins/components/widgets/wB2Select2Mixin'
-import wB2mSelect2Mixin from './core/mixins/components/widgets/wB2mSelect2Mixin'
-import wBelongsToMixin from './core/mixins/components/widgets/wBelongsToMixin'
-import wCheckboxMixin from './core/mixins/components/widgets/wCheckboxMixin'
-import wCustomMixin from './core/mixins/components/widgets/wCustomMixin'
-import wDatePickerMixin from './core/mixins/components/widgets/wDatePickerMixin'
-import wDateSelectMixin from './core/mixins/components/widgets/wDateSelectMixin'
-import wDateTextMixin from './core/mixins/components/widgets/wDateTextMixin'
-import wHasmanyMixin from './core/mixins/components/widgets/wHasmanyMixin'
-import wHasmanyListedMixin from './core/mixins/components/widgets/wHasmanyListedMixin'
-import wHiddenMixin from './core/mixins/components/widgets/wHiddenMixin'
-import wImageMixin from './core/mixins/components/widgets/wImageMixin'
-import wInputMixin from './core/mixins/components/widgets/wInputMixin'
-import wInputHelpedMixin from './core/mixins/components/widgets/wInputHelpedMixin'
-import wMapMixin from './core/mixins/components/widgets/wMapMixin'
-import wMapViewMixin from './core/mixins/components/widgets/wMapViewMixin'
-import wPreviewMixin from './core/mixins/components/widgets/wPreviewMixin'
-import wRadioMixin from './core/mixins/components/widgets/wRadioMixin'
-import wSelectMixin from './core/mixins/components/widgets/wSelectMixin'
-import wStatusMixin from './core/mixins/components/widgets/wStatusMixin'
-import wSwapMixin from './core/mixins/components/widgets/wSwapMixin'
-import wTextMixin from './core/mixins/components/widgets/wTextMixin'
-import wTextareaMixin from './core/mixins/components/widgets/wTextareaMixin'
-import wTexthtmlMixin from './core/mixins/components/widgets/wTexthtmlMixin'
-import wUploadMixin from './core/mixins/components/widgets/wUploadMixin'
-import wUploadAjaxMixin from './core/mixins/components/widgets/wUploadAjaxMixin'
-
-import Server from './core/Server'
-import Route from './core/Routes'
-import ProtocolList from './core/ProtocolList'
-import ProtocolRecord from './core/ProtocolRecord'
-
-
-export {
-    crud,
-    coreMixin,
-    dialogsMixin,
-    mainMixin,
-    choiceMixin,
-    aBaseMixin,
-    aGroupedMixin,
-    aOrderMixin,
-    cCalendarMixin,
-    cImportMixin,
-    cManageMixin,
-    cPageMixin,
-    dAlertMixin,
-    dBaseMixin,
-    cComponentMixin,
-    cPaginatorMixin,
-    cWaitMixin,
-    vActionMixin,
-    vWidgetMixin,
-    vBaseMixin,
-    vRecordMixin,
-    vCollectionMixin,
-    vListMixin,
-    vListEditMixin,
-    vEditMixin,
-    vInsertMixin,
-    vViewMixin,
-    vSearchMixin,
-    vHasmanyMixin,
-    wBaseMixin,
-    wAutocompleteMixin,
-    wB2Select2Mixin,
-    wB2mSelect2Mixin,
-    wBelongsToMixin,
-    wCheckboxMixin,
-    wCustomMixin,
-    wDatePickerMixin,
-    wDateSelectMixin,
-    wDateTextMixin,
-    wHasmanyMixin,
-    wHasmanyListedMixin,
-    wHiddenMixin,
-    wImageMixin,
-    wInputMixin,
-    wInputHelpedMixin,
-    wMapMixin,
-    wMapViewMixin,
-    wPreviewMixin,
-    wRadioMixin,
-    wSelectMixin,
-    wStatusMixin,
-    wSwapMixin,
-    wTextMixin,
-    wTextareaMixin,
-    wTexthtmlMixin,
-    wUploadMixin,
-    wUploadAjaxMixin,
+    // nuovi oggetti
     Server,
     Route,
     ProtocolList,
     ProtocolRecord,
+    //crudStore,
+    crudVars,
+    coreMixin, dialogsMixin, choiceMixin,mainMixin,
+    _cComponent,_cPaginator,_cWait,
+    _wBase,_wInput,_wAutocomplete,_wB2Select2,_wB2mSelect2,_wBelongsTo,_wCheckbox,_wCustom,
+    _wDatePicker,_wDateSelect,_wDateText,_wHasmany,_wHasmanyListed,_wHidden,_wImage,_wInputHelped,
+    _wMap,_wMapView,_wPreview,_wRadio,_wSelect,_wStatus,_wSwap,_wText,_wTextarea,_wTexthtml,
+    _wUpload,_wUploadAjax,
+    _aBase,_aOrder,_aGrouped,
+    _vBase,_vRecord,_vCollection,_vAction,_vWidget,_vList,_vListEdit,_vEdit,_vInsert,
+    _vSearch,_vView,_vHasmany,
+    _cCalendar,_cImport,_cManage,
+    _dBase,_dAlert,
 }
 
 
