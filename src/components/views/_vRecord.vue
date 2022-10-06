@@ -53,6 +53,12 @@ export default {
         //     }
         //     return route;
         // },
+        setLangContext() {
+            if (!this.langContext && this.langContext !== null) {
+                this.langContext = this.modelName ? this.modelName : 'no_model';
+                this.langContext += '.fields';
+            }
+        },
         getVisibleWidgets() {
             var that = this;
             var visible = {};
@@ -73,6 +79,7 @@ export default {
         },
         draw: function () {
             var that = this;
+            that.setLangContext();
             that.checkValidActions();
             that.createActionsConf();
             that.createWidgets();

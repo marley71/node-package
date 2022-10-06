@@ -39,6 +39,7 @@ export default {
     methods: {
         draw: function () {
             var that = this;
+            that.setLangContext();
             that.createWidgets();
             that.checkValidActions();
             that.createActionsConf();
@@ -54,7 +55,12 @@ export default {
                 that.completed();
             }, 100);
         },
-
+        setLangContext() {
+            if (!this.langContext && this.langContext !== null) {
+                this.langContext = this.modelName ? this.modelName : 'no_model';
+                this.langContext += '.fields';
+            }
+        },
         setWidgetValue: function (row, key, value) {
             var that = this;
             if (!that.widgets[row][key]) {
