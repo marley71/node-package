@@ -231,8 +231,11 @@ const coreMixin = {
          * @param params
          * @returns {*}
          */
-        translate : function (key,plural,params) {
-            return this._translate(key,plural,params);
+        translate : function (key,context,plural,params) {
+            var langKey = context ? context + '.' + key : key
+            return this._translate(langKey, plural, params)
+
+            //return this._translate(key,plural,params);
             //return translations_interface._translate.apply(this,[key,plural,params]);
         },
         /**
@@ -251,7 +254,7 @@ const coreMixin = {
 
         _translate : function (key,plural,params) {
             let store = crudVars;
-            //console.log('_translate store',store);
+            console.log('_translate store',key,store.lang[key]);
             var testi = store.lang[key];
             if (!testi)
                 return key;
