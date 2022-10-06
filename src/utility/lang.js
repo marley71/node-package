@@ -14,6 +14,6 @@ const lang = {
     'app.richiesta-conferma': 'Richiesta conferma',
     'app.seleziona' : 'Seleziona',
     'app.trova-indirizzo' : 'Trova indirizzo',
-
+    'app.gestione' : 'Gestione',
 }
 export default lang
