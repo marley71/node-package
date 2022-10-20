@@ -127,7 +127,8 @@ export default {
             var conf = {}; //null;
             if (that.cConf) {
                 if (typeof that.cConf === 'string' || that.cConf instanceof String) {
-                    conf = this.getDescendantProp(window, that.cConf);
+                    //console.log('da qui',that.cConf,that.store);
+                    conf = this.getDescendantProp(that.store.modelConfs, that.cConf);
                 } else
                     conf = that.cConf;
             } else {
@@ -151,6 +152,7 @@ export default {
             }
             //console.log('v-base _getConf', conf);
             var defaultConf = that._getDefaultConf();
+            console.log('DEFFF',defaultConf,conf);
             var mergedConf = that.mergeConfView(defaultConf, conf);
             console.log('_vBase._getConf',mergedConf);
             return mergedConf
