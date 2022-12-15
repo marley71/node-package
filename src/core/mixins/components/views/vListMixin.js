@@ -41,7 +41,7 @@ const vListMixin = {
             conf.orderField = that.orderFields[key] ? that.orderFields[key] : key;
             //if (that.data.order_field)
             var order = that.metadata.order || {};
-            //console.log('GETORDERCONF CALLED',key,order);
+            console.log('GETORDERCONF CALLED',key,order);
             conf.orderDirection = (order.field == conf.orderField) ? order.direction : null;
             conf.view = that;
             return conf;
