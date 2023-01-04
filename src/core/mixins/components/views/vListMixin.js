@@ -40,7 +40,7 @@ const vListMixin = {
             conf.text = widgetsRow[key].label;
             conf.orderField = that.orderFields[key] ? that.orderFields[key] : key;
             //if (that.data.order_field)
-            var order = that.metadata.order || {};
+            var order = that.metadata.sort || (that.metadata.order || {});
             console.log('GETORDERCONF CALLED',key,order);
             conf.orderDirection = (order.field == conf.orderField) ? order.direction : null;
             conf.view = that;
