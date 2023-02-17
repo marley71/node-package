@@ -38,7 +38,8 @@ crud.conf['c-manage'] = {
     search: {},
     view: {},
     listEdit: {},
-    insert: null
+    insert: null,
+    hasTitle : true,
 }
 
 const cManageMixin = {
