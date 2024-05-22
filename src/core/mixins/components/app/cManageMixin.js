@@ -120,8 +120,6 @@ const cManageMixin = {
 
             if (!thisManage.updateTitle) {
                 thisManage.updateTitle = thisManage.translate('app.edit') + ' ' + thisManage.translate(thisManage.modelName+'.label');
-            } else {
-                thisManage.updateTitle = thisManage.insertTitle;
             }
 
             var conf = thisManage._getEditConfiguration();
