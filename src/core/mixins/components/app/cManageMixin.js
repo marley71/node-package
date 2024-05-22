@@ -28,6 +28,7 @@ crud.conf['c-manage'] = {
     manageHeaderClass: null,
     manageHeaderTextClass: 'text-dark',
     updateTitle: '',
+    insertTitle: '',
     viewTitle: '',
     resources: [
         'https://unpkg.com/velocity-animate@2.0.6/velocity.min.js'
@@ -117,7 +118,11 @@ const cManageMixin = {
             //console.log('primary key ',thisManage.listComp.primaryKey,action)
             var pkTranslation = thisManage.translate(thisManage.edit.modelName + "." + thisManage.listComp.primaryKey + '.label');
 
-            thisManage.updateTitle = 'Modifica ' + thisManage.translate(thisManage.edit.modelName+'.label');
+            if (!thisManage.updateTitle) {
+                thisManage.updateTitle = thisManage.translate('app.edit') + ' ' + thisManage.translate(thisManage.modelName+'.label');
+            } else {
+                thisManage.updateTitle = thisManage.insertTitle;
+            }
 
             var conf = thisManage._getEditConfiguration();
 
@@ -180,7 +185,11 @@ const cManageMixin = {
         },
         _createInsert: function (action) {
             var thisManage = this;
-            thisManage.updateTitle = 'Inserimento ' + thisManage.translate(thisManage.modelName+'.label');
+            if (!thisManage.insertTitle) {
+                thisManage.updateTitle = thisManage.translate('app.insert') + ' ' + thisManage.translate(thisManage.modelName+'.label');
+            } else {
+                thisManage.updateTitle = thisManage.insertTitle;
+            }
             var tId = thisManage.createContainer(thisManage.jQe(thisManage.updateSelector),true);
 
             // var id = 'd' + (new Date().getTime());
@@ -210,7 +219,7 @@ const cManageMixin = {
             var thisManage = this;
 
             return thisManage.merge(thisManage.$crud.conf['action-save'], {
-                text: 'Salva e Torna alla lista',
+                text: thisManage.translate('app.save-and-back-list'),
                 afterExecute: function () {
                     thisManage.showList();
                     this.view.$destroy();
